@@ -38,8 +38,8 @@ function fichas(silabas, c) {
     const w = s.length * ancho + (s.length - 1) * 10;
     const x0 = Math.min(26, w * .2), x1 = w - x0;
     const arco = `<svg class="arco" width="${w}" height="96" viewBox="0 0 ${w} 96">
-      <path d="M${x0} 14 Q${w / 2} 156 ${x1 - 6} 18" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/>
-      <path d="M${x1 - 26} 12 L${x1 + 2} 8 L${x1 - 6} 36" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M${x0} 14 C${x0} 104 ${x1} 104 ${x1} 30" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/>
+      <path d="M${x1 - 15} 30 L${x1 + 15} 30 L${x1} 9 Z" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/>
       <circle cx="${x0}" cy="14" r="15" fill="#FFD43B" stroke="#C98A00" stroke-width="5"/>
     </svg>`;
     return `<div class="silaba"><div class="letras">${letrasHtml}</div>${arco}</div>`;
