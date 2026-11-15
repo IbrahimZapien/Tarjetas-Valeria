@@ -1,0 +1,46 @@
+<!-- Escena "estrella": una pelota rueda por un puente elevado comiendo monedas
+     y llega a la estrella (la meta). Inspirada en los juegos de destreza que ve Valeria.
+     Lienzo: 1056 x 428 (panel superior de la tarjeta). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1056 428">
+  <!-- pocos destellos, para no distraer del dibujo principal -->
+  <path d="M120 70 l8 18 18 8 -18 8 -8 18 -8 -18 -18 -8 18 -8z" fill="#FFFFFF"/>
+  <path d="M930 60 l7 15 15 7 -15 7 -7 15 -7 -15 -15 -7 15 -7z" fill="#FF5DA2"/>
+  <path d="M960 200 l6 12 12 6 -12 6 -6 12 -6 -12 -12 -6 12 -6z" fill="#FFD43B"/>
+
+  <!-- puente elevado -->
+  <rect x="150" y="372" width="22" height="70" rx="6" fill="#0E7F93"/>
+  <rect x="520" y="372" width="22" height="70" rx="6" fill="#0E7F93"/>
+  <rect x="890" y="372" width="22" height="70" rx="6" fill="#0E7F93"/>
+  <rect x="40" y="350" width="976" height="30" rx="15" fill="#FFFFFF"/>
+  <rect x="40" y="372" width="976" height="10" rx="5" fill="#C9C2F2"/>
+
+  <!-- camino de monedas hacia la estrella -->
+  <g fill="#FFD43B" stroke="#C98A00" stroke-width="4">
+    <circle cx="250" cy="322" r="14"/>
+    <circle cx="300" cy="322" r="14"/>
+    <circle cx="350" cy="322" r="14"/>
+    <circle cx="400" cy="322" r="14"/>
+  </g>
+
+  <!-- pelota rodando (rosa, brillante como slime) -->
+  <g stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.8">
+    <line x1="60" y1="300" x2="100" y2="300"/>
+    <line x1="48" y1="326" x2="98" y2="326"/>
+  </g>
+  <circle cx="160" cy="306" r="44" fill="#FF5DA2" stroke="#FFFFFF" stroke-width="6"/>
+  <ellipse cx="145" cy="288" rx="14" ry="9" fill="#FFFFFF" opacity="0.75" transform="rotate(-30 145 288)"/>
+
+  <!-- la estrella: la meta y el dibujo principal -->
+  <g transform="translate(640 196)">
+    <path d="M0 -168 L45 -55 L164 -50 L72 25 L104 141 L0 76 L-104 141 L-72 25 L-164 -50 L-45 -55 Z"
+          fill="#FFD43B" stroke="#FFFFFF" stroke-width="16" stroke-linejoin="round"/>
+    <ellipse cx="-50" cy="-62" rx="20" ry="9" fill="#FFFFFF" opacity="0.6" transform="rotate(-35 -50 -62)"/>
+    <circle cx="-27" cy="-10" r="11" fill="#2B1B5C"/>
+    <circle cx="27" cy="-10" r="11" fill="#2B1B5C"/>
+    <circle cx="-23" cy="-14" r="4" fill="#FFFFFF"/>
+    <circle cx="31" cy="-14" r="4" fill="#FFFFFF"/>
+    <circle cx="-50" cy="18" r="13" fill="#FF8FB8"/>
+    <circle cx="50" cy="18" r="13" fill="#FF8FB8"/>
+    <path d="M-24 18 Q0 42 24 18" fill="none" stroke="#2B1B5C" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>
