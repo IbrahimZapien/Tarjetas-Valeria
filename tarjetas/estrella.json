@@ -2,5 +2,12 @@
   "palabra": "estrella",
   "silabas": ["es", "tre", "lla"],
   "escena": "escenas/estrella.svg",
-  "sena": "senas/estrella.png"
+  "sena": "senas/estrella.png",
+  "colores": {
+    "fondo": "#3D2BE0",
+    "escena": "#7BD8FF",
+    "texto": "#24166B",
+    "acento": "#FF4FA0",
+    "silabas": ["#FFE36B", "#FFB3D9", "#9FF0D4"]
+  }
 }

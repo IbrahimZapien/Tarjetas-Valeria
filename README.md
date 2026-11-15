@@ -1,6 +1,6 @@
 # Tarjetas de Valeria
 
-Tarjetas para aprender palabras y su seña en LSM, diseñadas según los gustos de Valeria
+Tarjetas para que Valeria aprenda a reconocer letras, sílabas y palabras escritas (con la seña LSM como apoyo), diseñadas según los gustos de Valeria
 (juegos de pelota y monedas, slime, ramen y comida coreana, carritos veloces pero tiernos, cocinar, nadar, hoteles).
 
 | Palabra | Tarjeta |

@@ -8,9 +8,9 @@
   <path d="M960 200 l6 12 12 6 -12 6 -6 12 -6 -12 -12 -6 12 -6z" fill="#FFD43B"/>
 
   <!-- puente elevado -->
-  <rect x="150" y="372" width="22" height="70" rx="6" fill="#0E7F93"/>
-  <rect x="520" y="372" width="22" height="70" rx="6" fill="#0E7F93"/>
-  <rect x="890" y="372" width="22" height="70" rx="6" fill="#0E7F93"/>
+  <rect x="150" y="372" width="22" height="70" rx="6" fill="#3D8FD1"/>
+  <rect x="520" y="372" width="22" height="70" rx="6" fill="#3D8FD1"/>
+  <rect x="890" y="372" width="22" height="70" rx="6" fill="#3D8FD1"/>
   <rect x="40" y="350" width="976" height="30" rx="15" fill="#FFFFFF"/>
   <rect x="40" y="372" width="976" height="10" rx="5" fill="#C9C2F2"/>
 
