@@ -44,7 +44,7 @@ function html(t) {
   const inicial = [...palabra][0];
   const tamPalabra = Math.min(250, Math.floor(1700 / palabra.length));
   const sena = t.sena
-    ? `<img src="data:image/png;base64,${b64(t.sena)}">`
+    ? `<img src="data:image/${t.sena.endsWith('.svg') ? 'svg+xml' : 'png'};base64,${b64(t.sena)}">`
     : `<div class="pendiente">seña<br>pendiente</div>`;
   return `<!doctype html><html><head><meta charset="utf-8"><style>
   @font-face { font-family: Fredoka; font-weight: 600; src: url(data:font/woff2;base64,${b64('plantilla/fuentes/fredoka-latin-600-normal.woff2')}); }
@@ -69,8 +69,8 @@ function html(t) {
            gap: 28px; color: ${c.texto}; font-weight: 700; line-height: 1; position: relative; }
   .letra .may { font-size: 280px; }
   .letra .min { font-size: 280px; color: ${c.acento}; }
-  .sena { flex: 1; position: relative; background: #fff; border-radius: 56px; display: flex; align-items: center; justify-content: center; }
-  .sena img { width: 88%; }
+  .sena { flex: 1; position: relative; background: #fff; border-radius: 56px; display: flex; align-items: flex-end; justify-content: center; }
+  .sena img { max-width: 94%; max-height: 94%; display: block; }
   .pendiente { color: #bbb; font-size: 48px; text-align: center; font-weight: 600; }
   .etiqueta { position: absolute; top: -22px; left: 32px; background: ${c.acento}; color: #fff; font-weight: 700;
               font-size: 34px; padding: 4px 22px; border-radius: 24px; border: 5px solid ${c.fondo}; }

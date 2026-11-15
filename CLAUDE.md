@@ -44,7 +44,10 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 5. **La palabra** va en minúsculas, en letra redonda (Fredoka), blanca y muy grande.
 6. **Fichas por sílaba**, tipo squishy: redondas, con brillo arriba y sombra abajo. Cada sílaba tiene su color y hay más espacio entre sílabas. **Debajo de cada sílaba va una moneda**: se toca o se aplaude una vez por sílaba al pronunciarla, como si se juntaran monedas en sus juegos. Separa las sílabas correctamente en español.
 7. **Panel "letra"**: la letra inicial en mayúscula y en minúscula, grande, para que reconozca la letra.
-8. **Panel "LSM"**: pequeño, abajo a la derecha. Usa el dibujo de la seña que manden. **No inventes la forma de una seña.** Si no hay dibujo, deja `"sena"` fuera del JSON y aparece "seña pendiente".
+8. **Panel "LSM"**: pequeño, abajo a la derecha. **No inventes la forma de una seña**: dibújala solo a partir de las fotos o dibujos que mande el usuario (normalmente una foto por movimiento). Si no hay referencia, deja `"sena"` fuera del JSON y aparece "seña pendiente".
+   - Dibújala en SVG como `senas/<palabra>.svg` (viewBox 600 × 540), con el estilo de `senas/estrella.svg`: persona tierna con cabello rizado, ropa lila, cara sonriente y manos color piel con contorno oscuro.
+   - Si la seña tiene varios movimientos, usa una sola figura: la posición inicial con manos **punteadas** y el número **1**, la final con manos **sólidas** y el número **2**, y una **flecha rosa** con el recorrido. La mirada y la expresión van como en la foto (en "estrella" mira hacia arriba).
+   - Cuida la configuración: qué dedos van extendidos o doblados, dónde va el pulgar, la altura de las manos (barbilla, frente, arriba de la cabeza) y si las manos se cruzan o se tocan. Muestra el dibujo al usuario y pregúntale si la configuración es correcta, porque él conoce LSM.
 9. **Nada de personajes con derechos de autor** (Pepa Pig, Roblox, logos de TikTok, etc.). Usa solo su *estilo*: personajes redondos y simpáticos, colores alegres, bloques o elementos de juego.
 10. Caras siempre sonrientes y amables, y ojos con brillo. Nada que asuste o sea agresivo. Tamaño 1200 × 1680 px.
 
@@ -54,7 +57,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colores del tema
 tarjetas/<palabra>.png    tarjeta terminada (se genera, no se edita a mano)
 escenas/<palabra>.svg     dibujo del panel de arriba, 1056 × 400 (viewBox 1056 × 428 también sirve)
-senas/<palabra>.png       dibujo de la seña LSM
+senas/<palabra>.svg       dibujo de la seña LSM (hecho a partir de las fotos del usuario)
 plantilla/fuentes/        fuente Fredoka (no requiere internet)
 generar.js                arma la tarjeta: node generar.js tarjetas/<palabra>.json
 ```
@@ -63,7 +66,7 @@ Ejemplo de JSON: `tarjetas/estrella.json`. Los `colores` que puedes definir son 
 
 ## Cómo hacer una tarjeta nueva
 
-1. Si mandan una imagen de tarjeta completa, guárdala como `tarjetas/<palabra>-original.png` y recorta la seña a `senas/<palabra>.png` (con PIL). Si mandan solo la seña, guárdala directamente en `senas/`.
+1. Si mandan una imagen de tarjeta completa, guárdala como `tarjetas/<palabra>-original.png`. Si mandan fotos de la seña, dibújala en `senas/<palabra>.svg` según la regla 8. No guardes las fotos de personas en el repositorio.
 2. Elige el gusto de Valeria que mejor encaje con la palabra y dibuja `escenas/<palabra>.svg`. Usa `escenas/estrella.svg` como ejemplo de estilo.
 3. Elige colores vivos que vayan con el tema y crea `tarjetas/<palabra>.json`.
 4. Ejecuta `node generar.js tarjetas/<palabra>.json` y **mira el PNG** antes de entregarlo.
