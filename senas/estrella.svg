@@ -43,9 +43,11 @@
 
   <g transform="translate(600 0) scale(-1 1)">
   <!-- torso -->
-  <path d="M120 540 C120 452 200 426 300 426 C400 426 480 452 480 540 Z" fill="#B9A7F5"/>
-  <rect x="282" y="364" width="36" height="66" rx="16" fill="#EDB592"/>
-  <path d="M270 428 Q300 450 330 428" fill="none" stroke="#9C86EE" stroke-width="8" stroke-linecap="round"/>
+  <path d="M172 540 C172 448 224 412 300 412 C376 412 428 448 428 540 Z" fill="#B9A7F5"/>
+  <!-- estrellita en la blusa -->
+  <path d="M300 456 l8 16 18 3 -13 12 3 18 -16 -9 -16 9 3 -18 -13 -12 18 -3z" fill="#FFD43B" stroke="#E0A800" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="285" y="362" width="30" height="58" rx="14" fill="#EDB592"/>
+  <path d="M278 414 Q300 432 322 414" fill="none" stroke="#9C86EE" stroke-width="8" stroke-linecap="round"/>
 
   <!-- cabeza -->
   <g fill="#7A3B2E">
@@ -66,10 +68,16 @@
   <circle cx="339" cy="332" r="8" fill="#FF9EC4" opacity=".85"/>
   <path d="M290 336 Q300 346 310 336" fill="none" stroke="#2B1B5C" stroke-width="4.5" stroke-linecap="round"/>
 
+  <!-- broche de estrella -->
+  <path d="M346 250 l6 12 13 2 -10 9 3 13 -12 -7 -12 7 3 -13 -10 -9 13 -2z" fill="#FF5DA2" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- destellos junto a las manos (posición final) -->
+  <path d="M528 196 l5 11 11 5 -11 5 -5 11 -5 -11 -11 -5 11 -5z" fill="#FFD43B"/>
+  <path d="M392 206 l4 8 8 4 -8 4 -4 8 -4 -8 -8 -4 8 -4z" fill="#FF5DA2"/>
+
   <!-- 1: inicio, a su derecha (claro) -->
   <g opacity=".55">
-    <use href="#mano" transform="translate(107 344) scale(.62) rotate(40)"/>
-    <use href="#mano" transform="translate(193 344) scale(-.62 .62) rotate(40)"/>
+    <use href="#mano" transform="translate(117 342) scale(.56) rotate(40)"/>
+    <use href="#mano" transform="translate(193 342) scale(-.56 .56) rotate(40)"/>
   </g>
 
   <!-- recorrido por encima de la cabeza -->
@@ -77,13 +85,13 @@
 
   <!-- 2: final, a su izquierda: un antebrazo sube recto y el otro cruza por delante del pecho -->
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M258 556 L383 372" stroke="#2B1B5C" stroke-width="40"/>
-    <path d="M258 556 L383 372" stroke="#9C86EE" stroke-width="30"/>
-    <path d="M540 556 L517 372" stroke="#2B1B5C" stroke-width="40"/>
-    <path d="M540 556 L517 372" stroke="#9C86EE" stroke-width="30"/>
+    <path d="M318 556 L385 368" stroke="#2B1B5C" stroke-width="40"/>
+    <path d="M318 556 L385 368" stroke="#9C86EE" stroke-width="30"/>
+    <path d="M410 446 L482 498 L505 368" stroke="#2B1B5C" stroke-width="40"/>
+    <path d="M410 446 L482 498 L505 368" stroke="#9C86EE" stroke-width="30"/>
   </g>
-  <use href="#mano" transform="translate(407 344) scale(.62) rotate(40)"/>
-  <use href="#mano" transform="translate(493 344) scale(-.62 .62) rotate(40)"/>
+  <use href="#mano" transform="translate(407 342) scale(.56) rotate(40)"/>
+  <use href="#mano" transform="translate(483 342) scale(-.56 .56) rotate(40)"/>
 
   </g>
 
