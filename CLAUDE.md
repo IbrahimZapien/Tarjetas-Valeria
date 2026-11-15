@@ -41,6 +41,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 
    El fondo debe ser vivo, pero con buen contraste para que la palabra blanca se lea perfecto.
 4. **Un solo foco en la escena.** El objeto es grande y simpático, con pocos adornos (2 o 3 destellos como máximo). Lo que hay alrededor apoya, no compite.
+   - **Estilo squishy / slime para el objeto principal** (a Valeria le encantan las cosas suaves): formas gorditas con las puntas redondeadas, un poco aplastadas como si se hundieran por su peso, un degradado brillante tipo gel, brillos blancos grandes, una sombra suave debajo, alguna gotita de slime y líneas de "squish" a los lados. Carita kawaii con ojos grandes y brillantes. Ejemplo: la estrella de `escenas/estrella.svg`.
 5. **La palabra** va en minúsculas, en letra redonda (Fredoka), blanca y muy grande.
 6. **Fichas por sílaba**, tipo squishy: redondas, con brillo arriba y sombra abajo. Cada sílaba tiene su color y hay más espacio entre sílabas. **Debajo de cada sílaba va una moneda**: se toca o se aplaude una vez por sílaba al pronunciarla, como si se juntaran monedas en sus juegos. Separa las sílabas correctamente en español.
 7. **Panel "letra"**: la letra inicial en mayúscula y en minúscula, grande, para que reconozca la letra.
