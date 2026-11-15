@@ -43,9 +43,11 @@ function html(t) {
   const palabra = t.palabra;
   const inicial = [...palabra][0];
   const tamPalabra = Math.min(250, Math.floor(1700 / palabra.length));
-  const sena = t.sena
-    ? `<img src="data:image/${t.sena.endsWith('.svg') ? 'svg+xml' : 'png'};base64,${b64(t.sena)}">`
-    : `<div class="pendiente">seña<br>pendiente</div>`;
+  const tipo = (f) => f.endsWith('.svg') ? 'svg+xml' : f.endsWith('.png') ? 'png' : 'jpeg';
+  // Foto (jpg): llena todo el panel. Dibujo (svg/png): se acomoda abajo al centro.
+  const sena = !t.sena ? `<div class="pendiente">seña<br>pendiente</div>`
+    : /\.jpe?g$/.test(t.sena) ? `<div class="foto"><img src="data:image/jpeg;base64,${b64(t.sena)}"></div>`
+    : `<img src="data:image/${tipo(t.sena)};base64,${b64(t.sena)}">`;
   return `<!doctype html><html><head><meta charset="utf-8"><style>
   @font-face { font-family: Fredoka; font-weight: 600; src: url(data:font/woff2;base64,${b64('plantilla/fuentes/fredoka-latin-600-normal.woff2')}); }
   @font-face { font-family: Fredoka; font-weight: 700; src: url(data:font/woff2;base64,${b64('plantilla/fuentes/fredoka-latin-700-normal.woff2')}); }
@@ -71,6 +73,9 @@ function html(t) {
   .letra .min { font-size: 280px; color: ${c.acento}; }
   .sena { flex: 1; position: relative; background: #fff; border-radius: 56px; display: flex; align-items: flex-end; justify-content: center; }
   .sena img { max-width: 94%; max-height: 94%; display: block; }
+  .foto { position: absolute; inset: 0; border-radius: 56px; overflow: hidden; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; max-width: none; max-height: none; }
+  .sena .etiqueta { z-index: 2; }
   .pendiente { color: #bbb; font-size: 48px; text-align: center; font-weight: 600; }
   .etiqueta { position: absolute; top: -22px; left: 32px; background: ${c.acento}; color: #fff; font-weight: 700;
               font-size: 34px; padding: 4px 22px; border-radius: 24px; border: 5px solid ${c.fondo}; }
