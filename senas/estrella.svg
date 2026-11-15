@@ -1,8 +1,10 @@
 <!-- Seña LSM "estrella" (según fotos, videos de referencia y descripción del usuario):
      configuración: índice y medio extendidos en V; anular y meñique doblados, sujetos por el pulgar;
      los dedos de ambas manos se cruzan en X.
-     1) la configuración empieza al lado derecho de quien señá (izquierda del dibujo), a la altura de la cara;
-     2) las manos pasan por encima de la cabeza y terminan a su lado izquierdo (derecha del dibujo).
+     Visto de frente (como en el video de referencia):
+     1) la configuración empieza a la DERECHA del dibujo (lado izquierdo de quien señá), a la altura de la cara;
+     2) las manos pasan por encima de la cabeza y terminan a la IZQUIERDA del dibujo, junto a la cara.
+     La mirada sigue a las manos hacia arriba.
      Manos claras = inicio; manos con brazos = final; flecha rosa = recorrido. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 540">
   <defs>
@@ -39,6 +41,7 @@
     </marker>
   </defs>
 
+  <g transform="translate(600 0) scale(-1 1)">
   <!-- torso -->
   <path d="M120 540 C120 452 200 426 300 426 C400 426 480 452 480 540 Z" fill="#B9A7F5"/>
   <rect x="282" y="364" width="36" height="66" rx="16" fill="#EDB592"/>
@@ -55,10 +58,10 @@
   <g fill="#7A3B2E">
     <circle cx="272" cy="260" r="21"/><circle cx="300" cy="254" r="21"/><circle cx="328" cy="260" r="21"/>
   </g>
-  <circle cx="279" cy="308" r="8" fill="#2B1B5C"/>
-  <circle cx="321" cy="308" r="8" fill="#2B1B5C"/>
-  <circle cx="281" cy="305" r="2.6" fill="#fff"/>
-  <circle cx="323" cy="305" r="2.6" fill="#fff"/>
+  <circle cx="279" cy="308" r="11" fill="#fff" stroke="#2B1B5C" stroke-width="3"/>
+  <circle cx="321" cy="308" r="11" fill="#fff" stroke="#2B1B5C" stroke-width="3"/>
+  <circle cx="279" cy="302" r="6.5" fill="#2B1B5C"/>
+  <circle cx="321" cy="302" r="6.5" fill="#2B1B5C"/>
   <circle cx="261" cy="332" r="8" fill="#FF9EC4" opacity=".85"/>
   <circle cx="339" cy="332" r="8" fill="#FF9EC4" opacity=".85"/>
   <path d="M290 336 Q300 346 310 336" fill="none" stroke="#2B1B5C" stroke-width="4.5" stroke-linecap="round"/>
@@ -82,9 +85,11 @@
   <use href="#mano" transform="translate(407 344) scale(.62) rotate(40)"/>
   <use href="#mano" transform="translate(493 344) scale(-.62 .62) rotate(40)"/>
 
+  </g>
+
   <!-- números -->
   <g font-family="Fredoka, sans-serif" font-weight="700" font-size="28" text-anchor="middle" fill="#fff">
-    <circle cx="44" cy="262" r="22" fill="#2B1B5C"/><text x="44" y="272">1</text>
-    <circle cx="566" cy="262" r="22" fill="#FF4FA0"/><text x="566" y="272">2</text>
+    <circle cx="566" cy="262" r="22" fill="#2B1B5C"/><text x="566" y="272">1</text>
+    <circle cx="44" cy="262" r="22" fill="#FF4FA0"/><text x="44" y="272">2</text>
   </g>
 </svg>
