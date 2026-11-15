@@ -16,6 +16,9 @@ Cada tarjeta muestra **la palabra como protagonista**, la palabra separada en fi
   - **Slime y squishies**.
   - **Nadar**, viajar, los **hoteles** y pasar el día en ellos.
   - La **comida picante** y el **ramen**.
+  - Todo lo **coreano**, pero no la cultura: le atraen los **alimentos** (tteokbokki, kimbap, kimchi, ramyeon, dumplings) y las **formas y el estilo visual** (lo kawaii o "cute" coreano, formas redondas y suaves).
+  - La **velocidad** y los **carros**.
+- **Es tierna.** Aunque le gusten la velocidad y los carros, todo debe verse dulce y amable: carritos redondos y sonrientes, con mejillas rosadas. Nada agresivo, de carreras rudas ni de choques.
 
 ## Reglas de diseño (aplícalas a TODAS las tarjetas)
 
@@ -25,6 +28,8 @@ Cada tarjeta muestra **la palabra como protagonista**, la palabra separada en fi
    - Una alberca o un hotel.
    - Un tazón de ramen o una cocina con mezclas.
    - Texturas de slime o squishy.
+   - Comida coreana con carita: un kimbap, un tteokbokki o un tazón de ramyeon.
+   - Un carrito tierno y veloz, con líneas de velocidad, que llega a la palabra.
 
    Elige el gusto que mejor encaje con la palabra.
 3. **Nada de personajes con derechos de autor** (Pepa Pig, Roblox, logos de TikTok, etc.). Usa solo su *estilo*: personajes redondos y simpáticos, colores alegres, bloques o elementos de juego.
