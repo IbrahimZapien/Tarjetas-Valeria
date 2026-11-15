@@ -8,33 +8,28 @@
      Manos claras = inicio; manos con brazos = final; flecha rosa = recorrido. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 540">
   <defs>
+    <linearGradient id="piel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#EDB696"/><stop offset=".45" stop-color="#F7CFB3"/><stop offset="1" stop-color="#F1C2A2"/></linearGradient>
     <!-- Mano DERECHA con la palma al frente; el pulgar y el índice quedan hacia el centro (+x).
          Coordenadas locales: muñeca abajo (0,60), dedos hacia arriba. Estilo plano realista. -->
-    <g id="mano" stroke="#B26E52" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <g id="mano">
       <!-- muñeca -->
-      <path d="M-27 36 L-25 96 L25 96 L29 36 Z" fill="#F5C6A5" stroke="none"/>
-      <!-- palma (con el monte del pulgar abajo a la derecha) -->
-      <path d="M-34 -44 C-39 -18 -39 10 -31 32 C-25 50 -10 58 6 58 C24 58 38 46 41 24 C44 4 42 -22 37 -44 Z" fill="#F5C6A5"/>
-      <path d="M-34 -44 C-37 -20 -37 8 -31 30 C-29 36 -26 42 -22 46 C-30 28 -32 0 -30 -40 Z" fill="#E7AE8C" stroke="none"/>
-      <!-- dedo medio (afuera) -->
-      <path d="M-34 -38 C-36 -80 -35 -128 -33 -150 C-31 -168 -12 -168 -11 -150 C-9 -126 -8 -80 -6 -40 Z" fill="#F5C6A5"/>
-      <!-- dedo índice (adentro), un poco abierto en V -->
-      <path d="M-5 -40 C-1 -80 5 -118 9 -138 C13 -155 33 -152 31 -134 C28 -108 26 -76 27 -38 Z" fill="#F5C6A5"/>
-      <!-- pliegues de los dedos -->
-      <g fill="none" stroke="#C98668" stroke-width="2.5">
-        <path d="M-31 -106 q10 4 19 0"/><path d="M-32 -72 q11 5 22 0"/>
-        <path d="M11 -100 q9 5 18 2"/><path d="M5 -68 q10 5 20 2"/>
-        <path d="M-24 40 q14 8 30 -4"/>
-      </g>
-      <!-- anular y meñique doblados, con sus uñas -->
-      <rect x="-36" y="-34" width="38" height="22" rx="11" fill="#F0BC9A"/>
-      <rect x="-38" y="-13" width="34" height="20" rx="10" fill="#F0BC9A"/>
-      <ellipse cx="-4" cy="-23" rx="6" ry="7" fill="#F8D0CC"/>
-      <ellipse cx="-7" cy="-3" rx="5.5" ry="6.5" fill="#F8D0CC"/>
-      <!-- pulgar cruzando sobre ellos, con su uña -->
-      <path d="M41 30 C32 10 14 -6 -6 -10 C-20 -12 -22 8 -8 11 C8 15 20 27 27 46 Z" fill="#F5C6A5"/>
-      <path d="M41 30 C36 20 30 13 22 8 C28 18 32 30 34 42 Z" fill="#E7AE8C" stroke="none"/>
-      <ellipse cx="-7" cy="0" rx="8" ry="6" fill="#F8D0CC" transform="rotate(-12 -7 0)"/>
+      <path d="M-24 40 C-25 60 -25 80 -24 100 L22 100 C23 80 24 60 25 40 Z" fill="url(#piel)"/>
+      <!-- palma: ancha en los nudillos, angosta en la muñeca, con el monte del pulgar -->
+      <path d="M-27 -42 C-33 -40 -35 -30 -35 -14 C-35 6 -32 26 -26 42 C-22 52 -10 58 4 58 C18 58 30 50 35 36 C40 22 40 6 36 -10 C33 -24 29 -36 24 -42 Z" fill="url(#piel)" stroke="#BF7E62" stroke-width="2.4" stroke-linejoin="round"/>
+      <!-- dedos medio e índice: largos, delgados, se afinan hacia la punta -->
+      <path d="M-4.5 -40.6 Q-7.3 -86.5 -12.3 -134.2 A8.2 8.2 0 0 0 -28.8 -133.3 Q-28.1 -85.3 -25.5 -39.4 Z" fill="url(#piel)" stroke="#BF7E62" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M23.4 -38.5 Q29.0 -79.0 32.8 -120.9 A8.0 8.0 0 0 0 16.9 -123.2 Q8.7 -82.0 2.6 -41.5 Z" fill="url(#piel)" stroke="#BF7E62" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M-9.6 -74.1 Q-17.0 -71.2 -24.4 -73.2 M-11.8 -103.6 Q-18.7 -100.7 -25.6 -102.8 M24.6 -68.6 Q17.3 -67.2 10.0 -70.8 M27.8 -94.8 Q21.1 -93.3 14.3 -96.8" fill="none" stroke="#C98B6E" stroke-width="2" stroke-linecap="round"/>
+      <!-- líneas de la palma -->
+      <path d="M-28 -22 C-16 -20 -4 -22 8 -28 M-20 30 C-10 26 0 28 8 40" fill="none" stroke="#D49A7E" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- anular y meñique doblados hacia la palma -->
+      <path d="M-33 -38 C-29 -47 -16 -45 -12 -36 C-8 -26 -4 -15 0 -6 C4 3 -5 9 -11 4 C-18 -4 -27 -18 -33 -29 Z" fill="#F2C3A3" stroke="#BF7E62" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M-38 -16 C-36 -24 -26 -24 -22 -16 C-18 -8 -14 0 -12 6 C-10 14 -18 18 -23 12 C-28 6 -34 -2 -38 -8 Z" fill="#EDB898" stroke="#BF7E62" stroke-width="2.2" stroke-linejoin="round"/>
+      <ellipse cx="-6" cy="-1" rx="5" ry="6.5" fill="#F7D3CC" transform="rotate(-35 -6 -1)"/>
+      <ellipse cx="-16" cy="10" rx="4.5" ry="6" fill="#F7D3CC" transform="rotate(-35 -16 10)"/>
+      <!-- pulgar: sale del monte y cruza en diagonal sobre los dedos doblados -->
+      <path d="M37 10 C30 0 20 -4 6 -7 C-4 -10 -14 -6 -14 2 C-14 8 -8 11 -2 12 C10 14 18 20 24 30 C28 36 32 38 36 30 Z" fill="url(#piel)" stroke="#BF7E62" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M-12 1 C-12 -5 -6 -7 -1 -5 C2 -3 2 3 -1 5 C-5 7 -11 6 -12 1 Z" fill="#F7D3CC"/>
     </g>
     <marker id="punta" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#FF4FA0"/>
@@ -76,8 +71,8 @@
 
   <!-- 1: inicio, a su derecha (claro) -->
   <g opacity=".55">
-    <use href="#mano" transform="translate(117 342) scale(.56) rotate(40)"/>
-    <use href="#mano" transform="translate(193 342) scale(-.56 .56) rotate(40)"/>
+    <use href="#mano" transform="translate(105 344) scale(.64) rotate(40)"/>
+    <use href="#mano" transform="translate(195 344) scale(-.64 .64) rotate(40)"/>
   </g>
 
   <!-- recorrido por encima de la cabeza -->
@@ -85,13 +80,13 @@
 
   <!-- 2: final, a su izquierda: un antebrazo sube recto y el otro cruza por delante del pecho -->
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M318 556 L385 368" stroke="#2B1B5C" stroke-width="40"/>
-    <path d="M318 556 L385 368" stroke="#9C86EE" stroke-width="30"/>
-    <path d="M410 446 L482 498 L505 368" stroke="#2B1B5C" stroke-width="40"/>
-    <path d="M410 446 L482 498 L505 368" stroke="#9C86EE" stroke-width="30"/>
+    <path d="M318 556 L381 372" stroke="#2B1B5C" stroke-width="40"/>
+    <path d="M318 556 L381 372" stroke="#9C86EE" stroke-width="30"/>
+    <path d="M410 446 L482 498 L519 372" stroke="#2B1B5C" stroke-width="40"/>
+    <path d="M410 446 L482 498 L519 372" stroke="#9C86EE" stroke-width="30"/>
   </g>
-  <use href="#mano" transform="translate(407 342) scale(.56) rotate(40)"/>
-  <use href="#mano" transform="translate(483 342) scale(-.56 .56) rotate(40)"/>
+  <use href="#mano" transform="translate(405 344) scale(.64) rotate(40)"/>
+  <use href="#mano" transform="translate(495 344) scale(-.64 .64) rotate(40)"/>
 
   </g>
 
