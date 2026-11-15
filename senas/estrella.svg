@@ -1,24 +1,44 @@
-<!-- Seña LSM "estrella" (según fotos de referencia):
-     1) manos frente a la barbilla, índice y medio extendidos, los dedos de ambas manos se cruzan formando un triángulo;
-     2) sin cambiar la configuración, las manos suben por encima de la cabeza y la mirada las sigue hacia arriba.
-     Movimiento 1 = manos punteadas; movimiento 2 = manos sólidas; flecha rosa = recorrido. -->
+<!-- Seña LSM "estrella" (según fotos y descripción del usuario):
+     configuración: índice y medio extendidos en cada mano, anular y meñique doblados bajo el pulgar;
+     los dedos de ambas manos se cruzan formando un triángulo.
+     1) manos frente a la barbilla;
+     2) suben a la derecha de quien señá (izquierda del dibujo);
+     3) pasan por encima de la cabeza "acariciando el cielo" y terminan a su izquierda (derecha del dibujo).
+     La mirada sigue a las manos. Punteado = posiciones de paso; sólido = posición final. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 540">
   <defs>
-    <!-- Mano en configuración "V". Coordenadas locales: muñeca en (0,40), dedos hacia arriba. -->
-    <g id="mano" stroke="#2B1B5C" stroke-width="6" stroke-linejoin="round" fill="#F7C9A8">
-      <rect x="-30" y="-150" width="27" height="140" rx="13.5"/>
-      <rect x="1" y="-158" width="27" height="148" rx="13.5"/>
-      <rect x="-36" y="-34" width="72" height="76" rx="30"/>
-      <path d="M2 -8 q14 -4 26 4" fill="none" stroke-linecap="round"/>
-      <path d="M4 10 q12 -3 22 3" fill="none" stroke-linecap="round"/>
-      <rect x="-50" y="-22" width="24" height="54" rx="12" transform="rotate(-22 -38 5)"/>
+    <!-- Silueta de una mano derecha con la palma al frente (el pulgar y el índice quedan hacia el centro del cuerpo).
+         Coordenadas locales: muñeca abajo en (0,60), dedos hacia arriba. -->
+    <g id="silueta">
+      <rect x="-23" y="20" width="46" height="60" rx="18"/>
+      <path d="M-36 -30 C-38 -46 -24 -50 -10 -50 L22 -50 C36 -50 40 -40 38 -24 L34 30 C32 46 20 52 0 52 C-22 52 -34 44 -36 28 Z"/>
+      <!-- dedo medio (hacia afuera) e índice (hacia adentro), un poco abiertos en V -->
+      <path d="M-30 -42 L-34 -150 C-34 -166 -10 -166 -10 -150 L-4 -44 Z"/>
+      <path d="M6 -44 L16 -142 C18 -158 40 -156 39 -140 L30 -38 Z"/>
     </g>
-    <!-- la misma mano, punteada y transparente (posición inicial) -->
-    <g id="mano-fantasma" stroke="#2B1B5C" stroke-width="5" stroke-dasharray="10 8" stroke-linejoin="round" fill="#FFFFFF" fill-opacity=".8" opacity=".9">
-      <rect x="-30" y="-150" width="27" height="140" rx="13.5"/>
-      <rect x="1" y="-158" width="27" height="148" rx="13.5"/>
-      <rect x="-36" y="-34" width="72" height="76" rx="30"/>
-      <rect x="-50" y="-22" width="24" height="54" rx="12" transform="rotate(-22 -38 5)"/>
+    <g id="detalles" fill="none" stroke="#C47F5E" stroke-width="3.5" stroke-linecap="round">
+      <!-- pliegues de los dedos -->
+      <path d="M-31 -96 q9 4 18 0 M-32 -62 q10 4 20 0"/>
+      <path d="M14 -92 q9 5 19 2 M10 -60 q9 5 20 2"/>
+      <!-- anular y meñique doblados -->
+      <path d="M-34 -18 q16 -10 32 -2" />
+      <path d="M-34 0 q14 -8 28 -2" />
+      <!-- línea de la palma -->
+      <path d="M-26 34 q14 8 30 -2" />
+    </g>
+    <!-- pulgar: cruza sobre los dedos doblados -->
+    <rect id="pulgar" x="-26" y="-12" width="66" height="26" rx="13" transform="rotate(-16 36 14)"/>
+
+    <g id="mano">
+      <use href="#silueta" fill="#2B1B5C" stroke="#2B1B5C" stroke-width="11" stroke-linejoin="round"/>
+      <use href="#silueta" fill="#F7C9A8"/>
+      <use href="#detalles"/>
+      <use href="#pulgar" fill="#F7C9A8" stroke="#2B1B5C" stroke-width="5" stroke-linejoin="round"/>
+      <ellipse cx="-12" cy="5" rx="7" ry="5" fill="#FFE3D3" transform="rotate(-16 -12 5)"/>
+    </g>
+    <g id="mano-paso">
+      <use href="#silueta" fill="none" stroke="#6E5BB0" stroke-width="10" stroke-dasharray="14 10" stroke-linejoin="round"/>
+      <use href="#silueta" fill="#F3EFFF"/>
     </g>
     <marker id="punta" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#FF4FA0"/>
@@ -26,53 +46,57 @@
   </defs>
 
   <!-- torso -->
-  <path d="M110 540 C110 438 196 404 300 404 C404 404 490 438 490 540 Z" fill="#B9A7F5"/>
-  <rect x="280" y="340" width="40" height="70" rx="18" fill="#EDB592"/>
-  <path d="M268 406 Q300 432 332 406" fill="none" stroke="#9C86EE" stroke-width="8" stroke-linecap="round"/>
-
-  <!-- brazos levantados (movimiento 2): hombro → codo → muñeca -->
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M170 470 L100 330 L192 214" stroke="#2B1B5C" stroke-width="56"/>
-    <path d="M170 470 L100 330 L192 214" stroke="#9C86EE" stroke-width="44"/>
-    <path d="M430 470 L500 330 L408 214" stroke="#2B1B5C" stroke-width="56"/>
-    <path d="M430 470 L500 330 L408 214" stroke="#9C86EE" stroke-width="44"/>
-  </g>
+  <path d="M120 540 C120 452 200 426 300 426 C400 426 480 452 480 540 Z" fill="#B9A7F5"/>
+  <rect x="282" y="364" width="36" height="66" rx="16" fill="#EDB592"/>
+  <path d="M270 428 Q300 450 330 428" fill="none" stroke="#9C86EE" stroke-width="8" stroke-linecap="round"/>
 
   <!-- cabello rizado -->
   <g fill="#7A3B2E">
-    <circle cx="300" cy="206" r="34"/><circle cx="258" cy="216" r="32"/><circle cx="342" cy="216" r="32"/>
-    <circle cx="234" cy="250" r="29"/><circle cx="366" cy="250" r="29"/>
-    <circle cx="228" cy="288" r="26"/><circle cx="372" cy="288" r="26"/>
-    <circle cx="236" cy="322" r="22"/><circle cx="364" cy="322" r="22"/>
+    <circle cx="300" cy="248" r="30"/><circle cx="262" cy="257" r="28"/><circle cx="338" cy="257" r="28"/>
+    <circle cx="242" cy="288" r="26"/><circle cx="358" cy="288" r="26"/>
+    <circle cx="237" cy="322" r="23"/><circle cx="363" cy="322" r="23"/>
+    <circle cx="244" cy="352" r="19"/><circle cx="356" cy="352" r="19"/>
   </g>
-  <circle cx="300" cy="276" r="68" fill="#F7C9A8"/>
+  <circle cx="300" cy="312" r="60" fill="#F7C9A8"/>
   <g fill="#7A3B2E">
-    <circle cx="268" cy="218" r="24"/><circle cx="300" cy="211" r="24"/><circle cx="332" cy="218" r="24"/>
+    <circle cx="272" cy="260" r="21"/><circle cx="300" cy="254" r="21"/><circle cx="328" cy="260" r="21"/>
   </g>
-  <!-- cara: mira hacia arriba, a sus manos -->
-  <circle cx="276" cy="272" r="12" fill="#fff" stroke="#2B1B5C" stroke-width="3"/>
-  <circle cx="324" cy="272" r="12" fill="#fff" stroke="#2B1B5C" stroke-width="3"/>
-  <circle cx="276" cy="265" r="7" fill="#2B1B5C"/>
-  <circle cx="324" cy="265" r="7" fill="#2B1B5C"/>
-  <path d="M262 250 Q276 242 290 250 M310 250 Q324 242 338 250" fill="none" stroke="#7A3B2E" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="256" cy="296" r="9" fill="#FF9EC4" opacity=".85"/>
-  <circle cx="344" cy="296" r="9" fill="#FF9EC4" opacity=".85"/>
-  <path d="M288 300 Q300 312 312 300" fill="none" stroke="#2B1B5C" stroke-width="5" stroke-linecap="round"/>
+  <!-- cara: mira hacia arriba, siguiendo a las manos -->
+  <circle cx="279" cy="306" r="11" fill="#fff" stroke="#2B1B5C" stroke-width="3"/>
+  <circle cx="321" cy="306" r="11" fill="#fff" stroke="#2B1B5C" stroke-width="3"/>
+  <circle cx="282" cy="300" r="6.5" fill="#2B1B5C"/>
+  <circle cx="324" cy="300" r="6.5" fill="#2B1B5C"/>
+  <path d="M266 287 Q279 280 292 287 M308 287 Q321 280 334 287" fill="none" stroke="#7A3B2E" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="261" cy="330" r="8" fill="#FF9EC4" opacity=".85"/>
+  <circle cx="339" cy="330" r="8" fill="#FF9EC4" opacity=".85"/>
+  <path d="M290 334 Q300 344 310 334" fill="none" stroke="#2B1B5C" stroke-width="4.5" stroke-linecap="round"/>
 
-  <!-- movimiento 1: manos punteadas frente a la barbilla -->
-  <use href="#mano-fantasma" transform="translate(244 424) scale(.8) rotate(40)"/>
-  <use href="#mano-fantasma" transform="translate(356 424) scale(-.8 .8) rotate(40)"/>
+  <!-- 1: frente a la barbilla (de paso) -->
+  <use href="#mano-paso" transform="translate(247 450) scale(.6) rotate(40)"/>
+  <use href="#mano-paso" transform="translate(353 450) scale(-.6 .6) rotate(40)"/>
 
-  <!-- recorrido -->
-  <path d="M404 352 C470 310 470 230 400 150" fill="none" stroke="#FF4FA0" stroke-width="10" stroke-linecap="round" marker-end="url(#punta)"/>
+  <!-- 2: arriba, a la derecha de quien señá (de paso) -->
+  <use href="#mano-paso" transform="translate(134 196) scale(.6) rotate(40)"/>
+  <use href="#mano-paso" transform="translate(240 196) scale(-.6 .6) rotate(40)"/>
 
-  <!-- movimiento 2: manos sólidas arriba de la cabeza -->
-  <use href="#mano" transform="translate(244 188) scale(.8) rotate(40)"/>
-  <use href="#mano" transform="translate(356 188) scale(-.8 .8) rotate(40)"/>
+  <!-- recorrido: sube, pasa por encima de la cabeza y baja un poco del otro lado -->
+  <path d="M232 392 C150 370 110 300 122 210" fill="none" stroke="#FF4FA0" stroke-width="9" stroke-linecap="round" stroke-dasharray="2 16"/>
+  <path d="M150 64 C230 6 380 6 452 64" fill="none" stroke="#FF4FA0" stroke-width="10" stroke-linecap="round" marker-end="url(#punta)"/>
+
+  <!-- 3: posición final, a su izquierda, con brazos -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M200 476 L168 318 L336 226" stroke="#2B1B5C" stroke-width="40"/>
+    <path d="M200 476 L168 318 L336 226" stroke="#9C86EE" stroke-width="30"/>
+    <path d="M400 476 L500 338 L468 232" stroke="#2B1B5C" stroke-width="40"/>
+    <path d="M400 476 L500 338 L468 232" stroke="#9C86EE" stroke-width="30"/>
+  </g>
+  <use href="#mano" transform="translate(354 196) scale(.6) rotate(40)"/>
+  <use href="#mano" transform="translate(460 196) scale(-.6 .6) rotate(40)"/>
 
   <!-- números de los pasos -->
-  <g font-family="Fredoka, sans-serif" font-weight="700" font-size="30" text-anchor="middle" fill="#fff">
-    <circle cx="180" cy="400" r="24" fill="#2B1B5C"/><text x="180" y="411">1</text>
-    <circle cx="150" cy="80" r="24" fill="#FF4FA0"/><text x="150" y="91">2</text>
+  <g font-family="Fredoka, sans-serif" font-weight="700" font-size="28" text-anchor="middle" fill="#fff">
+    <circle cx="176" cy="470" r="22" fill="#2B1B5C"/><text x="176" y="480">1</text>
+    <circle cx="70" cy="118" r="22" fill="#2B1B5C"/><text x="70" y="128">2</text>
+    <circle cx="540" cy="118" r="22" fill="#FF4FA0"/><text x="540" y="128">3</text>
   </g>
 </svg>
