@@ -33,8 +33,16 @@ function fichas(silabas, c) {
     const color = c.silabas[i % c.silabas.length];
     const letrasHtml = [...s].map((l) =>
       `<div class="ficha" style="width:${ancho}px;background:${color};font-size:${fuente}px">${esc(l)}</div>`).join('');
-    // Una moneda debajo de cada sílaba: se toca (o se aplaude) una vez por sílaba al pronunciarla.
-    return `<div class="silaba"><div class="letras">${letrasHtml}</div><div class="moneda"></div></div>`;
+    // Debajo de cada sílaba, un arco en "U": se recorre con el dedo de izquierda a derecha
+    // mientras se pronuncia la sílaba. Empieza en un punto (moneda) y termina en una flecha.
+    const w = s.length * ancho + (s.length - 1) * 10;
+    const x0 = Math.min(26, w * .2), x1 = w - x0;
+    const arco = `<svg class="arco" width="${w}" height="96" viewBox="0 0 ${w} 96">
+      <path d="M${x0} 14 Q${w / 2} 156 ${x1 - 6} 18" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/>
+      <path d="M${x1 - 26} 12 L${x1 + 2} 8 L${x1 - 6} 36" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${x0}" cy="14" r="15" fill="#FFD43B" stroke="#C98A00" stroke-width="5"/>
+    </svg>`;
+    return `<div class="silaba"><div class="letras">${letrasHtml}</div>${arco}</div>`;
   }).join('');
 }
 
@@ -59,7 +67,8 @@ function html(t) {
   .palabra { color: #fff; font-weight: 700; font-size: ${tamPalabra}px; line-height: 1; margin: 34px 0 30px; letter-spacing: 4px;
              text-shadow: 0 8px 0 rgba(0,0,0,.18); }
   .fichas { display: flex; gap: 30px; justify-content: center; }
-  .silaba { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+  .silaba { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .arco { display: block; overflow: visible; }
   .letras { display: flex; gap: 10px; }
   .ficha { height: 300px; border-radius: 60px; display: flex; align-items: center; justify-content: center;
            color: ${c.texto}; font-weight: 700; padding-bottom: 14px;
