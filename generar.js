@@ -1,18 +1,22 @@
-// Tarjetas de Valeria, versión 2: DOS caras por palabra (1200 x 1680 cada una).
+// Tarjetas de Valeria, versión 2: DOS caras por palabra, tamaño hoja A4 (1240 x 1754 px = A4 a 150 ppp).
 //
-//   FRENTE  (aprender):  escena → palabra → letras en orden (por sílaba) → arcos por sílaba
+//   FRENTE  (aprender):  escena → palabra → mano LSM + letra + boca (cómo suena) → arcos por sílaba
 //                        → seña de la palabra.
 //   REVERSO (practicar): 1 traza · 2 ordena · 3 completa · 4 muévete.
 //
 // Uso:  node generar.js tarjetas/estrella.json
-// Resultado: tarjetas/estrella-frente.png y tarjetas/estrella-reverso.png
+// Resultado: tarjetas/estrella.pdf (2 páginas A4 para imprimir), estrella-frente.png y estrella-reverso.png
 
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
 
+const { execFileSync } = require('child_process');
+const { sonido, boca } = require('./plantilla/bocas.js');
+
 const RAIZ = __dirname;
-const W = 1200, H = 1680;
+const W = 1240, H = 1754;          // A4 a 150 ppp
+const ANCHO = 1160;                // ancho útil (márgenes de 40 px ≈ 7 mm)
 
 const COLORES_BASE = {
   fondo: '#6C2BD9', escena: '#16B4CE', texto: '#2B1B5C', acento: '#FF5DA2',
@@ -37,11 +41,11 @@ function letrasConSilaba(silabas) {
   return out;
 }
 
-// Medidas de las fichas según el número de letras (ancho útil 1056 px).
+// Medidas de las fichas según el número de letras (ancho útil ANCHO px).
 function medidas(silabas, gapL = 10, gapS = 30) {
   const n = silabas.join('').length;
   const huecos = (n - silabas.length) * gapL + (silabas.length - 1) * gapS;
-  return { n, ancho: Math.min(150, Math.floor((1056 - huecos) / n)), gapL, gapS };
+  return { n, ancho: Math.min(170, Math.floor((ANCHO - huecos) / n)), gapL, gapS };
 }
 
 // Arco en "U" (sonrisa con flecha) para recorrer una sílaba de izquierda a derecha.
@@ -69,6 +73,9 @@ function frente(t, c) {
   const fuente = Math.round(ancho * 1.2);
   const mano = Math.round(ancho * 1.0);
   const paso = ancho + gapL; // distancia entre centros de dos letras seguidas
+  const todas = [...t.palabra];
+  let g = 0; // índice de la letra en la palabra completa
+  const altoBoca = Math.round(ancho * .72);
   const columnas = t.silabas.map((s, i) => {
     const color = c.silabas[i % c.silabas.length];
     const ls = [...s];
@@ -91,10 +98,15 @@ function frente(t, c) {
       } else {
         arriba = `<div class="burbuja" style="width:${mano}px;height:${mano}px">${f ? `<img src="${img(f)}">` : ''}</div>`;
       }
-      const mov = '';
+      // boca: cómo se pone para el sonido de esta letra (una sola para ll, rr, ch)
+      const gi = g++;
+      const son = sonido(todas, gi);
+      const abajo = finDig ? `<div style="height:${altoBoca}px"></div>`
+        : `<div class="boca${inicioDig ? ' doble' : ''}" style="height:${altoBoca}px;${inicioDig ? `width:${2 * ancho + gapL}px` : ''}">${boca(son)}</div>`;
       return `<div class="col" style="width:${ancho}px">
-        <div class="manos" style="height:${mano + 30}px">${mov}${arriba}</div>
-        <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div></div>`;
+        <div class="manos" style="height:${mano + 26}px">${arriba}</div>
+        <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div>
+        <div class="bocas">${abajo}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
     return `<div class="silaba"><div class="cols" style="gap:${gapL}px">${cols}</div>${arco(w)}</div>`;
@@ -103,14 +115,14 @@ function frente(t, c) {
   const sena = !t.sena ? `<div class="pendiente">seña<br>pendiente</div>`
     : /\.jpe?g$/.test(t.sena) ? `<div class="foto"><img src="${img(t.sena)}"></div>`
     : `<img class="dibujo" src="${img(t.sena)}">`;
-  const tamPalabra = Math.min(230, Math.floor(1600 / t.palabra.length));
+  const tamPalabra = Math.min(210, Math.floor(1700 / t.palabra.length));
 
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
   body { width:${W}px; height:${H}px; background:${c.fondo}; font-family:Fredoka,sans-serif; color:${c.texto};
-         display:flex; flex-direction:column; align-items:center; padding:44px 72px 48px; }
-  .escena { width:1056px; height:340px; border-radius:60px; background:${c.escena}; overflow:hidden; flex:none; }
-  .escena img { width:100%; height:100%; object-fit:cover; display:block; }
-  .palabra { color:#fff; font-weight:700; font-size:${tamPalabra}px; line-height:1; margin:26px 0 22px; letter-spacing:4px;
+         display:flex; flex-direction:column; align-items:center; padding:36px 40px 40px; }
+  .escena { width:${ANCHO}px; height:340px; border-radius:60px; background:${c.escena}; overflow:hidden; flex:none; }
+  .escena img { width:100%; height:100%; object-fit:contain; display:block; }
+  .palabra { color:#fff; font-weight:700; font-size:${tamPalabra}px; line-height:1; margin:16px 0 10px; letter-spacing:4px;
              text-shadow:0 8px 0 rgba(0,0,0,.18); }
   .fichas { display:flex; gap:${gapS}px; }
   .silaba { display:flex; flex-direction:column; align-items:center; gap:8px; }
@@ -123,12 +135,14 @@ function frente(t, c) {
              display:flex; align-items:center; justify-content:center; padding:0 6px; }
   .capsula .m { height:80%; object-fit:contain; position:relative; z-index:2; }
   .capsula .g { height:58%; object-fit:contain; filter:grayscale(1); margin:0 -16px; }
-  .ficha { width:100%; height:240px; border-radius:50px; display:flex; align-items:center; justify-content:center;
+  .ficha { width:100%; height:210px; border-radius:50px; display:flex; align-items:center; justify-content:center;
            font-weight:700; padding-bottom:10px;
            box-shadow: inset 0 -14px 0 rgba(0,0,0,.10), inset 0 12px 0 rgba(255,255,255,.7), 0 7px 0 rgba(0,0,0,.2); }
-                 display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; line-height:1; }
   .arco { display:block; overflow:visible; }
-  .abajo { display:flex; gap:28px; margin-top:22px; width:1056px; flex:1; }
+  .bocas { position:relative; width:100%; }
+  .boca { background:#fff; border-radius:26px; box-shadow:0 5px 0 rgba(0,0,0,.2); padding:4px; }
+  .boca.doble { position:absolute; left:0; top:0; z-index:2; }
+  .abajo { display:flex; gap:28px; margin-top:16px; width:${ANCHO}px; flex:1; }
   .panel { position:relative; background:#fff; border-radius:50px; }
   .sena { flex:1; display:flex; align-items:flex-end; justify-content:center; }
   .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
@@ -169,7 +183,7 @@ function mezclar(arr, semilla) {
 
 // Figurita tierna haciendo ejercicio (salto de tijera), coloreada.
 function saltarin(color, c) {
-  return `<svg width="200" height="250" viewBox="0 0 120 150">
+  return `<svg width="220" height="275" viewBox="0 0 120 150">
     <g stroke="${c.texto}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M44 58 L18 18 M76 58 L102 18" fill="none" stroke="${color}" stroke-width="16"/>
       <path d="M50 100 L28 140 M70 100 L92 140" fill="none" stroke="${color}" stroke-width="16"/>
@@ -189,7 +203,7 @@ function reverso(t, c) {
   // 1 TRAZA: palabra punteada sobre renglones de cuaderno.
   const fs1 = Math.min(250, Math.floor(1700 / n));
   const base = 250, xh = fs1 * .5, cap = fs1 * .74;
-  const traza = `<svg width="1000" height="290" viewBox="0 0 1000 290">
+  const traza = `<svg width="1080" height="300" viewBox="0 0 1000 290">
     <line x1="20" x2="980" y1="${base - cap}" y2="${base - cap}" stroke="#C9C2F2" stroke-width="4"/>
     <line x1="20" x2="980" y1="${base - xh}" y2="${base - xh}" stroke="#C9C2F2" stroke-width="4" stroke-dasharray="16 12"/>
     <line x1="20" x2="980" y1="${base}" y2="${base}" stroke="${c.texto}" stroke-width="5"/>
@@ -197,8 +211,8 @@ function reverso(t, c) {
       fill="#EEEAFD" stroke="${c.texto}" stroke-width="5" stroke-dasharray="3 13" stroke-linecap="round">${esc(t.palabra)}</text>
   </svg>`;
   // 2 ORDENA: casillas numeradas + letras revueltas.
-  const lado = Math.min(104, Math.floor((1000 - (n - 1) * 12) / n));
-  const casillas = ls.map((x, i) => `<div class="casilla" style="width:${lado}px;height:${lado}px;border-color:${col(i)}"><span>${i + 1}</span></div>`).join('');
+  const lado = Math.min(118, Math.floor((1060 - (n - 1) * 12) / n));
+  const casillas = ls.map((x, i) => `<div class="casilla" style="width:${lado}px;height:${lado}px;border-color:${col(i)}"></div>`).join('');
   const revueltas = mezclar(ls.map((x, i) => i), t.palabra).map((i) =>
     `<div class="pieza" style="width:${lado}px;height:${lado}px;background:${col(i)};font-size:${lado * .7}px">${esc(ls[i].l)}</div>`).join('');
   // 3 COMPLETA: faltan dos letras.
@@ -212,7 +226,7 @@ function reverso(t, c) {
   const seccion = (k, titulo, cont, extra = '') => `<div class="sec ${extra}"><div class="tit"><span class="paso">${k}</span>${titulo}</div>${cont}</div>`;
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
   body { width:${W}px; height:${H}px; background:${c.fondo}; font-family:Fredoka,sans-serif; color:${c.texto};
-         display:flex; flex-direction:column; gap:26px; padding:40px 60px; }
+         display:flex; flex-direction:column; gap:26px; padding:40px 40px; }
   .sec { background:#fff; border-radius:44px; padding:18px 40px 22px; display:flex; flex-direction:column; align-items:center; }
   .tit { align-self:flex-start; display:flex; align-items:center; gap:14px; font-weight:700; font-size:40px; }
   .paso { width:56px; height:56px; border-radius:50%; background:${c.acento}; color:#fff; display:flex; align-items:center; justify-content:center; }
@@ -225,7 +239,7 @@ function reverso(t, c) {
   .grande { flex:1; }
   .saltos { display:flex; gap:70px; justify-content:center; align-items:flex-end; margin:auto 0; }
   .salto { display:flex; flex-direction:column; align-items:center; gap:4px; }
-  .salto b { font-size:72px; line-height:1; }
+  .salto b { font-size:80px; line-height:1; }
   </style></head><body>
     ${seccion(1, 'traza', traza)}
     ${seccion(2, 'ordena', `<div class="fila" style="margin:10px 0 18px">${casillas}</div><div class="fila">${revueltas}</div>`)}
@@ -242,13 +256,27 @@ function reverso(t, c) {
   const c = { ...COLORES_BASE, ...(t.colores || {}) };
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: W, height: H } });
+  const pdfs = [];
   for (const [cara, fn] of [['frente', frente], ['reverso', reverso]]) {
     await page.setContent(fn(t, c));
     await page.evaluate(() => document.fonts.ready);
     const salida = path.join(RAIZ, entrada.replace(/\.json$/, `-${cara}.png`));
     await page.screenshot({ path: salida });
     console.log('Creada:', path.relative(RAIZ, salida));
+    // página A4 (210 x 297 mm) con la imagen a escala exacta
+    const pdf = salida.replace(/\.png$/, '.pdf');
+    await page.pdf({ path: pdf, width: '210mm', height: '297mm', printBackground: true, scale: 793.7 / W,
+                     margin: { top: 0, right: 0, bottom: 0, left: 0 }, pageRanges: '1' });
+    pdfs.push(pdf);
   }
   await browser.close();
+  const final = path.join(RAIZ, entrada.replace(/\.json$/, '.pdf'));
+  execFileSync('python3', ['-c', `import sys
+from pypdf import PdfWriter
+w = PdfWriter()
+for f in sys.argv[2:]: w.append(f)
+w.write(sys.argv[1])`, final, ...pdfs]);
+  pdfs.forEach((f) => fs.unlinkSync(f));
+  console.log('Para imprimir (A4, 2 páginas):', path.relative(RAIZ, final));
   if (faltantes.size) console.log('Faltan stickers LSM en abecedario/ para:', [...faltantes].join(', '));
 })();

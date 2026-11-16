@@ -27,14 +27,15 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 
 ## Diseño actual (versión 2): dos caras por palabra
 
-`node generar.js tarjetas/<palabra>.json` crea `tarjetas/<palabra>-frente.png` y `tarjetas/<palabra>-reverso.png`.
+`node generar.js tarjetas/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (2 páginas **A4**, frente y reverso, listo para imprimir) y las vistas previas `tarjetas/<palabra>-frente.png` y `-reverso.png` (1240 × 1754 px = A4 a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
 
-- **Frente, para aprender:** escena (squishy, en su mundo) → palabra grande → letras **numeradas en orden** (1, 2, 3…), cada una en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
+- **Frente, para aprender:** escena (squishy, en su mundo) → palabra grande → letras **numeradas en orden** (1, 2, 3…), cada una con su **mano LSM arriba** y su **boca abajo** (cómo se pone la boca para ese sonido), en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
 - **Reverso, para practicar** (siempre los mismos 4 pasos, en el mismo orden, porque su memoria y la rutina le ayudan):
   1. **traza**: la palabra punteada sobre renglones de cuaderno.
-  2. **ordena**: casillas numeradas y las letras revueltas (se pueden recortar o señalar).
+  2. **ordena**: casillas vacías y las letras revueltas (se pueden recortar o señalar).
   3. **completa**: la palabra con dos letras faltantes.
   4. **muévete**: un salto de tijera por sílaba, diciendo o señando cada una.
+- **Bocas debajo de cada letra** (`plantilla/bocas.js`): dibujo de frente de la boca para el sonido de esa letra en español de México: labios, dientes, lengua y pistas en azul (aire, nariz, vibración, golpecito, garganta). El sonido depende del contexto: c/g antes de e/i, qu/gu (u muda), h muda (con símbolo de "no suena"), ll/y como "y", r inicial o tras l/n/s como rr. Los dígrafos (ll, rr, ch) llevan **una sola boca** que abarca las dos letras. Es un apoyo visual: sugiere al usuario validarlo con su terapeuta de lenguaje.
 - **Manos LSM (dactilología) encima de cada letra**: un sticker en miniatura por letra, tomado de `abecedario/<letra>.png` (los stickers los manda el usuario; **no inventes configuraciones**). `generar.js` avisa qué stickers faltan.
   - Cada sticker va en un **círculo blanco** encima de su letra. **Dígrafos (ll, rr, ch)**: una sola **cápsula blanca** abarca las dos letras (son una sola letra, un solo sonido); dentro van la mano de la primera letra, copias de la mano **en escala de grises** cada vez más tenues (el movimiento) y la mano de la segunda letra.
   - Los stickers son los **originales del paquete de WhatsApp** del usuario (27 letras, a–z con ñ; transparentes, 512 px), exportados con "Exportar chat → Adjuntar archivos". La ll se forma con dos l. Si mandan otro paquete así: descomprime el .zip, ordena los .webp por nombre, recorta al contenido y guarda en `abecedario/<letra>.png`. `plantilla/recortar_abecedario.py` queda como respaldo para recortar desde una imagen con fondo liso. Revisa siempre los stickers sobre fondo de color.
@@ -73,14 +74,16 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
    - Respaldo: un dibujo SVG (`senas/<palabra>.svg`, ver `senas/estrella.svg`), con manos realistas y la persona con proporciones reales. Úsalo solo si el usuario lo pide.
    - La dirección se describe **como se ve de frente** (la "derecha" es la derecha de la imagen). Verifica siempre con el video.
 9. **Nada de personajes con derechos de autor** (Pepa Pig, Roblox, logos de TikTok, etc.). Usa solo su *estilo*: personajes redondos y simpáticos, colores alegres, bloques o elementos de juego.
-10. Caras siempre sonrientes y amables, y ojos con brillo. Nada que asuste o sea agresivo. Tamaño 1200 × 1680 px.
+10. Caras siempre sonrientes y amables, y ojos con brillo. Nada que asuste o sea agresivo. Tamaño: hoja A4.
 
 ## Estructura
 
 ```
 tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colores del tema
-tarjetas/<palabra>-frente.png / -reverso.png   tarjeta terminada (se genera, no se edita a mano)
-escenas/<palabra>.svg     dibujo del panel de arriba, 1056 × 400 (viewBox 1056 × 428 también sirve)
+tarjetas/<palabra>.pdf    para imprimir: 2 páginas A4 (se genera, no se edita a mano)
+tarjetas/<palabra>-frente.png / -reverso.png   vistas previas
+escenas/<palabra>.svg     dibujo del panel de arriba (el panel mide 1160 × 340: usa un viewBox de proporción ~3.4 : 1, ver escenas/estrella.svg)
+plantilla/bocas.js        bocas por sonido y reglas de pronunciación
 senas/<palabra>-foto.jpg  seña LSM: foto real empalmada (inicio nítido y movimiento transparente)
 senas/<palabra>.svg       (respaldo) dibujo de la seña
 abecedario/<letra>.png    sticker de la mano LSM de cada letra (del usuario)
