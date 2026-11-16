@@ -188,7 +188,7 @@ function frente(t, c) {
   .panel { position:relative; background:#fff; border-radius:50px; border:6px solid rgba(255,255,255,.9); }
   .sena { flex:1; display:flex; align-items:flex-end; justify-content:center; }
   .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
-  .foto img { width:100%; height:100%; object-fit:cover; object-position:center top; }
+  .foto img { width:100%; height:100%; object-fit:cover; object-position:center center; }
   .dibujo { max-width:94%; max-height:94%; }
   .pendiente { margin:auto; color:#bbb; font-size:44px; text-align:center; font-weight:600; }
   .fila { display:flex; align-items:center; gap:18px; font-weight:700; font-size:40px; }
