@@ -73,7 +73,7 @@ function letrasConSilaba(silabas) {
 function medidas(silabas, gapL = 10, gapS = 30) {
   const n = silabas.join('').length;
   const huecos = (n - silabas.length) * gapL + (silabas.length - 1) * gapS;
-  return { n, ancho: Math.min(170, Math.floor((ANCHO - huecos) / n)), gapL, gapS };
+  return { n, ancho: Math.min(250, Math.floor((ANCHO - huecos) / n)), gapL, gapS };
 }
 
 // Arco en "U" (sonrisa con flecha) para recorrer una sílaba de izquierda a derecha.
@@ -106,12 +106,14 @@ const DIGRAFOS = ['ll', 'rr', 'ch'];
 
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
-  const fuente = Math.round(ancho * 1.2);
-  const mano = Math.round(ancho * 1.0);
+  // Lo escrito es lo principal: fichas grandes; mano y boca más chicas, solo de apoyo.
+  const fichaH = Math.min(440, Math.round(ancho * 3));
+  const fuente = Math.min(Math.round(ancho * 1.25), Math.round(fichaH * .78));
+  const mano = Math.min(150, Math.round(ancho * .92));
   const paso = ancho + gapL; // distancia entre centros de dos letras seguidas
   const todas = [...t.palabra];
   let g = 0; // índice de la letra en la palabra completa
-  const altoBoca = Math.round(ancho * .72);
+  const altoBoca = Math.min(115, Math.round(ancho * .68));
   const columnas = t.silabas.map((s, i) => {
     const color = silFondo(c, i), fuerte = silFuerte(c, i);
     const ls = [...s];
@@ -142,7 +144,7 @@ function frente(t, c) {
       return `<div class="col" style="width:${ancho}px">
         <div class="manos" style="height:${mano + 20}px">${arriba}</div>
         <div class="bocas" style="height:${altoBoca}px">${abajo}</div>
-        <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div></div>`;
+        <div class="ficha" style="background:${color};font-size:${fuente}px;height:${fichaH}px">${esc(l)}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
     return `<div class="silaba"><div class="cols" style="gap:${gapL}px">${cols}</div>${arco(w)}</div>`;
@@ -151,7 +153,17 @@ function frente(t, c) {
   const sena = !t.sena ? `<div class="pendiente">seña<br>pendiente</div>`
     : /\.jpe?g$/.test(t.sena) ? `<div class="foto"><img src="${img(t.sena)}"></div>`
     : `<img class="dibujo" src="${img(t.sena)}">`;
-  const tamPalabra = Math.min(210, Math.floor(1700 / t.palabra.length));
+  // Renglón para escribir la palabra (letras punteadas para seguir el trazo).
+  const n = [...t.palabra].length;
+  const fsT = Math.min(190, Math.floor(1500 / n));
+  const base = 220, xh = fsT * .5, cap = fsT * .74;
+  const escribe = `<svg class="renglon" viewBox="0 0 780 250" preserveAspectRatio="xMidYMid meet">
+    <line x1="10" x2="770" y1="${base - cap}" y2="${base - cap}" stroke="#C9C2F2" stroke-width="4"/>
+    <line x1="10" x2="770" y1="${base - xh}" y2="${base - xh}" stroke="#C9C2F2" stroke-width="4" stroke-dasharray="16 12"/>
+    <line x1="10" x2="770" y1="${base}" y2="${base}" stroke="${c.texto}" stroke-width="5"/>
+    <text x="390" y="${base}" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="${fsT}" letter-spacing="8"
+      fill="#F1EDFF" stroke="${c.texto}" stroke-width="5" stroke-dasharray="3 12" stroke-linecap="round">${esc(t.palabra)}</text>
+  </svg>`;
 
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
   html { background:${primero(c.fondo)}; }
@@ -159,10 +171,8 @@ function frente(t, c) {
          display:flex; flex-direction:column; align-items:center; padding:36px 40px 40px; position:relative; }
   .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
   body > div { position:relative; z-index:1; }
-  .escena { width:${ANCHO}px; height:400px; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; flex:none; }
+  .escena { width:${ANCHO}px; height:330px; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; flex:none; }
   .escena img { width:100%; height:100%; object-fit:contain; display:block; }
-  .palabra { color:#fff; font-weight:700; font-size:${tamPalabra}px; line-height:1; margin:16px 0 10px; letter-spacing:4px;
-             text-shadow:0 7px 0 ${c.sombraPalabra || 'rgba(0,0,0,.22)'}; }
   .fichas { display:flex; gap:${gapS}px; }
   .silaba { display:flex; flex-direction:column; align-items:center; gap:8px; }
   .cols { display:flex; }
@@ -174,7 +184,7 @@ function frente(t, c) {
              display:flex; align-items:center; justify-content:center; padding:0 6px; }
   .capsula .m { height:80%; object-fit:contain; position:relative; z-index:2; }
   .capsula .g { height:58%; object-fit:contain; filter:grayscale(1); margin:0 -16px; }
-  .ficha { width:100%; height:250px; border-radius:50px; display:flex; align-items:center; justify-content:center;
+  .ficha { width:100%; border-radius:50px; display:flex; align-items:center; justify-content:center;
            font-weight:700; padding-bottom:10px;
            box-shadow: inset 0 -14px 0 rgba(0,0,0,.10), inset 0 12px 0 rgba(255,255,255,.7), 0 7px 0 rgba(0,0,0,.2); }
   .arco { display:block; overflow:visible; }
@@ -185,9 +195,12 @@ function frente(t, c) {
   .foto-boca { height:100%; width:100%; object-fit:cover; border-radius:20px; display:block; }
   .boca.doble .foto-boca { width:auto; aspect-ratio:1.45; }
   .pista { position:absolute; right:6px; top:50%; transform:translateY(-50%); height:60%; }
-  .abajo { display:flex; gap:28px; margin-top:16px; width:${ANCHO}px; flex:1; }
+  .abajo { display:flex; gap:28px; margin-top:10px; width:${ANCHO}px; height:330px; flex:none; }
+  .medio { flex:1; display:flex; align-items:center; justify-content:center; }
   .panel { position:relative; background:#fff; border-radius:50px; border:6px solid rgba(255,255,255,.9); }
-  .sena { flex:1; display:flex; align-items:flex-end; justify-content:center; }
+  .escribe { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 24px 10px; }
+  .renglon { width:100%; height:100%; }
+  .sena { width:340px; flex:none; display:flex; align-items:flex-end; justify-content:center; }
   .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
   .foto img { width:100%; height:100%; object-fit:cover; object-position:center center; }
   .dibujo { max-width:94%; max-height:94%; }
@@ -201,8 +214,9 @@ function frente(t, c) {
   </style></head><body>
     ${patron(c.patron, t.palabra, c.patronColores)}
     <div class="escena"><img src="${img(t.escena)}"></div>
-    <div class="fichas" style="margin-top:44px">${columnas}</div>
+    <div class="medio"><div class="fichas">${columnas}</div></div>
     <div class="abajo">
+      <div class="panel escribe"><span class="etiqueta">escribe</span>${escribe}</div>
       <div class="panel sena"><span class="etiqueta">seña</span>${sena}</div>
     </div>
   </body></html>`;
