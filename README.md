@@ -3,6 +3,8 @@
 Tarjetas para que Valeria aprenda a reconocer letras, sílabas y palabras escritas (con la seña LSM como apoyo), diseñadas según los gustos de Valeria
 (juegos de pelota y monedas, slime, ramen y comida coreana, carritos veloces pero tiernos, cocinar, nadar, hoteles).
 
+📚 **Todas las tarjetas juntas en un solo PDF:** [tarjetas/TODAS-LAS-TARJETAS.pdf](tarjetas/TODAS-LAS-TARJETAS.pdf)
+
 | Palabra | Tarjeta |
 |---|---|
 | estrella | [PDF A4](tarjetas/estrella.pdf) · [vista previa](tarjetas/estrella-frente.png) |

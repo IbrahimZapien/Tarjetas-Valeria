@@ -241,5 +241,15 @@ for f in sys.argv[2:]: w.append(f)
 w.write(sys.argv[1])`, final, ...pdfs]);
   pdfs.forEach((f) => fs.unlinkSync(f));
   console.log('Para imprimir (A4):', path.relative(RAIZ, final));
+  // Juntar TODAS las tarjetas en un solo PDF (tarjetas/TODAS-LAS-TARJETAS.pdf), en orden alfabético.
+  const todas = fs.readdirSync(path.join(RAIZ, 'tarjetas')).filter((f) => f.endsWith('.pdf') && !f.startsWith('TODAS')).sort()
+    .map((f) => path.join(RAIZ, 'tarjetas', f));
+  const junto = path.join(RAIZ, 'tarjetas', 'TODAS-LAS-TARJETAS.pdf');
+  execFileSync('python3', ['-c', `import sys
+from pypdf import PdfWriter
+w = PdfWriter()
+for f in sys.argv[2:]: w.append(f)
+w.write(sys.argv[1])`, junto, ...todas]);
+  console.log('Todas juntas:', path.relative(RAIZ, junto), `(${todas.length} tarjetas)`);
   if (faltantes.size) console.log('Faltan stickers LSM en abecedario/ para:', [...faltantes].join(', '));
 })();

@@ -107,7 +107,7 @@ Ejemplo de JSON: `tarjetas/estrella.json`. Los `colores` que puedes definir son 
 2. Elige el gusto de Valeria que mejor encaje con la palabra y dibuja `escenas/<palabra>.svg`. Usa `escenas/estrella.svg` como ejemplo de estilo.
 3. Elige colores vivos que vayan con el tema y crea `tarjetas/<palabra>.json`.
 4. Ejecuta `node generar.js tarjetas/<palabra>.json` y **mira el PNG** antes de entregarlo.
-5. Agrega la palabra a la tabla del `README.md`. Haz commit y push a `main`, y muestra la tarjeta al usuario.
+5. Agrega la palabra a la tabla del `README.md` (el PDF `tarjetas/TODAS-LAS-TARJETAS.pdf` se actualiza solo). Haz commit y push a `main`, y muestra la tarjeta al usuario.
 6. Si piden un cambio de diseño **para todas** las tarjetas, actualiza estas reglas y `generar.js`, y vuelve a generar todas las tarjetas.
 
 Habla siempre en español con el usuario.
