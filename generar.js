@@ -163,7 +163,7 @@ function frente(t, c) {
       return `<div class="col" style="width:${ancho}px">
         <div class="manos" style="height:${mano + 20}px">${arriba}</div>
         <div class="bocas" style="height:${altoBoca}px">${abajo}</div>
-        <div class="ficha" style="background:${color};height:${fichaH}px">${letraTrazo(l, fuente, c.texto, c.pluma || '#FFFFFF')}</div></div>`;
+        <div class="ficha" style="background:${color};height:${fichaH}px">${letraTrazo(l, fuente, c.letras ? c.letras[i % c.letras.length] : c.texto, c.pluma || '#FFFFFF')}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
     return `<div class="silaba"><div class="cols" style="gap:${gapL}px">${cols}</div>${arco(w)}</div>`;

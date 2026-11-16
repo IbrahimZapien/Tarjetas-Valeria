@@ -36,6 +36,11 @@
         "#22D3A6"
       ]
     ],
-    "fondoImagen": "escenas/estrella-fondo.svg"
+    "fondoImagen": "escenas/estrella-fondo.svg",
+    "letras": [
+      "#C2560A",
+      "#B5127A",
+      "#0B7A6A"
+    ]
   }
 }
