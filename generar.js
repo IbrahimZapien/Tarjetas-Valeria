@@ -34,6 +34,32 @@ const FUENTES = `
   @font-face { font-family: Fredoka; font-weight: 700; src: url(data:font/woff2;base64,${b64('plantilla/fuentes/fredoka-latin-700-normal.woff2')}); }
   * { box-sizing: border-box; margin: 0; }`;
 
+// ---------- COLORES ----------
+// "fondo" y "escena" pueden ser un color o una lista (degradado).
+// Cada sílaba puede ser un color o [claro, fuerte] (ficha tipo gelatina con degradado).
+const degradado = (v, ang = 165) => Array.isArray(v) ? `linear-gradient(${ang}deg, ${v.join(', ')})` : v;
+const primero = (v) => Array.isArray(v) ? v[0] : v;
+const silFondo = (c, i) => { const v = c.silabas[i % c.silabas.length]; return Array.isArray(v) ? `linear-gradient(180deg, ${v[0]} 0%, ${v[0]} 35%, ${v[1]} 100%)` : v; };
+const silFuerte = (c, i) => { const v = c.silabas[i % c.silabas.length]; return Array.isArray(v) ? v[1] : v; };
+
+// Patrón suave de fondo según el tema (destellos, burbujas, corazones), siempre igual para la misma palabra.
+function patron(tipo, semilla, colores = ['#FFFFFF', '#FFE36B', '#FFB3D9']) {
+  if (!tipo) return '';
+  let s = [...semilla].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 11) >>> 0;
+  const r = () => (s = (s * 1103515245 + 12345) >>> 0) / 2 ** 32;
+  const forma = {
+    destellos: (x, y, t) => `<path d="M${x} ${y - t} Q${x} ${y} ${x + t} ${y} Q${x} ${y} ${x} ${y + t} Q${x} ${y} ${x - t} ${y} Q${x} ${y} ${x} ${y - t}Z"/>`,
+    burbujas: (x, y, t) => `<circle cx="${x}" cy="${y}" r="${t * .7}" fill-opacity=".0" stroke-width="3"/>`,
+    corazones: (x, y, t) => `<path d="M${x} ${y + t * .6} C${x - t} ${y - t * .2} ${x - t * .5} ${y - t} ${x} ${y - t * .4} C${x + t * .5} ${y - t} ${x + t} ${y - t * .2} ${x} ${y + t * .6}Z"/>`,
+  }[tipo];
+  let out = '';
+  for (let k = 0; k < 70; k++) {
+    const x = r() * W, y = r() * H, t = 8 + r() * 16, col = colores[k % colores.length];
+    out += `<g fill="${col}" stroke="${col}" opacity="${(.25 + r() * .35).toFixed(2)}">${forma(Math.round(x), Math.round(y), Math.round(t))}</g>`;
+  }
+  return `<svg class="patron" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${out}</svg>`;
+}
+
 // Letras de la palabra con su sílaba (índice) para colorear.
 function letrasConSilaba(silabas) {
   const out = [];
@@ -85,7 +111,7 @@ function frente(t, c) {
   let g = 0; // índice de la letra en la palabra completa
   const altoBoca = Math.round(ancho * .72);
   const columnas = t.silabas.map((s, i) => {
-    const color = c.silabas[i % c.silabas.length];
+    const color = silFondo(c, i), fuerte = silFuerte(c, i);
     const ls = [...s];
     const cols = ls.map((l, k) => {
       const f = sticker(l);
@@ -100,21 +126,21 @@ function frente(t, c) {
         const mano1 = f ? `<img class="m" src="${img(f)}">` : '';
         const mano2 = g ? `<img class="m" src="${img(g)}">` : '';
         const mov = f ? [.6, .35].map((o) => `<img class="g" src="${img(f)}" style="opacity:${o}">`).join('') : '';
-        arriba = `<div class="capsula" style="width:${2 * ancho + gapL}px;height:${mano}px">${mano1}${mov}${mano2}</div>`;
+        arriba = `<div class="capsula" style="width:${2 * ancho + gapL}px;height:${mano}px;border-color:${fuerte}">${mano1}${mov}${mano2}</div>`;
       } else if (finDig) {
         arriba = `<div style="height:${mano}px"></div>`;
       } else {
-        arriba = `<div class="burbuja" style="width:${mano}px;height:${mano}px">${f ? `<img src="${img(f)}">` : ''}</div>`;
+        arriba = `<div class="burbuja" style="width:${mano}px;height:${mano}px;border-color:${fuerte}">${f ? `<img src="${img(f)}">` : ''}</div>`;
       }
       // boca: cómo se pone para el sonido de esta letra (una sola para ll, rr, ch)
       const gi = g++;
       const son = sonido(todas, gi);
       const abajo = finDig ? `<div style="height:${altoBoca}px"></div>`
-        : `<div class="boca${inicioDig ? ' doble' : ''}" style="height:${altoBoca}px;${inicioDig ? `width:${2 * ancho + gapL}px` : ''}">${bocaHTML(son)}</div>`;
+        : `<div class="boca${inicioDig ? ' doble' : ''}" style="height:${altoBoca}px;border-color:${fuerte};${inicioDig ? `width:${2 * ancho + gapL}px` : ''}">${bocaHTML(son)}</div>`;
       return `<div class="col" style="width:${ancho}px">
-        <div class="manos" style="height:${mano + 26}px">${arriba}</div>
-        <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div>
-        <div class="bocas">${abajo}</div></div>`;
+        <div class="manos" style="height:${mano + 20}px">${arriba}</div>
+        <div class="bocas" style="height:${altoBoca}px">${abajo}</div>
+        <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
     return `<div class="silaba"><div class="cols" style="gap:${gapL}px">${cols}</div>${arco(w)}</div>`;
@@ -126,20 +152,23 @@ function frente(t, c) {
   const tamPalabra = Math.min(210, Math.floor(1700 / t.palabra.length));
 
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
-  body { width:${W}px; height:${H}px; background:${c.fondo}; font-family:Fredoka,sans-serif; color:${c.texto};
-         display:flex; flex-direction:column; align-items:center; padding:36px 40px 40px; }
-  .escena { width:${ANCHO}px; height:340px; border-radius:60px; background:${c.escena}; overflow:hidden; flex:none; }
+  html { background:${primero(c.fondo)}; }
+  body { width:${W}px; height:${H}px; background:${degradado(c.fondo)}; font-family:Fredoka,sans-serif; color:${c.texto};
+         display:flex; flex-direction:column; align-items:center; padding:36px 40px 40px; position:relative; }
+  .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
+  body > div { position:relative; z-index:1; }
+  .escena { width:${ANCHO}px; height:340px; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; flex:none; }
   .escena img { width:100%; height:100%; object-fit:contain; display:block; }
   .palabra { color:#fff; font-weight:700; font-size:${tamPalabra}px; line-height:1; margin:16px 0 10px; letter-spacing:4px;
-             text-shadow:0 8px 0 rgba(0,0,0,.18); }
+             text-shadow:0 7px 0 ${c.sombraPalabra || 'rgba(0,0,0,.22)'}; }
   .fichas { display:flex; gap:${gapS}px; }
   .silaba { display:flex; flex-direction:column; align-items:center; gap:8px; }
   .cols { display:flex; }
   .col { display:flex; flex-direction:column; align-items:center; gap:10px; }
   .manos { position:relative; width:100%; display:flex; align-items:flex-end; justify-content:center; }
-  .burbuja { position:relative; z-index:2; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 0 rgba(0,0,0,.2); }
+  .burbuja { position:relative; z-index:2; background:#fff; border:6px solid; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 0 rgba(0,0,0,.2); }
   .burbuja img { width:86%; height:86%; object-fit:contain; }
-  .capsula { position:absolute; left:0; bottom:0; z-index:2; background:#fff; border-radius:999px; box-shadow:0 5px 0 rgba(0,0,0,.2);
+  .capsula { position:absolute; left:0; bottom:0; z-index:2; background:#fff; border:6px solid; border-radius:999px; box-shadow:0 5px 0 rgba(0,0,0,.2);
              display:flex; align-items:center; justify-content:center; padding:0 6px; }
   .capsula .m { height:80%; object-fit:contain; position:relative; z-index:2; }
   .capsula .g { height:58%; object-fit:contain; filter:grayscale(1); margin:0 -16px; }
@@ -148,14 +177,14 @@ function frente(t, c) {
            box-shadow: inset 0 -14px 0 rgba(0,0,0,.10), inset 0 12px 0 rgba(255,255,255,.7), 0 7px 0 rgba(0,0,0,.2); }
   .arco { display:block; overflow:visible; }
   .bocas { position:relative; width:100%; }
-  .boca { background:#fff; border-radius:26px; box-shadow:0 5px 0 rgba(0,0,0,.2); padding:4px; }
+  .boca { background:#fff; border:5px solid; border-radius:26px; box-shadow:0 5px 0 rgba(0,0,0,.2); padding:2px; }
   .boca.doble { position:absolute; left:0; top:0; z-index:2; }
   .boca { position:relative; display:flex; justify-content:center; }
-  .foto-boca { height:100%; width:100%; object-fit:cover; border-radius:22px; display:block; }
+  .foto-boca { height:100%; width:100%; object-fit:cover; border-radius:20px; display:block; }
   .boca.doble .foto-boca { width:auto; aspect-ratio:1.45; }
   .pista { position:absolute; right:6px; top:50%; transform:translateY(-50%); height:60%; }
   .abajo { display:flex; gap:28px; margin-top:16px; width:${ANCHO}px; flex:1; }
-  .panel { position:relative; background:#fff; border-radius:50px; }
+  .panel { position:relative; background:#fff; border-radius:50px; border:6px solid rgba(255,255,255,.9); }
   .sena { flex:1; display:flex; align-items:flex-end; justify-content:center; }
   .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
   .foto img { width:100%; height:100%; object-fit:cover; object-position:center top; }
@@ -166,8 +195,9 @@ function frente(t, c) {
   .bolitas { display:flex; gap:8px; flex-wrap:wrap; }
   .bolitas i { width:36px; height:36px; border-radius:50%; display:block; }
   .etiqueta { position:absolute; top:-22px; left:30px; z-index:2; background:${c.acento}; color:#fff; font-weight:700;
-              font-size:32px; padding:4px 22px; border-radius:24px; border:5px solid ${c.fondo}; }
+              font-size:32px; padding:4px 22px; border-radius:24px; border:5px solid #fff; }
   </style></head><body>
+    ${patron(c.patron, t.palabra, c.patronColores)}
     <div class="escena"><img src="${img(t.escena)}"></div>
     <div class="palabra">${esc(t.palabra)}</div>
     <div class="fichas">${columnas}</div>
@@ -211,7 +241,7 @@ function saltarin(color, c) {
 function reverso(t, c) {
   const ls = letrasConSilaba(t.silabas);
   const n = ls.length;
-  const col = (i) => c.silabas[ls[i].s % c.silabas.length];
+  const col = (i) => silFuerte(c, ls[i].s), colF = (i) => silFondo(c, ls[i].s);
   // 1 TRAZA: palabra punteada sobre renglones de cuaderno.
   const fs1 = Math.min(250, Math.floor(1700 / n));
   const base = 250, xh = fs1 * .5, cap = fs1 * .74;
@@ -226,19 +256,22 @@ function reverso(t, c) {
   const lado = Math.min(118, Math.floor((1060 - (n - 1) * 12) / n));
   const casillas = ls.map((x, i) => `<div class="casilla" style="width:${lado}px;height:${lado}px;border-color:${col(i)}"></div>`).join('');
   const revueltas = mezclar(ls.map((x, i) => i), t.palabra).map((i) =>
-    `<div class="pieza" style="width:${lado}px;height:${lado}px;background:${col(i)};font-size:${lado * .7}px">${esc(ls[i].l)}</div>`).join('');
+    `<div class="pieza" style="width:${lado}px;height:${lado}px;background:${colF(i)};font-size:${lado * .7}px">${esc(ls[i].l)}</div>`).join('');
   // 3 COMPLETA: faltan dos letras.
   const faltan = new Set([Math.floor(n / 3), Math.floor((2 * n) / 3)]);
   const completa = ls.map((x, i) => faltan.has(i)
     ? `<div class="hueco" style="width:${lado}px;height:${lado * 1.1}px"></div>`
-    : `<div class="pieza" style="width:${lado}px;height:${lado * 1.1}px;background:${col(i)};font-size:${lado * .72}px">${esc(x.l)}</div>`).join('');
+    : `<div class="pieza" style="width:${lado}px;height:${lado * 1.1}px;background:${colF(i)};font-size:${lado * .72}px">${esc(x.l)}</div>`).join('');
   // 4 MUÉVETE: un salto por sílaba.
-  const mueve = t.silabas.map((s, i) => `<div class="salto">${saltarin(c.silabas[i % c.silabas.length], c)}<b>${esc(s)}</b></div>`).join('');
+  const mueve = t.silabas.map((s, i) => `<div class="salto">${saltarin(silFuerte(c, i), c)}<b>${esc(s)}</b></div>`).join('');
 
   const seccion = (k, titulo, cont, extra = '') => `<div class="sec ${extra}"><div class="tit"><span class="paso">${k}</span>${titulo}</div>${cont}</div>`;
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
-  body { width:${W}px; height:${H}px; background:${c.fondo}; font-family:Fredoka,sans-serif; color:${c.texto};
-         display:flex; flex-direction:column; gap:26px; padding:40px 40px; }
+  html { background:${primero(c.fondo)}; }
+  body { width:${W}px; height:${H}px; background:${degradado(c.fondo)}; font-family:Fredoka,sans-serif; color:${c.texto};
+         display:flex; flex-direction:column; gap:26px; padding:40px 40px; position:relative; }
+  .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
+  body > div { position:relative; z-index:1; }
   .sec { background:#fff; border-radius:44px; padding:18px 40px 22px; display:flex; flex-direction:column; align-items:center; }
   .tit { align-self:flex-start; display:flex; align-items:center; gap:14px; font-weight:700; font-size:40px; }
   .paso { width:56px; height:56px; border-radius:50%; background:${c.acento}; color:#fff; display:flex; align-items:center; justify-content:center; }
@@ -253,6 +286,7 @@ function reverso(t, c) {
   .salto { display:flex; flex-direction:column; align-items:center; gap:4px; }
   .salto b { font-size:80px; line-height:1; }
   </style></head><body>
+    ${patron(c.patron, t.palabra, c.patronColores)}
     ${seccion(1, 'traza', traza)}
     ${seccion(2, 'ordena', `<div class="fila" style="margin:10px 0 18px">${casillas}</div><div class="fila">${revueltas}</div>`)}
     ${seccion(3, 'completa', `<div class="fila" style="margin-top:10px">${completa}</div>`)}

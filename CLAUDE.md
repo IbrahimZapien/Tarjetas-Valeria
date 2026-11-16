@@ -29,7 +29,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 
 `node generar.js tarjetas/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (2 páginas **A4**, frente y reverso, listo para imprimir) y las vistas previas `tarjetas/<palabra>-frente.png` y `-reverso.png` (1240 × 1754 px = A4 a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
 
-- **Frente, para aprender:** escena (squishy, en su mundo) → palabra grande → letras **numeradas en orden** (1, 2, 3…), cada una con su **mano LSM arriba** y su **boca abajo** (cómo se pone la boca para ese sonido), en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
+- **Frente, para aprender:** escena (squishy, en su mundo) → palabra grande → letras **numeradas en orden** (1, 2, 3…), y en cada columna, de arriba hacia abajo: **mano LSM → boca** (cómo se pone la boca para ese sonido, justo debajo de la mano para verlas al mismo tiempo) **→ letra** en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
 - **Reverso, para practicar** (siempre los mismos 4 pasos, en el mismo orden, porque su memoria y la rutina le ayudan):
   1. **traza**: la palabra punteada sobre renglones de cuaderno.
   2. **ordena**: casillas vacías y las letras revueltas (se pueden recortar o señalar).
@@ -55,14 +55,14 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
    - Algo que salta, corre o se estira (ejercicio).
 
    Elige el gusto que mejor encaje con la palabra, y **varía los gustos** entre tarjetas.
-3. **Colores alegres y vivos, distintos para cada palabra según su tema.** Cada tarjeta define sus `colores` en el JSON. Por ejemplo:
-   - Estrella: azul rey brillante con cielo celeste.
-   - Ramen: rojo picante y naranja.
-   - Alberca: turquesa y aqua.
-   - Carro: naranja y amarillo veloz.
-   - Slime: verde lima y morado.
+3. **Colores: juega y arriésgate.** Valeria tiene 11 años, le encantan el slime, los squishies, lo kawaii coreano, Roblox y TikTok: nada de colores planos y aburridos. Cada tarjeta define en el JSON (`colores`):
+   - `fondo`: **degradado** de 3–4 colores vivos según el tema (lista de colores). Ej. estrella: atardecer índigo → morado → magenta → rosa.
+   - `escena`: degradado pastel (cielo de algodón de azúcar, agua, etc.).
+   - `silabas`: cada sílaba como `[claro, fuerte]`: ficha tipo **gelatina** con degradado; el color fuerte también es el **anillo** de su mano y su boca.
+   - `patron`: `destellos`, `burbujas` o `corazones` suaves en el fondo, con `patronColores`.
+   - `sombraPalabra`: color de la sombra de la palabra blanca.
+   Ideas por tema: ramen → rojo picante/naranja/amarillo con burbujas; alberca → turquesa/aqua/azul con burbujas; slime → verde lima/morado neón; pizza → rojo tomate/amarillo queso/verde albahaca; paquete → kraft/rosa/celeste; carro → naranja/amarillo/rojo veloz. Siempre con buen contraste para leer la palabra.
 
-   El fondo debe ser vivo, pero con buen contraste para que la palabra blanca se lea perfecto.
 4. **Un solo foco en la escena.** El objeto es grande y simpático, con pocos adornos (2 o 3 destellos como máximo). Lo que hay alrededor apoya, no compite.
    - **Estilo squishy / slime para el objeto principal** (a Valeria le encantan las cosas suaves): formas gorditas con las puntas redondeadas, un poco aplastadas como si se hundieran por su peso, un degradado brillante tipo gel, brillos blancos grandes, una sombra suave debajo, alguna gotita de slime y líneas de "squish" a los lados. Carita kawaii con ojos grandes y brillantes. Ejemplo: la estrella de `escenas/estrella.svg`.
 5. **La palabra** va en minúsculas, en letra redonda (Fredoka), blanca y muy grande.
