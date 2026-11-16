@@ -12,7 +12,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const { execFileSync } = require('child_process');
-const { sonido, boca } = require('./plantilla/bocas.js');
+const { sonido, boca, FOTO_DE_SONIDO } = require('./plantilla/bocas.js');
 
 const RAIZ = __dirname;
 const W = 1240, H = 1754;          // A4 a 150 ppp
@@ -65,6 +65,14 @@ function sticker(l) {
   if (!f) faltantes.add(l);
   return f || null;
 }
+// Boca: foto real si existe para ese sonido (bocas/<letra>.jpg); si no, el dibujo.
+// La rr lleva además una pista de vibración.
+function bocaHTML(son) {
+  const f = FOTO_DE_SONIDO[son] && `bocas/${FOTO_DE_SONIDO[son]}.jpg`;
+  if (!f || !existe(f)) return boca(son);
+  const vibra = son === 'rr' ? `<svg class="pista" viewBox="0 0 20 40"><path d="M6 4 l8 6 -8 6 8 6 -8 6 8 6" fill="none" stroke="#3D8FD1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
+  return `<img class="foto-boca" src="${img(f)}">${vibra}`;
+}
 // Dígrafos que en español suenan como una sola letra: llevan "movimiento" entre sus dos stickers.
 const DIGRAFOS = ['ll', 'rr', 'ch'];
 
@@ -102,7 +110,7 @@ function frente(t, c) {
       const gi = g++;
       const son = sonido(todas, gi);
       const abajo = finDig ? `<div style="height:${altoBoca}px"></div>`
-        : `<div class="boca${inicioDig ? ' doble' : ''}" style="height:${altoBoca}px;${inicioDig ? `width:${2 * ancho + gapL}px` : ''}">${boca(son)}</div>`;
+        : `<div class="boca${inicioDig ? ' doble' : ''}" style="height:${altoBoca}px;${inicioDig ? `width:${2 * ancho + gapL}px` : ''}">${bocaHTML(son)}</div>`;
       return `<div class="col" style="width:${ancho}px">
         <div class="manos" style="height:${mano + 26}px">${arriba}</div>
         <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div>
@@ -142,6 +150,10 @@ function frente(t, c) {
   .bocas { position:relative; width:100%; }
   .boca { background:#fff; border-radius:26px; box-shadow:0 5px 0 rgba(0,0,0,.2); padding:4px; }
   .boca.doble { position:absolute; left:0; top:0; z-index:2; }
+  .boca { position:relative; display:flex; justify-content:center; }
+  .foto-boca { height:100%; width:100%; object-fit:cover; border-radius:22px; display:block; }
+  .boca.doble .foto-boca { width:auto; aspect-ratio:1.45; }
+  .pista { position:absolute; right:6px; top:50%; transform:translateY(-50%); height:60%; }
   .abajo { display:flex; gap:28px; margin-top:16px; width:${ANCHO}px; flex:1; }
   .panel { position:relative; background:#fff; border-radius:50px; }
   .sena { flex:1; display:flex; align-items:flex-end; justify-content:center; }

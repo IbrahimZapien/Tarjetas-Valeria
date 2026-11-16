@@ -100,4 +100,10 @@ function boca(nombre) {
   return `<svg viewBox="20 6 116 90" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">${s}</svg>`;
 }
 
-module.exports = { sonido, boca, VISEMAS };
+// Fotos reales de la boca (bocas/<letra>.jpg, recortadas de la guía del alfabeto fónico del usuario).
+// Se elige la foto por SONIDO, no por letra escrita: v→b, ll→y, c→k o s, z/x→s, rr→r.
+// Sonidos sin foto (ch, muda) usan el dibujo.
+const FOTO_DE_SONIDO = { a: 'a', e: 'e', i: 'i', o: 'o', u: 'u', s: 's', t: 't', d: 'd', n: 'n', l: 'l', r: 'r', rr: 'r',
+  ll: 'y', ñ: 'ñ', m: 'm', b: 'b', p: 'p', f: 'f', k: 'k', g: 'g', j: 'j' };
+
+module.exports = { sonido, boca, VISEMAS, FOTO_DE_SONIDO };

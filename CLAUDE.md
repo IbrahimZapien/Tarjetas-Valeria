@@ -35,7 +35,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
   2. **ordena**: casillas vacías y las letras revueltas (se pueden recortar o señalar).
   3. **completa**: la palabra con dos letras faltantes.
   4. **muévete**: un salto de tijera por sílaba, diciendo o señando cada una.
-- **Bocas debajo de cada letra** (`plantilla/bocas.js`): dibujo de frente de la boca para el sonido de esa letra en español de México: labios, dientes, lengua y pistas en azul (aire, nariz, vibración, golpecito, garganta). El sonido depende del contexto: c/g antes de e/i, qu/gu (u muda), h muda (con símbolo de "no suena"), ll/y como "y", r inicial o tras l/n/s como rr. Los dígrafos (ll, rr, ch) llevan **una sola boca** que abarca las dos letras. Es un apoyo visual: sugiere al usuario validarlo con su terapeuta de lenguaje.
+- **Bocas debajo de cada letra**: **fotos reales** de la boca en `bocas/<letra>.jpg`, recortadas de la "Guía del alfabeto fónico" que mandó el usuario. La foto se elige por **cómo suena** la letra en español de México (`plantilla/bocas.js`, `sonido()` y `FOTO_DE_SONIDO`): v→b, ll e y+vocal→y, c→k (ca, co, cu) o s (ce, ci), g→j (ge, gi), z/x→s, rr y r inicial→r con pista de vibración. Sin foto: **ch** (dibujo) y las **mudas** (h; u de que/qui/gue/gui) con símbolo de "no suena". Los dígrafos llevan una sola boca. La guía tiene descripciones que no corresponden al español (v "muerde el labio", h "soplando", n "cierra los labios"): por eso se usa el sonido. Sugiere validar con su terapeuta de lenguaje.
 - **Manos LSM (dactilología) encima de cada letra**: un sticker en miniatura por letra, tomado de `abecedario/<letra>.png` (los stickers los manda el usuario; **no inventes configuraciones**). `generar.js` avisa qué stickers faltan.
   - Cada sticker va en un **círculo blanco** encima de su letra. **Dígrafos (ll, rr, ch)**: una sola **cápsula blanca** abarca las dos letras (son una sola letra, un solo sonido); dentro van la mano de la primera letra, copias de la mano **en escala de grises** cada vez más tenues (el movimiento) y la mano de la segunda letra.
   - Los stickers son los **originales del paquete de WhatsApp** del usuario (27 letras, a–z con ñ; transparentes, 512 px), exportados con "Exportar chat → Adjuntar archivos". La ll se forma con dos l. Si mandan otro paquete así: descomprime el .zip, ordena los .webp por nombre, recorta al contenido y guarda en `abecedario/<letra>.png`. `plantilla/recortar_abecedario.py` queda como respaldo para recortar desde una imagen con fondo liso. Revisa siempre los stickers sobre fondo de color.
@@ -83,7 +83,8 @@ tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colore
 tarjetas/<palabra>.pdf    para imprimir: 2 páginas A4 (se genera, no se edita a mano)
 tarjetas/<palabra>-frente.png / -reverso.png   vistas previas
 escenas/<palabra>.svg     dibujo del panel de arriba (el panel mide 1160 × 340: usa un viewBox de proporción ~3.4 : 1, ver escenas/estrella.svg)
-plantilla/bocas.js        bocas por sonido y reglas de pronunciación
+bocas/<letra>.jpg         foto de la boca por letra (de la guía fónica del usuario)
+plantilla/bocas.js        reglas de pronunciación (qué foto va según el sonido) y dibujos de respaldo
 senas/<palabra>-foto.jpg  seña LSM: foto real empalmada (inicio nítido y movimiento transparente)
 senas/<palabra>.svg       (respaldo) dibujo de la seña
 abecedario/<letra>.png    sticker de la mano LSM de cada letra (del usuario)
