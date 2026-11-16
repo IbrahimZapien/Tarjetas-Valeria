@@ -37,7 +37,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
   4. **muévete**: un salto de tijera por sílaba, diciendo o señando cada una.
 - **Manos LSM (dactilología) encima de cada letra**: un sticker en miniatura por letra, tomado de `abecedario/<letra>.png` (los stickers los manda el usuario; **no inventes configuraciones**). `generar.js` avisa qué stickers faltan.
   - Cada sticker va en un **círculo blanco** encima de su letra. **Dígrafos (ll, rr, ch)**: una sola **cápsula blanca** abarca las dos letras (son una sola letra, un solo sonido); dentro van la mano de la primera letra, copias de la mano **en escala de grises** cada vez más tenues (el movimiento) y la mano de la segunda letra.
-  - Los stickers salieron de una imagen del abecedario LSM que mandó el usuario (27 letras, a–z con ñ; la ll se forma con dos l).
+  - Los stickers salieron de una imagen del abecedario LSM que mandó el usuario (27 letras, a–z con ñ; la ll se forma con dos l). Para volver a recortarlos: `python3 plantilla/recortar_abecedario.py IMAGEN` (rellena las sombras dentro de la mano para que no queden huecos blancos). Revisa siempre los recortes sobre fondo blanco.
 - La versión anterior está en `plantilla/generar-v1.js` y `tarjetas/anteriores/`.
 
 ## Reglas de diseño (aplícalas a TODAS las tarjetas)
