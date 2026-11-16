@@ -107,12 +107,11 @@ function frente(t, c) {
   .arco { display:block; overflow:visible; }
   .abajo { display:flex; gap:28px; margin-top:22px; width:1056px; flex:1; }
   .panel { position:relative; background:#fff; border-radius:50px; }
-  .sena { flex:1.3; display:flex; align-items:flex-end; justify-content:center; }
+  .sena { flex:1; display:flex; align-items:flex-end; justify-content:center; }
   .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
-  .foto img { width:100%; height:100%; object-fit:cover; }
+  .foto img { width:100%; height:100%; object-fit:cover; object-position:center top; }
   .dibujo { max-width:94%; max-height:94%; }
   .pendiente { margin:auto; color:#bbb; font-size:44px; text-align:center; font-weight:600; }
-  .cuenta { flex:1; display:flex; flex-direction:column; justify-content:center; gap:22px; padding:0 34px; }
   .fila { display:flex; align-items:center; gap:18px; font-weight:700; font-size:40px; }
   .fila b { font-size:110px; line-height:1; min-width:80px; text-align:center; }
   .bolitas { display:flex; gap:8px; flex-wrap:wrap; }
@@ -125,10 +124,6 @@ function frente(t, c) {
     <div class="fichas">${columnas}</div>
     <div class="abajo">
       <div class="panel sena"><span class="etiqueta">seña</span>${sena}</div>
-      <div class="panel cuenta"><span class="etiqueta">cuenta</span>
-        <div class="fila"><b>${t.palabra.length}</b><div class="bolitas">${letrasConSilaba(t.silabas).map((x) => `<i style="background:${c.silabas[x.s % c.silabas.length]};border:3px solid ${c.texto}"></i>`).join('')}</div></div>
-        <div class="fila"><b>${t.silabas.length}</b>${arcosMini(t.silabas.length)}</div>
-      </div>
     </div>
   </body></html>`;
 }
