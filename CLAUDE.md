@@ -56,7 +56,8 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 
    Elige el gusto que mejor encaje con la palabra, y **varía los gustos** entre tarjetas.
 3. **Colores: juega y arriésgate.** Valeria tiene 11 años, le encantan el slime, los squishies, lo kawaii coreano, Roblox y TikTok: nada de colores planos y aburridos. Cada tarjeta define en el JSON (`colores`):
-   - `fondo`: **degradado** de 3–4 colores vivos según el tema (lista de colores). Ej. estrella: atardecer índigo → morado → magenta → rosa.
+   - `fondoImagen` (preferido): una **ilustración de página completa** que lleve a Valeria al mundo de la palabra, en `escenas/<palabra>-fondo.svg` (1240 × 1754). Ej. estrella: **cielo estrellado de fantasía** con nebulosas de colores, cientos de estrellitas, destellos, estrella fugaz, un planeta tierno con anillo y una luna con carita junto a la palabra. Otras ideas: fondo del mar o alberca con burbujas y pececitos (agua), cocina con vapor y especias (ramen), mesa con mantel de cuadros y albahaca (pizza), ciudad con caminos y carritos (carro), un mundo de slime que escurre. Los detalles con carita van donde se vean (junto a la palabra), no debajo de los paneles.
+   - `fondo`: **degradado** de respaldo (lista de colores) por si no hay ilustración.
    - `escena`: degradado pastel (cielo de algodón de azúcar, agua, etc.).
    - `silabas`: cada sílaba como `[claro, fuerte]`: ficha tipo **gelatina** con degradado; el color fuerte también es el **anillo** de su mano y su boca.
    - `patron`: `destellos`, `burbujas` o `corazones` suaves en el fondo, con `patronColores`.
@@ -82,6 +83,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colores del tema
 tarjetas/<palabra>.pdf    para imprimir: 2 páginas A4 (se genera, no se edita a mano)
 tarjetas/<palabra>-frente.png / -reverso.png   vistas previas
+escenas/<palabra>-fondo.svg  ilustración de fondo de página completa (opcional, recomendada)
 escenas/<palabra>.svg     dibujo del panel de arriba (el panel mide 1160 × 340: usa un viewBox de proporción ~3.4 : 1, ver escenas/estrella.svg)
 bocas/<letra>.jpg         foto de la boca por letra (de la guía fónica del usuario)
 plantilla/bocas.js        reglas de pronunciación (qué foto va según el sonido) y dibujos de respaldo

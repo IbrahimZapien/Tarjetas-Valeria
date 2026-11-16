@@ -39,6 +39,8 @@ const FUENTES = `
 // Cada sílaba puede ser un color o [claro, fuerte] (ficha tipo gelatina con degradado).
 const degradado = (v, ang = 165) => Array.isArray(v) ? `linear-gradient(${ang}deg, ${v.join(', ')})` : v;
 const primero = (v) => Array.isArray(v) ? v[0] : v;
+// Fondo de página: una ilustración (colores.fondoImagen, p. ej. un cielo estrellado) o el degradado.
+const fondoPagina = (c) => c.fondoImagen ? `url(${img(c.fondoImagen)}) center / cover no-repeat, ${degradado(c.fondo)}` : degradado(c.fondo);
 const silFondo = (c, i) => { const v = c.silabas[i % c.silabas.length]; return Array.isArray(v) ? `linear-gradient(180deg, ${v[0]} 0%, ${v[0]} 35%, ${v[1]} 100%)` : v; };
 const silFuerte = (c, i) => { const v = c.silabas[i % c.silabas.length]; return Array.isArray(v) ? v[1] : v; };
 
@@ -153,7 +155,7 @@ function frente(t, c) {
 
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
   html { background:${primero(c.fondo)}; }
-  body { width:${W}px; height:${H}px; background:${degradado(c.fondo)}; font-family:Fredoka,sans-serif; color:${c.texto};
+  body { width:${W}px; height:${H}px; background:${fondoPagina(c)}; font-family:Fredoka,sans-serif; color:${c.texto};
          display:flex; flex-direction:column; align-items:center; padding:36px 40px 40px; position:relative; }
   .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
   body > div { position:relative; z-index:1; }
@@ -268,7 +270,7 @@ function reverso(t, c) {
   const seccion = (k, titulo, cont, extra = '') => `<div class="sec ${extra}"><div class="tit"><span class="paso">${k}</span>${titulo}</div>${cont}</div>`;
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
   html { background:${primero(c.fondo)}; }
-  body { width:${W}px; height:${H}px; background:${degradado(c.fondo)}; font-family:Fredoka,sans-serif; color:${c.texto};
+  body { width:${W}px; height:${H}px; background:${fondoPagina(c)}; font-family:Fredoka,sans-serif; color:${c.texto};
          display:flex; flex-direction:column; gap:26px; padding:40px 40px; position:relative; }
   .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
   body > div { position:relative; z-index:1; }
