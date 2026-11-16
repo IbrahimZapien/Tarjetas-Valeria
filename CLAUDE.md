@@ -36,7 +36,8 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
   3. **completa**: la palabra con dos letras faltantes.
   4. **muévete**: un salto de tijera por sílaba, diciendo o señando cada una.
 - **Manos LSM (dactilología) encima de cada letra**: un sticker en miniatura por letra, tomado de `abecedario/<letra>.png` (los stickers los manda el usuario; **no inventes configuraciones**). `generar.js` avisa qué stickers faltan.
-  - **Dígrafos (ll, rr, ch)**: cada letra lleva su sticker y, entre los dos, copias del sticker en **escala de grises** y cada vez más tenues simulan el movimiento; un arco punteado arriba los une para mostrar que suenan como una sola letra.
+  - Cada sticker va en un **círculo blanco** encima de su letra. **Dígrafos (ll, rr, ch)**: una sola **cápsula blanca** abarca las dos letras (son una sola letra, un solo sonido); dentro van la mano de la primera letra, copias de la mano **en escala de grises** cada vez más tenues (el movimiento) y la mano de la segunda letra.
+  - Los stickers salieron de una imagen del abecedario LSM que mandó el usuario (27 letras, a–z con ñ; la ll se forma con dos l).
 - La versión anterior está en `plantilla/generar-v1.js` y `tarjetas/anteriores/`.
 
 ## Reglas de diseño (aplícalas a TODAS las tarjetas)

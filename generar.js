@@ -67,21 +67,31 @@ const DIGRAFOS = ['ll', 'rr', 'ch'];
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
   const fuente = Math.round(ancho * 1.2);
-  const mano = Math.round(ancho * .92);
+  const mano = Math.round(ancho * 1.0);
   const paso = ancho + gapL; // distancia entre centros de dos letras seguidas
   const columnas = t.silabas.map((s, i) => {
     const color = c.silabas[i % c.silabas.length];
     const ls = [...s];
     const cols = ls.map((l, k) => {
       const f = sticker(l);
-      const dig = DIGRAFOS.includes((l + (ls[k + 1] || '')).toLowerCase());
-      // movimiento: copias en gris, cada vez más tenues, entre los dos stickers del dígrafo + arco que los une
-      const mov = dig && f ? [1 / 3, 2 / 3].map((fr, j) =>
-        `<img class="fantasma" src="${img(f)}" style="width:${mano}px;left:${ancho / 2 + paso * fr - mano / 2}px;opacity:${j ? .28 : .45}">`).join('')
-        + `<svg class="liga" width="${paso + 20}" height="40" style="left:${ancho / 2 - 10}px" viewBox="0 0 ${paso + 20} 40">
-            <path d="M10 34 C10 4 ${paso + 10} 4 ${paso + 10} 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 13"/></svg>` : '';
-      const arriba = f ? `<img class="mano" src="${img(f)}" style="width:${mano}px;height:${mano}px">`
-                       : `<div class="mano" style="width:${mano}px;height:${mano}px"></div>`;
+      const par = (a, b) => DIGRAFOS.includes((a + (b || '')).toLowerCase());
+      const inicioDig = par(l, ls[k + 1]);
+      const finDig = k > 0 && par(ls[k - 1], l);
+      let arriba;
+      if (inicioDig) {
+        // dígrafo (ll, rr, ch): una sola cápsula sobre las dos letras = una sola letra.
+        // mano · movimiento en gris (cada vez más tenue) · mano
+        const g = sticker(ls[k + 1]);
+        const mano1 = f ? `<img class="m" src="${img(f)}">` : '';
+        const mano2 = g ? `<img class="m" src="${img(g)}">` : '';
+        const mov = f ? [.6, .35].map((o) => `<img class="g" src="${img(f)}" style="opacity:${o}">`).join('') : '';
+        arriba = `<div class="capsula" style="width:${2 * ancho + gapL}px;height:${mano}px">${mano1}${mov}${mano2}</div>`;
+      } else if (finDig) {
+        arriba = `<div style="height:${mano}px"></div>`;
+      } else {
+        arriba = `<div class="burbuja" style="width:${mano}px;height:${mano}px">${f ? `<img src="${img(f)}">` : ''}</div>`;
+      }
+      const mov = '';
       return `<div class="col" style="width:${ancho}px">
         <div class="manos" style="height:${mano + 30}px">${mov}${arriba}</div>
         <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div></div>`;
@@ -107,9 +117,12 @@ function frente(t, c) {
   .cols { display:flex; }
   .col { display:flex; flex-direction:column; align-items:center; gap:10px; }
   .manos { position:relative; width:100%; display:flex; align-items:flex-end; justify-content:center; }
-  .mano { display:block; object-fit:contain; position:relative; z-index:2; filter:drop-shadow(0 4px 0 rgba(0,0,0,.18)); }
-  .fantasma { position:absolute; bottom:0; z-index:1; filter:grayscale(1); }
-  .liga { position:absolute; top:-6px; z-index:3; overflow:visible; }
+  .burbuja { position:relative; z-index:2; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 0 rgba(0,0,0,.2); }
+  .burbuja img { width:86%; height:86%; object-fit:contain; }
+  .capsula { position:absolute; left:0; bottom:0; z-index:2; background:#fff; border-radius:999px; box-shadow:0 5px 0 rgba(0,0,0,.2);
+             display:flex; align-items:center; justify-content:center; padding:0 6px; }
+  .capsula .m { height:80%; object-fit:contain; position:relative; z-index:2; }
+  .capsula .g { height:58%; object-fit:contain; filter:grayscale(1); margin:0 -16px; }
   .ficha { width:100%; height:240px; border-radius:50px; display:flex; align-items:center; justify-content:center;
            font-weight:700; padding-bottom:10px;
            box-shadow: inset 0 -14px 0 rgba(0,0,0,.10), inset 0 12px 0 rgba(255,255,255,.7), 0 7px 0 rgba(0,0,0,.2); }
