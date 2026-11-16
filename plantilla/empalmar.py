@@ -20,6 +20,7 @@ a = argparse.ArgumentParser()
 a.add_argument('video'); a.add_argument('salida')
 a.add_argument('--cuadros', required=True)
 a.add_argument('--recorte')
+a.add_argument('--zona', help='x0,y0,x1,y1: solo aquí se dibujan las manos transparentes (evita la cara)')
 a.add_argument('--fondo', type=float, default=.6, help='cuánto suavizar el fondo verde (0 a 1)')
 args = a.parse_args()
 sel = [int(x) for x in args.cuadros.split(',')]
@@ -64,7 +65,11 @@ gris = inicio.mean(axis=2, keepdims=True)
 claro = (inicio * .35 + gris * .65) * .6 + 255 * .4
 out = inicio * (1 - fm) + claro * fm
 
-m0 = mascara(manos(inicio), grow=11, blur=3)  # manos del inicio: protegidas y nítidas
+m0 = mascara(manos(inicio), grow=11, blur=3)
+if args.zona:
+    zx0, zy0, zx1, zy1 = (int(v) for v in args.zona.split(','))
+    z = np.zeros(inicio.shape[:2], bool); z[zy0:zy1, zx0:zx1] = True
+    permitido = permitido * mascara(z, blur=12)  # manos del inicio: protegidas y nítidas
 for i, al in reversed(list(zip(resto, alfas))):
     f = L(i); m = mascara(manos(f)) * (1 - m0) * permitido
     borde = np.clip(mascara(manos(f), grow=7, blur=1.2) - mascara(manos(f)), 0, 1) * (1 - m0) * permitido

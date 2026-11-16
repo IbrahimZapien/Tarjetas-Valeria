@@ -1,0 +1,15 @@
+{
+  "palabra": "taco",
+  "silabas": ["ta", "co"],
+  "escena": "escenas/taco.svg",
+  "sena": "senas/taco-foto.jpg",
+  "colores": {
+    "fondoImagen": "escenas/taco-fondo.svg",
+    "fondo": ["#FF5E3A", "#FF2E63", "#C2187A", "#6A1B9A"],
+    "escena": ["#FFF1C9", "#FFE0EC", "#E3F9D9"],
+    "texto": "#3A1240",
+    "acento": "#FF2E63",
+    "sombraPalabra": "#7A1040",
+    "silabas": [["#FFF4B8", "#FFB61A"], ["#FFD9C7", "#FF5A3C"]]
+  }
+}

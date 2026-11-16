@@ -73,6 +73,7 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
 8. **Panel "seña"**: abajo, a todo lo ancho. **No inventes la forma de una seña.** Si no hay referencia, deja `"sena"` fuera del JSON y aparece "seña pendiente".
    - **Preferido: foto real empalmada** (así lo pidió el usuario). Pide un **video corto** de la seña y ejecuta `python3 plantilla/empalmar.py VIDEO senas/<palabra>-foto.jpg --cuadros 1,a,b,c,d --recorte x0,y0,x1,y1`. El primer cuadro (el inicio) queda **nítido**; los siguientes se enciman con **transparencia progresiva** (cada vez más transparentes) para mostrar el recorrido. Elige los cuadros revisando una hoja de contactos del video (ffmpeg). Recorta horizontal (más o menos 2 de ancho por 1 de alto), dejando ver todo el recorrido de las manos. Las fotos llenan el panel completo.
    - Si solo hay fotos sueltas, empálmalas igual (el inicio nítido y las demás transparentes) o pregunta.
+   - **Si el empalme no se entiende** (las manos se enciman en el mismo lugar, como en "taco", o el video es vertical): usa **dos fotos lado a lado**, inicio (1) → final (2), con una flecha rosa en medio y los números abajo en las esquinas (la etiqueta "seña" tapa la esquina de arriba). Elige los cuadros más nítidos (menos movidos). Ver `senas/taco-foto.jpg`. `empalmar.py --zona` limita las manos transparentes a una zona para que no salgan contornos en la cara.
    - Respaldo: un dibujo SVG (`senas/<palabra>.svg`, ver `senas/estrella.svg`), con manos realistas y la persona con proporciones reales. Úsalo solo si el usuario lo pide.
    - La dirección se describe **como se ve de frente** (la "derecha" es la derecha de la imagen). Verifica siempre con el video.
 9. **Nada de personajes con derechos de autor** (Pepa Pig, Roblox, logos de TikTok, etc.). Usa solo su *estilo*: personajes redondos y simpáticos, colores alegres, bloques o elementos de juego.
@@ -82,7 +83,7 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
 
 ```
 tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colores del tema
-tarjetas/<palabra>.pdf    para imprimir: 2 páginas A4 (se genera, no se edita a mano)
+tarjetas/<palabra>.pdf    para imprimir: 1 página A4 (se genera, no se edita a mano)
 tarjetas/<palabra>-frente.png   vista previa
 escenas/<palabra>-fondo.svg  ilustración de fondo de página completa (opcional, recomendada)
 escenas/<palabra>.svg     dibujo del panel de arriba (el panel mide 1160 × 340: usa un viewBox de proporción ~3.4 : 1, ver escenas/estrella.svg)
@@ -93,7 +94,7 @@ senas/<palabra>.svg       (respaldo) dibujo de la seña
 abecedario/<letra>.png    sticker de la mano LSM de cada letra (del usuario)
 plantilla/empalmar.py     empalma cuadros de un video en una sola foto
 plantilla/fuentes/        fuente Fredoka (no requiere internet)
-generar.js                arma las dos caras: node generar.js tarjetas/<palabra>.json
+generar.js                arma la hoja: node generar.js tarjetas/<palabra>.json
 ```
 
 Ejemplo de JSON: `tarjetas/estrella.json`. Los `colores` que puedes definir son `fondo`, `escena`, `texto`, `acento` y `silabas` (una lista de colores).
