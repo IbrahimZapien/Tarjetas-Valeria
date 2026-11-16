@@ -15,41 +15,38 @@
   <g fill="none" transform="translate(1110 190)"><circle r="20" stroke="#E9C9FF" stroke-width="7"/><circle r="10" stroke="#D9B0FF" stroke-width="5"/></g>
   <!-- vapor -->
   <g fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" opacity=".85">
-    <path d="M560 40 q-14 -18 0 -36"/><path d="M760 40 q-14 -18 0 -36"/>
+    <path d="M520 70 q-14 -18 0 -36"/><path d="M800 70 q-14 -18 0 -36"/>
   </g>
   <!-- tabla de picar -->
   <rect x="300" y="318" width="720" height="44" rx="22" fill="url(#tabla)"/>
   <rect x="300" y="350" width="720" height="12" rx="6" fill="#A8693F" opacity=".5"/>
   <circle cx="990" cy="340" r="9" fill="#A8693F"/>
   <ellipse cx="660" cy="322" rx="190" ry="12" fill="#5A2A10" opacity=".2"/>
-  <!-- taco squishy: una tortilla (círculo) doblada a la mitad.
-       El DOBLEZ es la curva de arriba (domo); las dos orillas abiertas quedan abajo y entre ellas sale el relleno.
-       La mitad de atrás asoma un poquito detrás del domo (grosor del doblez). -->
-  <g transform="translate(662 250) rotate(-8) scale(1 .82)">
-    <!-- mitad de ATRÁS: mismo semicírculo, un poco corrido, más tostado -->
-    <path d="M-206 0 A206 206 0 0 1 206 0 C140 30 70 40 0 40 C-70 40 -140 30 -206 0 Z" transform="translate(10 30)" fill="#E59A35" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round"/>
-    <!-- relleno que sale por la abertura de abajo: lechuga, salsa, carne, queso -->
-    <g fill="#8EDB3E">
-      <circle cx="-196" cy="8" r="28"/><circle cx="-150" cy="22" r="32"/><circle cx="-96" cy="30" r="34"/><circle cx="-36" cy="34" r="34"/>
-      <circle cx="26" cy="34" r="34"/><circle cx="86" cy="30" r="34"/><circle cx="142" cy="22" r="32"/><circle cx="192" cy="8" r="28"/>
-    </g>
-    <path d="M-170 4 C-120 26 -60 32 0 32 C60 32 120 26 170 4 C162 22 140 26 132 18 C124 38 100 40 94 22 C60 34 -40 34 -70 22 C-76 42 -100 42 -106 22 C-128 32 -160 28 -170 4 Z" fill="url(#salsa)"/>
-    <g fill="#B5562E"><circle cx="-110" cy="6" r="14"/><circle cx="-40" cy="10" r="15"/><circle cx="36" cy="10" r="15"/><circle cx="104" cy="6" r="14"/></g>
-    <g fill="#FFF3D6"><rect x="-78" y="2" width="14" height="14" rx="5"/><rect x="2" y="4" width="14" height="14" rx="5"/><rect x="66" y="2" width="14" height="14" rx="5"/></g>
-    <!-- gotita de salsa -->
-    <path d="M60 30 C60 50 68 62 68 70 C68 82 52 82 52 70 C52 62 60 50 60 30 Z" fill="#E0263A"/>
-    <!-- mitad de ENFRENTE: semicírculo con el doblez arriba -->
-    <path d="M-212 0 A212 212 0 0 1 212 0 C150 10 80 14 0 14 C-80 14 -150 10 -212 0 Z" fill="url(#tortilla)" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round"/>
+  <!-- taco squishy: tortilla redonda acostada; se pone la comida en medio y se levantan los dos lados.
+       Abajo queda PLANO (el doblez, apoyado en la tabla); las dos medias lunas suben con la curva hacia arriba;
+       la comida se ve ARRIBA, entre la orilla de atrás (más alta) y la de enfrente (con la carita). -->
+  <g transform="translate(660 318) scale(1 .86)">
+    <!-- media luna de ATRÁS: asoma arriba, detrás de la comida -->
+    <path d="M-224 0 A224 224 0 0 1 224 0 Z" transform="translate(0 -46)" fill="#E59A35" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round"/>
+    <!-- comida en medio, siguiendo la curva -->
+    <g fill="#8EDB3E" transform="scale(1.07)"><circle cx="212" cy="-53" r="24"/><circle cx="195" cy="-98" r="31"/><circle cx="169" cy="-138" r="31"/><circle cx="134" cy="-172" r="31"/><circle cx="93" cy="-197" r="31"/><circle cx="48" cy="-213" r="31"/><circle cx="0" cy="-218" r="31"/><circle cx="-48" cy="-213" r="31"/><circle cx="-93" cy="-197" r="31"/><circle cx="-134" cy="-172" r="31"/><circle cx="-169" cy="-138" r="31"/><circle cx="-195" cy="-98" r="31"/><circle cx="-212" cy="-53" r="24"/></g>
+    <path d="M-197 -79 A212 212 0 0 1 197 -79" fill="none" stroke="url(#salsa)" stroke-width="34" transform="scale(1.04)" stroke-linecap="round"/>
+    <g fill="#B5562E" transform="scale(1.06)"><circle cx="180" cy="-104" r="16"/><circle cx="134" cy="-159" r="16"/><circle cx="71" cy="-195" r="16"/><circle cx="0" cy="-208" r="16"/><circle cx="-71" cy="-195" r="16"/><circle cx="-134" cy="-159" r="16"/><circle cx="-180" cy="-104" r="16"/></g>
+    <g fill="#FFF3D6" transform="scale(1.08)"><rect x="143" y="-159" width="16" height="16" rx="5"/><rect x="74" y="-206" width="16" height="16" rx="5"/><rect x="-8" y="-222" width="16" height="16" rx="5"/><rect x="-90" y="-206" width="16" height="16" rx="5"/><rect x="-159" y="-159" width="16" height="16" rx="5"/></g>
+    <!-- media luna de ENFRENTE: plana abajo, curva arriba -->
+    <path d="M-210 0 A210 210 0 0 1 210 0 Z" fill="url(#tortilla)" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round"/>
+    <!-- gotita de salsa que escurre por la orilla -->
+    <path d="M118 -168 C118 -148 126 -136 126 -128 C126 -116 110 -116 110 -128 C110 -136 118 -148 118 -168 Z" fill="#E0263A"/>
     <!-- puntitos tostados -->
-    <g fill="#E99A3A" opacity=".55"><circle cx="-150" cy="-90" r="7"/><circle cx="-80" cy="-160" r="6"/><circle cx="110" cy="-140" r="7"/><circle cx="160" cy="-70" r="6"/><circle cx="20" cy="-180" r="5"/><circle cx="-170" cy="-30" r="5"/><circle cx="170" cy="-24" r="5"/></g>
-    <!-- brillo de squishy en el domo -->
-    <ellipse cx="-96" cy="-140" rx="46" ry="14" fill="#fff" opacity=".75" transform="rotate(-36 -96 -140)"/>
-    <circle cx="-48" cy="-172" r="8" fill="#fff" opacity=".85"/>
+    <g fill="#E99A3A" opacity=".55"><circle cx="-150" cy="-60" r="7"/><circle cx="-100" cy="-140" r="6"/><circle cx="130" cy="-90" r="7"/><circle cx="170" cy="-30" r="6"/><circle cx="30" cy="-170" r="5"/><circle cx="-60" cy="-24" r="5"/></g>
+    <!-- brillo de squishy -->
+    <ellipse cx="-104" cy="-118" rx="44" ry="14" fill="#fff" opacity=".75" transform="rotate(-40 -104 -118)"/>
+    <circle cx="-58" cy="-158" r="8" fill="#fff" opacity=".85"/>
     <!-- carita kawaii -->
-    <ellipse cx="-40" cy="-80" rx="14" ry="16" fill="#2B1B5C"/><ellipse cx="40" cy="-80" rx="14" ry="16" fill="#2B1B5C"/>
-    <circle cx="-35" cy="-86" r="5.5" fill="#fff"/><circle cx="45" cy="-86" r="5.5" fill="#fff"/>
-    <ellipse cx="-88" cy="-56" rx="18" ry="11" fill="#FF8FB8"/><ellipse cx="88" cy="-56" rx="18" ry="11" fill="#FF8FB8"/>
-    <path d="M-15 -58 Q-7.5 -48 0 -58 Q7.5 -48 15 -58" fill="none" stroke="#2B1B5C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="-40" cy="-86" rx="14" ry="16" fill="#2B1B5C"/><ellipse cx="40" cy="-86" rx="14" ry="16" fill="#2B1B5C"/>
+    <circle cx="-35" cy="-92" r="5.5" fill="#fff"/><circle cx="45" cy="-92" r="5.5" fill="#fff"/>
+    <ellipse cx="-88" cy="-60" rx="18" ry="11" fill="#FF8FB8"/><ellipse cx="88" cy="-60" rx="18" ry="11" fill="#FF8FB8"/>
+    <path d="M-15 -62 Q-7.5 -52 0 -62 Q7.5 -52 15 -62" fill="none" stroke="#2B1B5C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
   <!-- líneas de squish -->
   <g fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity=".9">
