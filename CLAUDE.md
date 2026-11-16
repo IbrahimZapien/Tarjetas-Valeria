@@ -25,16 +25,12 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 - **Ejercicio**: su familia la está motivando poco a poco. Cada tarjeta incluye un movimiento sencillo y divertido (saltar, aplaudir, estirarse), nunca como castigo.
 - **Es tierna.** Aunque le gusten la velocidad y los carros, todo debe verse dulce y amable: carritos redondos y sonrientes, con mejillas rosadas. Nada agresivo, de carreras rudas ni de choques.
 
-## Diseño actual (versión 2): dos caras por palabra
+## Diseño actual: una hoja A4 por palabra
 
-`node generar.js tarjetas/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (2 páginas **A4**, frente y reverso, listo para imprimir) y las vistas previas `tarjetas/<palabra>-frente.png` y `-reverso.png` (1240 × 1754 px = A4 a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
+`node generar.js tarjetas/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (una página **A4**, lista para imprimir) y la vista previa `tarjetas/<palabra>-frente.png` (1240 × 1754 px = A4 a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
 
-- **Frente, para aprender:** escena (squishy, en su mundo) → palabra grande → letras **numeradas en orden** (1, 2, 3…), y en cada columna, de arriba hacia abajo: **mano LSM → boca** (cómo se pone la boca para ese sonido, justo debajo de la mano para verlas al mismo tiempo) **→ letra** en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
-- **Reverso, para practicar** (siempre los mismos 4 pasos, en el mismo orden, porque su memoria y la rutina le ayudan):
-  1. **traza**: la palabra punteada sobre renglones de cuaderno.
-  2. **ordena**: casillas vacías y las letras revueltas (se pueden recortar o señalar).
-  3. **completa**: la palabra con dos letras faltantes.
-  4. **muévete**: un salto de tijera por sílaba, diciendo o señando cada una.
+- **La hoja:** escena (squishy, en su mundo) → palabra grande → en cada columna, de arriba hacia abajo: **mano LSM → boca** (cómo se pone la boca para ese sonido, justo debajo de la mano para verlas al mismo tiempo) **→ letra** en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
+- **Sin reverso:** al usuario no le gustó el reverso de práctica (traza, ordena, completa, muévete) y pidió quitarlo. No lo vuelvas a hacer a menos que lo pida.
 - **Bocas debajo de cada letra**: **fotos reales** de la boca en `bocas/<letra>.jpg`, recortadas de la "Guía del alfabeto fónico" que mandó el usuario. La foto se elige por **cómo suena** la letra en español de México (`plantilla/bocas.js`, `sonido()` y `FOTO_DE_SONIDO`): v→b, ll e y+vocal→y, c→k (ca, co, cu) o s (ce, ci), g→j (ge, gi), z/x→s, rr y r inicial→r con pista de vibración. Sin foto: **ch** (dibujo) y las **mudas** (h; u de que/qui/gue/gui) con símbolo de "no suena". Los dígrafos llevan una sola boca. La guía tiene descripciones que no corresponden al español (v "muerde el labio", h "soplando", n "cierra los labios"): por eso se usa el sonido. Sugiere validar con su terapeuta de lenguaje.
 - **Manos LSM (dactilología) encima de cada letra**: un sticker en miniatura por letra, tomado de `abecedario/<letra>.png` (los stickers los manda el usuario; **no inventes configuraciones**). `generar.js` avisa qué stickers faltan.
   - Cada sticker va en un **círculo blanco** encima de su letra. **Dígrafos (ll, rr, ch)**: una sola **cápsula blanca** abarca las dos letras (son una sola letra, un solo sonido); dentro van la mano de la primera letra, copias de la mano **en escala de grises** cada vez más tenues (el movimiento) y la mano de la segunda letra.
@@ -82,7 +78,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 ```
 tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colores del tema
 tarjetas/<palabra>.pdf    para imprimir: 2 páginas A4 (se genera, no se edita a mano)
-tarjetas/<palabra>-frente.png / -reverso.png   vistas previas
+tarjetas/<palabra>-frente.png   vista previa
 escenas/<palabra>-fondo.svg  ilustración de fondo de página completa (opcional, recomendada)
 escenas/<palabra>.svg     dibujo del panel de arriba (el panel mide 1160 × 340: usa un viewBox de proporción ~3.4 : 1, ver escenas/estrella.svg)
 bocas/<letra>.jpg         foto de la boca por letra (de la guía fónica del usuario)

@@ -1,11 +1,10 @@
-// Tarjetas de Valeria, versión 2: DOS caras por palabra, tamaño hoja A4 (1240 x 1754 px = A4 a 150 ppp).
+// Tarjetas de Valeria: una hoja A4 por palabra (1240 x 1754 px = A4 a 150 ppp).
 //
-//   FRENTE  (aprender):  escena → palabra → mano LSM + letra + boca (cómo suena) → arcos por sílaba
-//                        → seña de la palabra.
-//   REVERSO (practicar): 1 traza · 2 ordena · 3 completa · 4 muévete.
+//   escena → palabra → por cada letra: mano LSM → boca (cómo suena) → letra → arcos por sílaba
+//   → seña de la palabra.
 //
 // Uso:  node generar.js tarjetas/estrella.json
-// Resultado: tarjetas/estrella.pdf (2 páginas A4 para imprimir), estrella-frente.png y estrella-reverso.png
+// Resultado: tarjetas/estrella.pdf (A4 para imprimir) y tarjetas/estrella-frente.png (vista previa)
 
 const fs = require('fs');
 const path = require('path');
@@ -213,89 +212,6 @@ function arcosMini(n) {
     `<svg width="80" height="50" viewBox="0 0 54 34"><path d="M6 6 C6 36 48 36 48 10" fill="none" stroke="#2B1B5C" stroke-width="6" stroke-linecap="round"/><circle cx="6" cy="6" r="6" fill="#FFD43B" stroke="#C98A00" stroke-width="2.5"/></svg>`).join('')}</div>`;
 }
 
-// ---------- REVERSO ----------
-// Mezcla determinista (siempre igual para la misma palabra) que nunca deja la palabra en orden.
-function mezclar(arr, semilla) {
-  let s = [...semilla].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) >>> 0;
-  const r = () => (s = (s * 1103515245 + 12345) >>> 0) / 2 ** 32;
-  let out;
-  do {
-    out = arr.map((x, i) => ({ x, k: r(), i })).sort((a, b) => a.k - b.k);
-  } while (out.every((o, i) => o.i === i) && arr.length > 1);
-  return out.map((o) => o.x);
-}
-
-// Figurita tierna haciendo ejercicio (salto de tijera), coloreada.
-function saltarin(color, c) {
-  return `<svg width="220" height="275" viewBox="0 0 120 150">
-    <g stroke="${c.texto}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M44 58 L18 18 M76 58 L102 18" fill="none" stroke="${color}" stroke-width="16"/>
-      <path d="M50 100 L28 140 M70 100 L92 140" fill="none" stroke="${color}" stroke-width="16"/>
-      <rect x="38" y="52" width="44" height="56" rx="20" fill="${color}"/>
-      <circle cx="60" cy="34" r="22" fill="#F7C9A8"/>
-    </g>
-    <circle cx="53" cy="33" r="3.5" fill="${c.texto}"/><circle cx="67" cy="33" r="3.5" fill="${c.texto}"/>
-    <path d="M54 42 Q60 47 66 42" fill="none" stroke="${c.texto}" stroke-width="3" stroke-linecap="round"/>
-    <path d="M8 60 q-6 8 0 16 M112 60 q6 8 0 16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
-  </svg>`;
-}
-
-function reverso(t, c) {
-  const ls = letrasConSilaba(t.silabas);
-  const n = ls.length;
-  const col = (i) => silFuerte(c, ls[i].s), colF = (i) => silFondo(c, ls[i].s);
-  // 1 TRAZA: palabra punteada sobre renglones de cuaderno.
-  const fs1 = Math.min(250, Math.floor(1700 / n));
-  const base = 250, xh = fs1 * .5, cap = fs1 * .74;
-  const traza = `<svg width="1080" height="300" viewBox="0 0 1000 290">
-    <line x1="20" x2="980" y1="${base - cap}" y2="${base - cap}" stroke="#C9C2F2" stroke-width="4"/>
-    <line x1="20" x2="980" y1="${base - xh}" y2="${base - xh}" stroke="#C9C2F2" stroke-width="4" stroke-dasharray="16 12"/>
-    <line x1="20" x2="980" y1="${base}" y2="${base}" stroke="${c.texto}" stroke-width="5"/>
-    <text x="500" y="${base}" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="${fs1}" letter-spacing="10"
-      fill="#EEEAFD" stroke="${c.texto}" stroke-width="5" stroke-dasharray="3 13" stroke-linecap="round">${esc(t.palabra)}</text>
-  </svg>`;
-  // 2 ORDENA: casillas numeradas + letras revueltas.
-  const lado = Math.min(118, Math.floor((1060 - (n - 1) * 12) / n));
-  const casillas = ls.map((x, i) => `<div class="casilla" style="width:${lado}px;height:${lado}px;border-color:${col(i)}"></div>`).join('');
-  const revueltas = mezclar(ls.map((x, i) => i), t.palabra).map((i) =>
-    `<div class="pieza" style="width:${lado}px;height:${lado}px;background:${colF(i)};font-size:${lado * .7}px">${esc(ls[i].l)}</div>`).join('');
-  // 3 COMPLETA: faltan dos letras.
-  const faltan = new Set([Math.floor(n / 3), Math.floor((2 * n) / 3)]);
-  const completa = ls.map((x, i) => faltan.has(i)
-    ? `<div class="hueco" style="width:${lado}px;height:${lado * 1.1}px"></div>`
-    : `<div class="pieza" style="width:${lado}px;height:${lado * 1.1}px;background:${colF(i)};font-size:${lado * .72}px">${esc(x.l)}</div>`).join('');
-  // 4 MUÉVETE: un salto por sílaba.
-  const mueve = t.silabas.map((s, i) => `<div class="salto">${saltarin(silFuerte(c, i), c)}<b>${esc(s)}</b></div>`).join('');
-
-  const seccion = (k, titulo, cont, extra = '') => `<div class="sec ${extra}"><div class="tit"><span class="paso">${k}</span>${titulo}</div>${cont}</div>`;
-  return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
-  html { background:${primero(c.fondo)}; }
-  body { width:${W}px; height:${H}px; background:${fondoPagina(c)}; font-family:Fredoka,sans-serif; color:${c.texto};
-         display:flex; flex-direction:column; gap:26px; padding:40px 40px; position:relative; }
-  .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
-  body > div { position:relative; z-index:1; }
-  .sec { background:#fff; border-radius:44px; padding:18px 40px 22px; display:flex; flex-direction:column; align-items:center; }
-  .tit { align-self:flex-start; display:flex; align-items:center; gap:14px; font-weight:700; font-size:40px; }
-  .paso { width:56px; height:56px; border-radius:50%; background:${c.acento}; color:#fff; display:flex; align-items:center; justify-content:center; }
-  .fila { display:flex; gap:12px; justify-content:center; }
-  .casilla { border:5px dashed; border-radius:22px; position:relative; }
-  .casilla span { position:absolute; top:4px; left:10px; font-size:22px; font-weight:700; opacity:.6; }
-  .pieza { border-radius:24px; display:flex; align-items:center; justify-content:center; font-weight:700; padding-bottom:6px;
-           box-shadow: inset 0 -8px 0 rgba(0,0,0,.10), inset 0 7px 0 rgba(255,255,255,.7), 0 5px 0 rgba(0,0,0,.18); }
-  .hueco { border-radius:24px; border:5px dashed ${c.acento}; background:#FFF4FA; }
-  .grande { flex:1; }
-  .saltos { display:flex; gap:70px; justify-content:center; align-items:flex-end; margin:auto 0; }
-  .salto { display:flex; flex-direction:column; align-items:center; gap:4px; }
-  .salto b { font-size:80px; line-height:1; }
-  </style></head><body>
-    ${patron(c.patron, t.palabra, c.patronColores)}
-    ${seccion(1, 'traza', traza)}
-    ${seccion(2, 'ordena', `<div class="fila" style="margin:10px 0 18px">${casillas}</div><div class="fila">${revueltas}</div>`)}
-    ${seccion(3, 'completa', `<div class="fila" style="margin-top:10px">${completa}</div>`)}
-    ${seccion(4, 'muévete', `<div class="saltos">${mueve}</div>`, 'grande')}
-  </body></html>`;
-}
-
 (async () => {
   const entrada = process.argv[2];
   if (!entrada) { console.error('Uso: node generar.js tarjetas/<palabra>.json'); process.exit(1); }
@@ -305,7 +221,7 @@ function reverso(t, c) {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: W, height: H } });
   const pdfs = [];
-  for (const [cara, fn] of [['frente', frente], ['reverso', reverso]]) {
+  for (const [cara, fn] of [['frente', frente]]) {
     await page.setContent(fn(t, c));
     await page.evaluate(() => document.fonts.ready);
     const salida = path.join(RAIZ, entrada.replace(/\.json$/, `-${cara}.png`));
@@ -325,6 +241,6 @@ w = PdfWriter()
 for f in sys.argv[2:]: w.append(f)
 w.write(sys.argv[1])`, final, ...pdfs]);
   pdfs.forEach((f) => fs.unlinkSync(f));
-  console.log('Para imprimir (A4, 2 páginas):', path.relative(RAIZ, final));
+  console.log('Para imprimir (A4):', path.relative(RAIZ, final));
   if (faltantes.size) console.log('Faltan stickers LSM en abecedario/ para:', [...faltantes].join(', '));
 })();
