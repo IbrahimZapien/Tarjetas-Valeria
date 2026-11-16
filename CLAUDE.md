@@ -25,6 +25,10 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 - **Ejercicio**: su familia la está motivando poco a poco. Cada tarjeta incluye un movimiento sencillo y divertido (saltar, aplaudir, estirarse), nunca como castigo.
 - **Es tierna.** Aunque le gusten la velocidad y los carros, todo debe verse dulce y amable: carritos redondos y sonrientes, con mejillas rosadas. Nada agresivo, de carreras rudas ni de choques.
 
+## ⭐ DISEÑO BASE (aprobado por el usuario el 16/11/2026)
+
+La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nuevas se hacen igual. Referencia visual en `plantilla/base/diseno-base.png` (y `.pdf`), JSON de ejemplo en `plantilla/base/ejemplo.json`. En git está marcado con la etiqueta `diseno-base-v1`. **No cambies la estructura** (orden de los elementos, tamaños, estilo) a menos que el usuario lo pida; para cada palabra nueva solo cambian: la escena, el fondo ilustrado, los colores, las sílabas y la seña.
+
 ## Diseño actual: una hoja A4 por palabra
 
 `node generar.js tarjetas/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (una página **A4**, lista para imprimir) y la vista previa `tarjetas/<palabra>-frente.png` (1240 × 1754 px = A4 a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.

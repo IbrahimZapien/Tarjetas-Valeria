@@ -1,0 +1,41 @@
+{
+  "palabra": "estrella",
+  "silabas": [
+    "es",
+    "tre",
+    "lla"
+  ],
+  "escena": "escenas/estrella.svg",
+  "sena": "senas/estrella-foto.jpg",
+  "colores": {
+    "fondo": [
+      "#2A1A8C",
+      "#6A2BF2",
+      "#C238D6",
+      "#FF5FA2"
+    ],
+    "escena": [
+      "#A8ECFF",
+      "#E9D7FF",
+      "#FFD3EE"
+    ],
+    "texto": "#24166B",
+    "acento": "#FF4FA0",
+    "sombraPalabra": "#3A1580",
+    "silabas": [
+      [
+        "#FFF7B0",
+        "#FFC21A"
+      ],
+      [
+        "#FFD9EE",
+        "#FF6FB5"
+      ],
+      [
+        "#C9FFEA",
+        "#22D3A6"
+      ]
+    ],
+    "fondoImagen": "escenas/estrella-fondo.svg"
+  }
+}
