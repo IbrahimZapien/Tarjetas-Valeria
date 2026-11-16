@@ -54,16 +54,36 @@ function arco(w, color = '#fff') {
 }
 
 // ---------- FRENTE ----------
+// Sticker de la mano LSM de una letra (abecedario/<letra>.png|.jpg|.webp), o null si falta.
+const faltantes = new Set();
+function sticker(l) {
+  const f = ['png', 'webp', 'jpg'].map((e) => `abecedario/${l}.${e}`).find(existe);
+  if (!f) faltantes.add(l);
+  return f || null;
+}
+// Dígrafos que en español suenan como una sola letra: llevan "movimiento" entre sus dos stickers.
+const DIGRAFOS = ['ll', 'rr', 'ch'];
+
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
   const fuente = Math.round(ancho * 1.2);
-  let num = 0;
+  const mano = Math.round(ancho * .92);
+  const paso = ancho + gapL; // distancia entre centros de dos letras seguidas
   const columnas = t.silabas.map((s, i) => {
     const color = c.silabas[i % c.silabas.length];
-    const cols = [...s].map((l) => {
-      num++;
+    const ls = [...s];
+    const cols = ls.map((l, k) => {
+      const f = sticker(l);
+      const dig = DIGRAFOS.includes((l + (ls[k + 1] || '')).toLowerCase());
+      // movimiento: copias en gris, cada vez más tenues, entre los dos stickers del dígrafo + arco que los une
+      const mov = dig && f ? [1 / 3, 2 / 3].map((fr, j) =>
+        `<img class="fantasma" src="${img(f)}" style="width:${mano}px;left:${ancho / 2 + paso * fr - mano / 2}px;opacity:${j ? .28 : .45}">`).join('')
+        + `<svg class="liga" width="${paso + 20}" height="40" style="left:${ancho / 2 - 10}px" viewBox="0 0 ${paso + 20} 40">
+            <path d="M10 34 C10 4 ${paso + 10} 4 ${paso + 10} 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 13"/></svg>` : '';
+      const arriba = f ? `<img class="mano" src="${img(f)}" style="width:${mano}px;height:${mano}px">`
+                       : `<div class="mano" style="width:${mano}px;height:${mano}px"></div>`;
       return `<div class="col" style="width:${ancho}px">
-        <div class="num" style="background:${color}">${num}</div>
+        <div class="manos" style="height:${mano + 30}px">${mov}${arriba}</div>
         <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
@@ -86,9 +106,11 @@ function frente(t, c) {
   .silaba { display:flex; flex-direction:column; align-items:center; gap:8px; }
   .cols { display:flex; }
   .col { display:flex; flex-direction:column; align-items:center; gap:10px; }
-  .num { width:46px; height:46px; border-radius:50%; font-weight:700; font-size:28px; display:flex; align-items:center;
-         justify-content:center; box-shadow:0 4px 0 rgba(0,0,0,.2); }
-  .ficha { width:100%; height:270px; border-radius:50px; display:flex; align-items:center; justify-content:center;
+  .manos { position:relative; width:100%; display:flex; align-items:flex-end; justify-content:center; }
+  .mano { display:block; object-fit:contain; position:relative; z-index:2; filter:drop-shadow(0 4px 0 rgba(0,0,0,.18)); }
+  .fantasma { position:absolute; bottom:0; z-index:1; filter:grayscale(1); }
+  .liga { position:absolute; top:-6px; z-index:3; overflow:visible; }
+  .ficha { width:100%; height:240px; border-radius:50px; display:flex; align-items:center; justify-content:center;
            font-weight:700; padding-bottom:10px;
            box-shadow: inset 0 -14px 0 rgba(0,0,0,.10), inset 0 12px 0 rgba(255,255,255,.7), 0 7px 0 rgba(0,0,0,.2); }
                  display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; line-height:1; }
@@ -215,4 +237,5 @@ function reverso(t, c) {
     console.log('Creada:', path.relative(RAIZ, salida));
   }
   await browser.close();
+  if (faltantes.size) console.log('Faltan stickers LSM en abecedario/ para:', [...faltantes].join(', '));
 })();
