@@ -15,8 +15,16 @@ const { execFileSync } = require('child_process');
 const { sonido, boca, FOTO_DE_SONIDO } = require('./plantilla/bocas.js');
 
 const RAIZ = __dirname;
-const W = 1650, H = 1275;          // hoja tamaño CARTA horizontal (11 x 8.5 in) a 150 ppp
-const ANCHO = 1570;                // ancho útil (márgenes de 40 px ≈ 7 mm)
+// Hoja tamaño CARTA a 150 ppp. La orientación se elige por palabra (campo "orientacion" del JSON,
+// o automática: palabras de hasta 5 letras en vertical, más largas en horizontal).
+let W = 1650, H = 1275, ANCHO = 1570;
+function orientar(t) {
+  const o = t.orientacion || ([...t.palabra].length <= 5 ? 'vertical' : 'horizontal');
+  if (o === 'vertical') { W = 1275; H = 1650; } else { W = 1650; H = 1275; }
+  ANCHO = W - 80;
+  return o;
+}
+const TRAZOS = JSON.parse(fs.readFileSync(path.join(__dirname, 'plantilla/trazos.json'), 'utf8'));
 
 const COLORES_BASE = {
   fondo: '#6C2BD9', escena: '#16B4CE', texto: '#2B1B5C', acento: '#FF5DA2',
@@ -103,10 +111,13 @@ function bocaHTML(son) {
 }
 // Letra para repasar con el dedo: letra grande y suave con su contorno PUNTEADO (como en un cuaderno de trazo)
 // y un puntito verde donde empieza el trazo.
-function letraTrazo(l, tam, color) {
+function letraTrazo(l, tam, color, pluma) {
+  // Letra negra sólida (como la tarjeta aprobada) + línea punteada delgada por EN MEDIO del trazo,
+  // como si se escribiera con pluma, para repasarla con el dedo. Puntos de plantilla/trazos.json.
+  const pts = (TRAZOS[l] || []).map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.7"/>`).join('');
   return `<svg class="trazo" viewBox="0 0 100 130" style="height:${Math.round(tam * 1.55)}px">
-    <text x="50" y="98" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="100"
-      fill="rgba(255,255,255,.55)" stroke="${color}" stroke-width="3" stroke-dasharray=".8 4.4" stroke-linecap="round" stroke-linejoin="round">${esc(l)}</text>
+    <text x="50" y="98" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="100" fill="${color}">${esc(l)}</text>
+    <g fill="${pluma}">${pts}</g>
   </svg>`;
 }
 // Dígrafos que en español suenan como una sola letra: llevan "movimiento" entre sus dos stickers.
@@ -115,13 +126,13 @@ const DIGRAFOS = ['ll', 'rr', 'ch'];
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
   // Lo escrito es lo principal: fichas grandes; mano y boca más chicas, solo de apoyo.
-  const fichaH = Math.min(400, Math.round(ancho * 2.4));
+  const fichaH = W < H ? Math.min(620, Math.round(ancho * 2.6)) : Math.min(400, Math.round(ancho * 2.4));
   const fuente = Math.min(Math.round(ancho * 1.25), Math.round(fichaH * .78));
-  const mano = Math.min(140, Math.round(ancho * .8));
+  const mano = Math.min(W < H ? 180 : 140, Math.round(ancho * .8));
   const paso = ancho + gapL; // distancia entre centros de dos letras seguidas
   const todas = [...t.palabra];
   let g = 0; // índice de la letra en la palabra completa
-  const altoBoca = Math.min(105, Math.round(ancho * .6));
+  const altoBoca = Math.min(W < H ? 135 : 105, Math.round(ancho * .6));
   const columnas = t.silabas.map((s, i) => {
     const color = silFondo(c, i), fuerte = silFuerte(c, i);
     const ls = [...s];
@@ -152,12 +163,13 @@ function frente(t, c) {
       return `<div class="col" style="width:${ancho}px">
         <div class="manos" style="height:${mano + 20}px">${arriba}</div>
         <div class="bocas" style="height:${altoBoca}px">${abajo}</div>
-        <div class="ficha" style="background:${color};height:${fichaH}px">${letraTrazo(l, fuente, c.texto)}</div></div>`;
+        <div class="ficha" style="background:${color};height:${fichaH}px">${letraTrazo(l, fuente, c.texto, c.pluma || '#FFFFFF')}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
     return `<div class="silaba"><div class="cols" style="gap:${gapL}px">${cols}</div>${arco(w)}</div>`;
   }).join('');
 
+  const vertical = W < H;
   const sena = !t.sena ? `<div class="pendiente">seña<br>pendiente</div>`
     : /\.jpe?g$/.test(t.sena) ? `<div class="foto"><img src="${img(t.sena)}"></div>`
     : `<img class="dibujo" src="${img(t.sena)}">`;
@@ -169,7 +181,7 @@ function frente(t, c) {
          display:flex; flex-direction:column; align-items:center; padding:34px 40px 30px; position:relative; }
   .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
   body > div { position:relative; z-index:1; }
-  .arriba { display:flex; gap:28px; width:${ANCHO}px; height:390px; flex:none; }
+  .arriba { display:flex; gap:28px; width:${ANCHO}px; height:${vertical ? 300 : 390}px; flex:none; }
   .escena { flex:1; min-width:0; height:100%; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; }
   .escena img { width:100%; height:100%; object-fit:contain; display:block; }
   .fichas { display:flex; gap:${gapS}px; }
@@ -199,7 +211,7 @@ function frente(t, c) {
   .panel { position:relative; background:#fff; border-radius:50px; border:6px solid rgba(255,255,255,.9); }
   .escribe { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 24px 10px; }
   .renglon { width:100%; height:100%; }
-  .sena { width:700px; flex:none; display:flex; align-items:flex-end; justify-content:center; }
+  .sena { width:${vertical ? 630 : 700}px; flex:none; display:flex; align-items:flex-end; justify-content:center; }
   .trazo { display:block; overflow:visible; }
   .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
   .foto { background:#fff; }
@@ -231,6 +243,7 @@ function arcosMini(n) {
   if (!entrada) { console.error('Uso: node generar.js datos/<palabra>.json'); process.exit(1); }
   const t = JSON.parse(fs.readFileSync(path.join(RAIZ, entrada), 'utf8'));
   if (t.silabas.join('') !== t.palabra) throw new Error('Las sílabas no forman la palabra: ' + t.silabas.join('-'));
+  const orientacion = orientar(t);
   const c = { ...COLORES_BASE, ...(t.colores || {}) };
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: W, height: H } });
@@ -244,7 +257,7 @@ function arcosMini(n) {
     console.log('Creada:', path.relative(RAIZ, salida));
     // página A4 (210 x 297 mm) con la imagen a escala exacta
     const pdf = path.join(RAIZ, 'datos', 'vistas', `${nombre}-tmp.pdf`);
-    await page.pdf({ path: pdf, width: '279.4mm', height: '215.9mm', printBackground: true, scale: 1056 / W,
+    await page.pdf({ path: pdf, width: W > H ? '279.4mm' : '215.9mm', height: W > H ? '215.9mm' : '279.4mm', printBackground: true, scale: (W > H ? 1056 : 816) / W,
                      margin: { top: 0, right: 0, bottom: 0, left: 0 }, pageRanges: '1' });
     pdfs.push(pdf);
   }

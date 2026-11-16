@@ -29,11 +29,11 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 
 La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nuevas se hacen igual. Referencia visual en `plantilla/base/diseno-base.png` (y `.pdf`), JSON de ejemplo en `plantilla/base/ejemplo.json`. En git corresponde al commit `41fe6a8`. **No cambies la estructura** (orden de los elementos, tamaños, estilo) a menos que el usuario lo pida; para cada palabra nueva solo cambian: la escena, el fondo ilustrado, los colores, las sílabas y la seña.
 
-## Diseño actual: una hoja tamaño CARTA HORIZONTAL por palabra
+## Diseño actual: una hoja tamaño CARTA por palabra (vertical u horizontal según la palabra)
 
-`node generar.js datos/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (una página **carta horizontal**, 11 × 8.5 in, lista para imprimir) y la vista previa `datos/vistas/<palabra>.png` (1650 × 1275 px a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
+`node generar.js datos/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (una página **tamaño carta**, lista para imprimir) y la vista previa `datos/vistas/<palabra>.png` (150 ppp). **Orientación por palabra**: hasta 5 letras → vertical (1275 × 1650); 6 o más → horizontal (1650 × 1275). Se puede forzar con `"orientacion": "vertical"|"horizontal"` en el JSON; elige la que aproveche mejor la hoja.. Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
 
-- **La hoja (enfoque en el CÓDIGO ESCRITO, pedido del usuario), carta horizontal:** arriba, lado a lado, la **escena** (izquierda) y la **seña completa** (derecha, 700 px; la foto se ve entera con `contain`, sin recortar a la persona). Abajo, a todo lo ancho, el bloque de letras: en cada columna **mano LSM** (chica, apoyo) → **boca** → **letra en ficha GRANDE con trazo PUNTEADO** para que Valeria la repase con el dedo ahí mismo → arco en "U" por sílaba. **No hay renglón "escribe" aparte** (el usuario lo quitó).
+- **La hoja (enfoque en el CÓDIGO ESCRITO, pedido del usuario):** arriba, lado a lado, la **escena** (izquierda) y la **seña completa** (derecha, 700 px; la foto se ve entera con `contain`, sin recortar a la persona). Abajo, a todo lo ancho, el bloque de letras: en cada columna **mano LSM** (chica, apoyo) → **boca** → **letra NEGRA sólida en ficha GRANDE** (como en las tarjetas aprobadas) con una **línea punteada delgada de otro color (blanca) por EN MEDIO del trazo**, como si se escribiera con pluma, para repasarla con el dedo. Los puntos salen de `plantilla/trazos.json` (esqueleto de cada letra de Fredoka, calculado con `python3 plantilla/trazos.py`; color en `colores.pluma`) → arco en "U" por sílaba. **No hay renglón "escribe" aparte** (el usuario lo quitó).
 - Las escenas (`escenas/<palabra>.svg`) deben llenar un recuadro de proporción ~2.2 : 1: ajusta el `viewBox` al contenido.
 - **Sin la palabra grande en blanco:** el usuario la quitó porque la palabra ya está en las fichas y en las manos LSM. No la vuelvas a poner.
 - **Sin reverso:** al usuario no le gustó el reverso de práctica (traza, ordena, completa, muévete) y pidió quitarlo. No lo vuelvas a hacer a menos que lo pida.
@@ -57,7 +57,7 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
 
    Elige el gusto que mejor encaje con la palabra, y **varía los gustos** entre tarjetas.
 3. **Colores: juega y arriésgate.** Valeria tiene 11 años, le encantan el slime, los squishies, lo kawaii coreano, Roblox y TikTok: nada de colores planos y aburridos. Cada tarjeta define en el JSON (`colores`):
-   - `fondoImagen` (preferido): una **ilustración de página completa** que lleve a Valeria al mundo de la palabra, en `escenas/<palabra>-fondo.svg` (1240 × 1754). Ej. estrella: **cielo estrellado de fantasía** con nebulosas de colores, cientos de estrellitas, destellos, estrella fugaz, un planeta tierno con anillo y una luna con carita junto a la palabra. Otras ideas: fondo del mar o alberca con burbujas y pececitos (agua), cocina con vapor y especias (ramen), mesa con mantel de cuadros y albahaca (pizza), ciudad con caminos y carritos (carro), un mundo de slime que escurre. Los detalles con carita van en espacios libres (la franja entre la escena y las manos), nunca debajo de los paneles, de las manos ni de los arcos. Como las fichas ahora ocupan todo el ancho en palabras cortas, revisa que no queden tapados.
+   - `fondoImagen` (preferido): una **ilustración de página completa** que lleve a Valeria al mundo de la palabra, en `escenas/<palabra>-fondo.svg` (1240 × 1754). Ej. estrella: **cielo estrellado de fantasía** con nebulosas de colores, cientos de estrellitas, destellos, estrella fugaz, un planeta tierno con anillo y una luna con carita junto a la palabra. Otras ideas: fondo del mar o alberca con burbujas y pececitos (agua), cocina con vapor y especias (ramen), mesa con mantel de cuadros y albahaca (pizza), ciudad con caminos y carritos (carro), un mundo de slime que escurre. Los detalles con carita van en espacios libres (la franja entre la escena y las manos), nunca debajo de los paneles, de las manos ni de los arcos. En vertical casi no hay espacio a los lados de las fichas: no pongas personajes ahí; basta con los de la escena.
    - **Todo el fondo y los adornos son del tema de la palabra, nada de otras tarjetas**: las estrellitas y destellos eran de "estrella"; en "taco" los adornos son tacos, chiles, limones, aguacates, cilantro, cebolla y papel picado (ver `escenas/taco-fondo.svg`: patrón tenue de íconos del tema + personajes con carita en los espacios libres a los lados de las fichas cuando la palabra es corta). Revisa que la escena tampoco tenga destellos de otro tema.
    - `fondo`: **degradado** de respaldo (lista de colores) por si no hay ilustración.
    - `escena`: degradado pastel (cielo de algodón de azúcar, agua, etc.).
@@ -79,7 +79,7 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
    - Respaldo: un dibujo SVG de la seña con manos realistas, solo si el usuario lo pide.
    - La dirección se describe **como se ve de frente** (la "derecha" es la derecha de la imagen). Verifica siempre con el video.
 9. **Nada de personajes con derechos de autor** (Pepa Pig, Roblox, logos de TikTok, etc.). Usa solo su *estilo*: personajes redondos y simpáticos, colores alegres, bloques o elementos de juego.
-10. Caras siempre sonrientes y amables, y ojos con brillo. Nada que asuste o sea agresivo. Tamaño: hoja carta horizontal.
+10. Caras siempre sonrientes y amables, y ojos con brillo. Nada que asuste o sea agresivo. Tamaño: hoja carta (vertical u horizontal según la palabra).
 
 ## Estructura
 
@@ -90,6 +90,7 @@ datos/vistas/<palabra>.png   vista previa (para revisar)
 escenas/<palabra>-fondo.svg  ilustración de fondo de página completa (opcional, recomendada)
 escenas/<palabra>.svg     dibujo del panel de arriba (el panel mide 1160 × 340: usa un viewBox de proporción ~3.4 : 1, ver escenas/estrella.svg)
 bocas/<letra>.jpg         foto de la boca por letra (de la guía fónica del usuario)
+plantilla/trazos.py/.json línea central punteada de cada letra (para repasar con el dedo)
 plantilla/bocas.js        reglas de pronunciación (qué foto va según el sonido) y dibujos de respaldo
 senas/<palabra>-foto.jpg  seña LSM: foto real empalmada (inicio nítido y movimiento transparente)
 abecedario/<letra>.png    sticker de la mano LSM de cada letra (del usuario)
