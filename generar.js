@@ -15,8 +15,8 @@ const { execFileSync } = require('child_process');
 const { sonido, boca, FOTO_DE_SONIDO } = require('./plantilla/bocas.js');
 
 const RAIZ = __dirname;
-const W = 1240, H = 1754;          // A4 a 150 ppp
-const ANCHO = 1160;                // ancho útil (márgenes de 40 px ≈ 7 mm)
+const W = 1650, H = 1275;          // hoja tamaño CARTA horizontal (11 x 8.5 in) a 150 ppp
+const ANCHO = 1570;                // ancho útil (márgenes de 40 px ≈ 7 mm)
 
 const COLORES_BASE = {
   fondo: '#6C2BD9', escena: '#16B4CE', texto: '#2B1B5C', acento: '#FF5DA2',
@@ -101,19 +101,27 @@ function bocaHTML(son) {
   const vibra = son === 'rr' ? `<svg class="pista" viewBox="0 0 20 40"><path d="M6 4 l8 6 -8 6 8 6 -8 6 8 6" fill="none" stroke="#3D8FD1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>` : '';
   return `<img class="foto-boca" src="${img(f)}">${vibra}`;
 }
+// Letra para repasar con el dedo: letra grande y suave con su contorno PUNTEADO (como en un cuaderno de trazo)
+// y un puntito verde donde empieza el trazo.
+function letraTrazo(l, tam, color) {
+  return `<svg class="trazo" viewBox="0 0 100 130" style="height:${Math.round(tam * 1.55)}px">
+    <text x="50" y="98" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="100"
+      fill="rgba(255,255,255,.55)" stroke="${color}" stroke-width="3" stroke-dasharray=".8 4.4" stroke-linecap="round" stroke-linejoin="round">${esc(l)}</text>
+  </svg>`;
+}
 // Dígrafos que en español suenan como una sola letra: llevan "movimiento" entre sus dos stickers.
 const DIGRAFOS = ['ll', 'rr', 'ch'];
 
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
   // Lo escrito es lo principal: fichas grandes; mano y boca más chicas, solo de apoyo.
-  const fichaH = Math.min(440, Math.round(ancho * 3));
+  const fichaH = Math.min(400, Math.round(ancho * 2.4));
   const fuente = Math.min(Math.round(ancho * 1.25), Math.round(fichaH * .78));
-  const mano = Math.min(150, Math.round(ancho * .92));
+  const mano = Math.min(140, Math.round(ancho * .8));
   const paso = ancho + gapL; // distancia entre centros de dos letras seguidas
   const todas = [...t.palabra];
   let g = 0; // índice de la letra en la palabra completa
-  const altoBoca = Math.min(115, Math.round(ancho * .68));
+  const altoBoca = Math.min(105, Math.round(ancho * .6));
   const columnas = t.silabas.map((s, i) => {
     const color = silFondo(c, i), fuerte = silFuerte(c, i);
     const ls = [...s];
@@ -144,7 +152,7 @@ function frente(t, c) {
       return `<div class="col" style="width:${ancho}px">
         <div class="manos" style="height:${mano + 20}px">${arriba}</div>
         <div class="bocas" style="height:${altoBoca}px">${abajo}</div>
-        <div class="ficha" style="background:${color};font-size:${fuente}px;height:${fichaH}px">${esc(l)}</div></div>`;
+        <div class="ficha" style="background:${color};height:${fichaH}px">${letraTrazo(l, fuente, c.texto)}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
     return `<div class="silaba"><div class="cols" style="gap:${gapL}px">${cols}</div>${arco(w)}</div>`;
@@ -153,25 +161,16 @@ function frente(t, c) {
   const sena = !t.sena ? `<div class="pendiente">seña<br>pendiente</div>`
     : /\.jpe?g$/.test(t.sena) ? `<div class="foto"><img src="${img(t.sena)}"></div>`
     : `<img class="dibujo" src="${img(t.sena)}">`;
-  // Renglón para escribir la palabra (letras punteadas para seguir el trazo).
-  const n = [...t.palabra].length;
-  const fsT = Math.min(190, Math.floor(1500 / n));
-  const base = 220, xh = fsT * .5, cap = fsT * .74;
-  const escribe = `<svg class="renglon" viewBox="0 0 780 250" preserveAspectRatio="xMidYMid meet">
-    <line x1="10" x2="770" y1="${base - cap}" y2="${base - cap}" stroke="#C9C2F2" stroke-width="4"/>
-    <line x1="10" x2="770" y1="${base - xh}" y2="${base - xh}" stroke="#C9C2F2" stroke-width="4" stroke-dasharray="16 12"/>
-    <line x1="10" x2="770" y1="${base}" y2="${base}" stroke="${c.texto}" stroke-width="5"/>
-    <text x="390" y="${base}" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="${fsT}" letter-spacing="8"
-      fill="#F1EDFF" stroke="${c.texto}" stroke-width="5" stroke-dasharray="3 12" stroke-linecap="round">${esc(t.palabra)}</text>
-  </svg>`;
+
 
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
   html { background:${primero(c.fondo)}; }
   body { width:${W}px; height:${H}px; background:${fondoPagina(c)}; font-family:Fredoka,sans-serif; color:${c.texto};
-         display:flex; flex-direction:column; align-items:center; padding:36px 40px 40px; position:relative; }
+         display:flex; flex-direction:column; align-items:center; padding:34px 40px 30px; position:relative; }
   .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
   body > div { position:relative; z-index:1; }
-  .escena { width:${ANCHO}px; height:330px; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; flex:none; }
+  .arriba { display:flex; gap:28px; width:${ANCHO}px; height:390px; flex:none; }
+  .escena { flex:1; min-width:0; height:100%; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; }
   .escena img { width:100%; height:100%; object-fit:contain; display:block; }
   .fichas { display:flex; gap:${gapS}px; }
   .silaba { display:flex; flex-direction:column; align-items:center; gap:8px; }
@@ -200,9 +199,11 @@ function frente(t, c) {
   .panel { position:relative; background:#fff; border-radius:50px; border:6px solid rgba(255,255,255,.9); }
   .escribe { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 24px 10px; }
   .renglon { width:100%; height:100%; }
-  .sena { width:340px; flex:none; display:flex; align-items:flex-end; justify-content:center; }
+  .sena { width:700px; flex:none; display:flex; align-items:flex-end; justify-content:center; }
+  .trazo { display:block; overflow:visible; }
   .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
-  .foto img { width:100%; height:100%; object-fit:cover; object-position:center center; }
+  .foto { background:#fff; }
+  .foto img { width:100%; height:100%; object-fit:contain; object-position:center center; }
   .dibujo { max-width:94%; max-height:94%; }
   .pendiente { margin:auto; color:#bbb; font-size:44px; text-align:center; font-weight:600; }
   .fila { display:flex; align-items:center; gap:18px; font-weight:700; font-size:40px; }
@@ -213,12 +214,11 @@ function frente(t, c) {
               font-size:32px; padding:4px 22px; border-radius:24px; border:5px solid #fff; }
   </style></head><body>
     ${patron(c.patron, t.palabra, c.patronColores)}
-    <div class="escena"><img src="${img(t.escena)}"></div>
-    <div class="medio"><div class="fichas">${columnas}</div></div>
-    <div class="abajo">
-      <div class="panel escribe"><span class="etiqueta">escribe</span>${escribe}</div>
+    <div class="arriba">
+      <div class="escena"><img src="${img(t.escena)}"></div>
       <div class="panel sena"><span class="etiqueta">seña</span>${sena}</div>
     </div>
+    <div class="medio"><div class="fichas">${columnas}</div></div>
   </body></html>`;
 }
 function arcosMini(n) {
@@ -244,7 +244,7 @@ function arcosMini(n) {
     console.log('Creada:', path.relative(RAIZ, salida));
     // página A4 (210 x 297 mm) con la imagen a escala exacta
     const pdf = path.join(RAIZ, 'datos', 'vistas', `${nombre}-tmp.pdf`);
-    await page.pdf({ path: pdf, width: '210mm', height: '297mm', printBackground: true, scale: 793.7 / W,
+    await page.pdf({ path: pdf, width: '279.4mm', height: '215.9mm', printBackground: true, scale: 1056 / W,
                      margin: { top: 0, right: 0, bottom: 0, left: 0 }, pageRanges: '1' });
     pdfs.push(pdf);
   }
@@ -256,7 +256,7 @@ w = PdfWriter()
 for f in sys.argv[2:]: w.append(f)
 w.write(sys.argv[1])`, final, ...pdfs]);
   pdfs.forEach((f) => fs.unlinkSync(f));
-  console.log('Para imprimir (A4):', path.relative(RAIZ, final));
+  console.log('Para imprimir (carta horizontal):', path.relative(RAIZ, final));
   // Juntar TODAS las tarjetas en un solo PDF (tarjetas/TODAS-LAS-TARJETAS.pdf), en orden alfabético.
   const todas = fs.readdirSync(path.join(RAIZ, 'tarjetas')).filter((f) => f.endsWith('.pdf') && !f.startsWith('TODAS')).sort()
     .map((f) => path.join(RAIZ, 'tarjetas', f));

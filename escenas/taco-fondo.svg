@@ -1527,7 +1527,7 @@
 <path transform="translate(1011 11)" d="M0 0 H76 V60 L63 48 L50 60 L38 48 L25 60 L13 48 L0 60 Z" fill="#B98CFF"/>
 <path transform="translate(1107 8)" d="M0 0 H76 V60 L63 48 L50 60 L38 48 L25 60 L13 48 L0 60 Z" fill="#FFD43B"/>
 <path transform="translate(1202 4)" d="M0 0 H76 V60 L63 48 L50 60 L38 48 L25 60 L13 48 L0 60 Z" fill="#22D3A6"/>
-<g transform="translate(330 418) rotate(-8) scale(.55)"><g transform="scale(0.270) translate(-255 -200)"><g>
+<g transform="translate(118 820) rotate(-8) scale(.95)"><g transform="scale(0.270) translate(-255 -200)"><g>
   <!-- pared de ATRÁS (por dentro) -->
   <path d="M142 380 C80 390 30 342 34 262 C40 118 188 2 322 6 C398 9 462 46 468 112 C420 112 330 112 270 120 C232 200 196 300 142 380 Z" fill="#FFC93C" stroke="#E89A1C" stroke-width="8" stroke-linejoin="round"/>
   <path d="M300 36 C200 34 80 140 66 262 C60 326 92 364 132 360 C180 290 236 150 300 36 Z" fill="#F0A928"/>
@@ -1550,7 +1550,7 @@
     <path d="M-12 18 Q-6 26 0 18 Q6 26 12 18" fill="none" stroke="#2B1B5C" stroke-width="5" stroke-linecap="round"/>
   </g>
 </g></g></g>
-<g transform="translate(610 418) rotate(-20) scale(.42)"><g transform="scale(0.315)"><g transform="translate(-235 -230)">
+<g transform="translate(118 1080) rotate(-20) scale(.75)"><g transform="scale(0.315)"><g transform="translate(-235 -230)">
   <path d="M396 92 C392 60 400 30 420 14" fill="none" stroke="#7AA51F" stroke-width="22" stroke-linecap="round"/>
   <path d="M298 118 C330 96 404 98 434 144 C464 194 446 292 384 352 C322 412 222 420 142 406 C82 396 40 352 36 302 C33 270 48 246 64 258 C86 302 142 322 200 304 C250 288 270 242 276 192 C279 152 282 124 298 118 Z" fill="#FF5A2A"/>
   <path d="M404 120 C452 160 456 270 392 344 C338 404 262 418 196 414 C272 394 340 352 372 288 C398 236 404 170 404 120 Z" fill="#D8173A"/>
@@ -1562,10 +1562,10 @@
   <path d="M318 318 Q328 328 340 312" fill="none" stroke="#2B1B5C" stroke-width="5" stroke-linecap="round"/>
   <ellipse cx="270" cy="322" rx="15" ry="9" fill="#FF9EC4" opacity=".9"/><ellipse cx="384" cy="300" rx="15" ry="9" fill="#FF9EC4" opacity=".9"/>
 </g></g></g>
-<g transform="translate(1080 420) scale(.6)"><g transform="scale(1.15)"><path d="M0 -44 C24 -44 34 -10 34 14 C34 36 18 46 0 46 C-18 46 -34 36 -34 14 C-34 -10 -24 -44 0 -44Z" fill="#3E7D2A"/>
+<g transform="translate(1125 820) scale(1)"><g transform="scale(1.15)"><path d="M0 -44 C24 -44 34 -10 34 14 C34 36 18 46 0 46 C-18 46 -34 36 -34 14 C-34 -10 -24 -44 0 -44Z" fill="#3E7D2A"/>
 <path d="M0 -36 C18 -36 26 -8 26 14 C26 30 14 38 0 38 C-14 38 -26 30 -26 14 C-26 -8 -18 -36 0 -36Z" fill="#D8F08A"/><circle cy="16" r="14" fill="#9A5B2E"/>
 <circle cx="-9" cy="-8" r="3.5" fill="#3A1240"/><circle cx="9" cy="-8" r="3.5" fill="#3A1240"/><path d="M-4 0 Q0 3 4 0" fill="none" stroke="#3A1240" stroke-width="2.5" stroke-linecap="round"/></g></g>
-<g transform="translate(880 418) scale(.62)"><g transform="scale(1.5)"><circle r="30" fill="#7BCB2E"/><circle r="24" fill="#D9F59A"/>
+<g transform="translate(1125 1080) scale(1.05)"><g transform="scale(1.5)"><circle r="30" fill="#7BCB2E"/><circle r="24" fill="#D9F59A"/>
 <g stroke="#9ED35A" stroke-width="3"><line x1="0" y1="0" x2="22.0" y2="0.0"/><line x1="0" y1="0" x2="15.6" y2="15.6"/><line x1="0" y1="0" x2="0.0" y2="22.0"/><line x1="0" y1="0" x2="-15.6" y2="15.6"/><line x1="0" y1="0" x2="-22.0" y2="0.0"/><line x1="0" y1="0" x2="-15.6" y2="-15.6"/><line x1="0" y1="0" x2="-0.0" y2="-22.0"/><line x1="0" y1="0" x2="15.6" y2="-15.6"/></g>
 <circle cx="-8" cy="2" r="3.5" fill="#3A1240"/><circle cx="8" cy="2" r="3.5" fill="#3A1240"/><path d="M-4 10 Q0 13 4 10" fill="none" stroke="#3A1240" stroke-width="2.5" stroke-linecap="round"/></g></g>
 <g transform="translate(-200 -200)"><g transform="scale(2.2)" fill="#3FBF5A"><path d="M0 0 C-14 -6 -16 -22 -4 -26 C-2 -34 10 -34 10 -24 C22 -24 22 -8 10 -4 C8 4 2 6 0 0Z"/><path d="M0 0 L-2 18" stroke="#2F8F40" stroke-width="3"/></g></g><g transform="translate(-200 -200)"><g transform="scale(1.8)" fill="none"><circle r="18" stroke="#F4E6FF" stroke-width="6"/><circle r="9" stroke="#E6CCFF" stroke-width="4"/></g></g>

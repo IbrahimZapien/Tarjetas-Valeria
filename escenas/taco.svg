@@ -1,7 +1,7 @@
 <!-- Escena "taco" (sin estrellas: adornos de cilantro y cebolla): un taco squishy kawaii en la cocina (a Valeria le encanta cocinar y lo picante).
      Gordito y brillante, con salsa roja que escurre como slime, sobre una tabla de picar,
      con un chilito tierno y un limón. Lienzo ~3.4:1 para el panel de 1160 x 340. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1316 386">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="170 0 980 400">
   <defs>
     <radialGradient id="tortilla" cx=".4" cy=".25" r=".9"><stop offset="0" stop-color="#FFF4C2"/><stop offset=".55" stop-color="#FFD66B"/><stop offset="1" stop-color="#F2A93B"/></radialGradient>
     <linearGradient id="salsa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF5A4E"/><stop offset="1" stop-color="#D81E3A"/></linearGradient>
