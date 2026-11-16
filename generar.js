@@ -158,7 +158,7 @@ function frente(t, c) {
          display:flex; flex-direction:column; align-items:center; padding:36px 40px 40px; position:relative; }
   .patron { position:absolute; inset:0; z-index:0; pointer-events:none; }
   body > div { position:relative; z-index:1; }
-  .escena { width:${ANCHO}px; height:340px; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; flex:none; }
+  .escena { width:${ANCHO}px; height:400px; border-radius:60px; background:${degradado(c.escena, 180)}; border:6px solid rgba(255,255,255,.85); overflow:hidden; flex:none; }
   .escena img { width:100%; height:100%; object-fit:contain; display:block; }
   .palabra { color:#fff; font-weight:700; font-size:${tamPalabra}px; line-height:1; margin:16px 0 10px; letter-spacing:4px;
              text-shadow:0 7px 0 ${c.sombraPalabra || 'rgba(0,0,0,.22)'}; }
@@ -173,7 +173,7 @@ function frente(t, c) {
              display:flex; align-items:center; justify-content:center; padding:0 6px; }
   .capsula .m { height:80%; object-fit:contain; position:relative; z-index:2; }
   .capsula .g { height:58%; object-fit:contain; filter:grayscale(1); margin:0 -16px; }
-  .ficha { width:100%; height:210px; border-radius:50px; display:flex; align-items:center; justify-content:center;
+  .ficha { width:100%; height:250px; border-radius:50px; display:flex; align-items:center; justify-content:center;
            font-weight:700; padding-bottom:10px;
            box-shadow: inset 0 -14px 0 rgba(0,0,0,.10), inset 0 12px 0 rgba(255,255,255,.7), 0 7px 0 rgba(0,0,0,.2); }
   .arco { display:block; overflow:visible; }
@@ -200,8 +200,7 @@ function frente(t, c) {
   </style></head><body>
     ${patron(c.patron, t.palabra, c.patronColores)}
     <div class="escena"><img src="${img(t.escena)}"></div>
-    <div class="palabra">${esc(t.palabra)}</div>
-    <div class="fichas">${columnas}</div>
+    <div class="fichas" style="margin-top:44px">${columnas}</div>
     <div class="abajo">
       <div class="panel sena"><span class="etiqueta">seña</span>${sena}</div>
     </div>
