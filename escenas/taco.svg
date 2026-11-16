@@ -28,7 +28,7 @@
   <g transform="translate(486 42) scale(.74)">
 <g>
   <!-- pared de ATRÁS (por dentro) -->
-  <path d="M312 14 C190 0 40 118 34 262 C30 342 80 390 142 380 C200 300 250 160 312 14 Z" fill="#FFC93C" stroke="#E89A1C" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M142 380 C80 390 30 342 34 262 C40 118 188 2 322 6 C398 9 462 46 468 112 C420 112 330 112 270 120 C232 200 196 300 142 380 Z" fill="#FFC93C" stroke="#E89A1C" stroke-width="8" stroke-linejoin="round"/>
   <path d="M300 36 C200 34 80 140 66 262 C60 326 92 364 132 360 C180 290 236 150 300 36 Z" fill="#F0A928"/>
   <!-- comida por dentro -->
   <g fill="#9A4F28"><ellipse cx="120" cy="170" rx="42" ry="26" transform="rotate(-20 120 170)"/><ellipse cx="100" cy="260" rx="36" ry="24" transform="rotate(-40 100 260)"/><ellipse cx="110" cy="330" rx="28" ry="20" transform="rotate(-50 110 330)"/><ellipse cx="190" cy="90" rx="30" ry="20" transform="rotate(-10 190 90)"/><ellipse cx="160" cy="120" rx="30" ry="22" transform="rotate(0 160 120)"/><ellipse cx="250" cy="60" rx="26" ry="18" transform="rotate(-5 250 60)"/><ellipse cx="140" cy="215" rx="30" ry="20" transform="rotate(-30 140 215)"/></g>
