@@ -44,7 +44,7 @@ im = Image.open(sys.argv[1]).convert('RGB'); W, H = im.size
 a = np.asarray(im).astype(np.float32)
 bg = np.median(a[5:25, 5:200].reshape(-1, 3), axis=0)
 dist = np.sqrt(((a - bg) ** 2).sum(axis=2))
-alfa = np.clip((dist - 28) / 30, 0, 1)
+alfa = np.clip((dist - 7) / 9, 0, 1)  # el fondo es un gris parejo: todo lo que se aparte un poco es mano (sombras incluidas)
 
 # filas con contenido
 on = (alfa > .5).sum(axis=1) > 3
@@ -68,8 +68,14 @@ for k, l in enumerate(LETRAS):
         # hueco chico (sombra dentro de la mano) → se rellena; hueco grande (fondo real) → se queda
         if m.sum() < .04 * area:
             A[m] = 1
-    msk = Image.fromarray((A * 255).astype(np.uint8)).filter(ImageFilter.MedianFilter(5)).filter(ImageFilter.GaussianBlur(.8))
-    cel = im.crop((x0, y0, x1, y1)); cel.putalpha(msk)
+    msk = Image.fromarray((A * 255).astype(np.uint8)).filter(ImageFilter.MedianFilter(3)).filter(ImageFilter.GaussianBlur(.6))
+    # orillas limpias: se le resta el gris del fondo a los píxeles semitransparentes y se adelgaza 1 px el borde
+    msk = msk.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(.5))
+    al = np.asarray(msk).astype(np.float32)[..., None] / 255
+    rgb = a[y0:y1, x0:x1]
+    al_col = np.clip(alfa[y0:y1, x0:x1][..., None], .25, 1)
+    limpio = np.clip((rgb - (1 - al_col) * bg) / al_col, 0, 255)
+    cel = Image.fromarray(limpio.astype(np.uint8)); cel.putalpha(msk)
     cel = cel.crop(cel.getchannel('A').point(lambda v: 255 if v > 60 else 0).getbbox())
     s = max(cel.size) + 16
     sq = Image.new('RGBA', (s, s), (0, 0, 0, 0)); sq.paste(cel, ((s - cel.size[0]) // 2, (s - cel.size[1]) // 2))
