@@ -1,14 +1,12 @@
 // Tarjetas de Valeria, versión 2: DOS caras por palabra (1200 x 1680 cada una).
 //
-//   FRENTE  (aprender):  escena → palabra → letras en orden, cada una con su letra en LSM
-//                        (dactilología) → arcos por sílaba → seña de la palabra.
+//   FRENTE  (aprender):  escena → palabra → letras en orden (por sílaba) → arcos por sílaba
+//                        → seña de la palabra.
 //   REVERSO (practicar): 1 traza · 2 ordena · 3 completa · 4 muévete.
 //
 // Uso:  node generar.js tarjetas/estrella.json
 // Resultado: tarjetas/estrella-frente.png y tarjetas/estrella-reverso.png
-//
-// Dactilología: si existe abecedario/<letra>.jpg (o .png) se muestra; si no, aparece un
-// recuadro punteado "foto pendiente". Las fotos del abecedario sirven para TODAS las tarjetas.
+
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
@@ -58,20 +56,15 @@ function arco(w, color = '#fff') {
 // ---------- FRENTE ----------
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
-  const fuente = Math.round(ancho * 1.05);
+  const fuente = Math.round(ancho * 1.2);
   let num = 0;
   const columnas = t.silabas.map((s, i) => {
     const color = c.silabas[i % c.silabas.length];
     const cols = [...s].map((l) => {
       num++;
-      const foto = ['jpg', 'png'].map((e) => `abecedario/${l}.${e}`).find(existe);
-      const dacti = foto
-        ? `<div class="dacti"><img src="${img(foto)}"></div>`
-        : `<div class="dacti vacio"><span>${esc(l)}</span><small>foto<br>pendiente</small></div>`;
       return `<div class="col" style="width:${ancho}px">
         <div class="num" style="background:${color}">${num}</div>
-        <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div>
-        ${dacti}</div>`;
+        <div class="ficha" style="background:${color};font-size:${fuente}px">${esc(l)}</div></div>`;
     }).join('');
     const w = s.length * ancho + (s.length - 1) * gapL;
     return `<div class="silaba"><div class="cols" style="gap:${gapL}px">${cols}</div>${arco(w)}</div>`;
@@ -95,15 +88,10 @@ function frente(t, c) {
   .col { display:flex; flex-direction:column; align-items:center; gap:10px; }
   .num { width:46px; height:46px; border-radius:50%; font-weight:700; font-size:28px; display:flex; align-items:center;
          justify-content:center; box-shadow:0 4px 0 rgba(0,0,0,.2); }
-  .ficha { width:100%; height:190px; border-radius:50px; display:flex; align-items:center; justify-content:center;
+  .ficha { width:100%; height:270px; border-radius:50px; display:flex; align-items:center; justify-content:center;
            font-weight:700; padding-bottom:10px;
            box-shadow: inset 0 -14px 0 rgba(0,0,0,.10), inset 0 12px 0 rgba(255,255,255,.7), 0 7px 0 rgba(0,0,0,.2); }
-  .dacti { width:100%; aspect-ratio:1; border-radius:28px; background:#fff; overflow:hidden; box-shadow:0 6px 0 rgba(0,0,0,.2); }
-  .dacti img { width:100%; height:100%; object-fit:cover; display:block; }
-  .dacti.vacio { background:rgba(255,255,255,.18); border:4px dashed rgba(255,255,255,.75); box-shadow:none;
                  display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; line-height:1; }
-  .dacti.vacio span { font-size:44px; font-weight:700; }
-  .dacti.vacio small { font-size:15px; font-weight:600; text-align:center; opacity:.9; margin-top:4px; }
   .arco { display:block; overflow:visible; }
   .abajo { display:flex; gap:28px; margin-top:22px; width:1056px; flex:1; }
   .panel { position:relative; background:#fff; border-radius:50px; }

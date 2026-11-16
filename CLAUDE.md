@@ -29,13 +29,13 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 
 `node generar.js tarjetas/<palabra>.json` crea `tarjetas/<palabra>-frente.png` y `tarjetas/<palabra>-reverso.png`.
 
-- **Frente, para aprender:** escena (squishy, en su mundo) → palabra grande → letras **numeradas en orden** (1, 2, 3…), cada una en su ficha de color por sílaba y, debajo, **su letra en dactilología LSM** → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
+- **Frente, para aprender:** escena (squishy, en su mundo) → palabra grande → letras **numeradas en orden** (1, 2, 3…), cada una en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
 - **Reverso, para practicar** (siempre los mismos 4 pasos, en el mismo orden, porque su memoria y la rutina le ayudan):
   1. **traza**: la palabra punteada sobre renglones de cuaderno.
   2. **ordena**: casillas numeradas y las letras revueltas (se pueden recortar o señalar).
   3. **completa**: la palabra con dos letras faltantes.
   4. **muévete**: un salto de tijera por sílaba, diciendo o señando cada una.
-- **Dactilología**: las fotos de cada letra del abecedario LSM van en `abecedario/<letra>.jpg` y sirven para TODAS las tarjetas. Si falta una, sale "foto pendiente". **No inventes configuraciones**: pide al usuario fotos o un video del abecedario y recorta cada letra. Ojo con las letras con movimiento en LSM (j, k, ñ, q, x, z y la ll).
+- **Sin dactilología por ahora**: el usuario pidió quitar los recuadros de letras en LSM debajo de las fichas. No los agregues a menos que lo pida.
 - La versión anterior está en `plantilla/generar-v1.js` y `tarjetas/anteriores/`.
 
 ## Reglas de diseño (aplícalas a TODAS las tarjetas)
@@ -64,7 +64,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
    - **Estilo squishy / slime para el objeto principal** (a Valeria le encantan las cosas suaves): formas gorditas con las puntas redondeadas, un poco aplastadas como si se hundieran por su peso, un degradado brillante tipo gel, brillos blancos grandes, una sombra suave debajo, alguna gotita de slime y líneas de "squish" a los lados. Carita kawaii con ojos grandes y brillantes. Ejemplo: la estrella de `escenas/estrella.svg`.
 5. **La palabra** va en minúsculas, en letra redonda (Fredoka), blanca y muy grande.
 6. **Fichas por letra, agrupadas por sílaba**, tipo squishy: redondas, con brillo arriba y sombra abajo. Cada sílaba tiene su color y hay más espacio entre sílabas. **Debajo de cada sílaba va un arco en forma de "U"** (como un puente invertido), que empieza en una monedita y termina en una flecha. Se recorre con el dedo **de izquierda a derecha** mientras se pronuncia la sílaba, para ensayar cómo suena. Separa las sílabas correctamente en español.
-7. **Orden de las letras**: cada letra lleva su número de posición y su letra en dactilología LSM debajo. **No pongas paneles de conteo ni ejercicios de números**: el usuario quiere trabajar los números aparte.
+7. **Orden de las letras**: cada letra lleva su número de posición arriba. **No pongas paneles de conteo ni ejercicios de números**: el usuario quiere trabajar los números aparte.
 8. **Panel "seña"**: abajo, a todo lo ancho. **No inventes la forma de una seña.** Si no hay referencia, deja `"sena"` fuera del JSON y aparece "seña pendiente".
    - **Preferido: foto real empalmada** (así lo pidió el usuario). Pide un **video corto** de la seña y ejecuta `python3 plantilla/empalmar.py VIDEO senas/<palabra>-foto.jpg --cuadros 1,a,b,c,d --recorte x0,y0,x1,y1`. El primer cuadro (el inicio) queda **nítido**; los siguientes se enciman con **transparencia progresiva** (cada vez más transparentes) para mostrar el recorrido. Elige los cuadros revisando una hoja de contactos del video (ffmpeg). Recorta horizontal (más o menos 2 de ancho por 1 de alto), dejando ver todo el recorrido de las manos. Las fotos llenan el panel completo.
    - Si solo hay fotos sueltas, empálmalas igual (el inicio nítido y las demás transparentes) o pregunta.
@@ -78,7 +78,6 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 ```
 tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colores del tema
 tarjetas/<palabra>-frente.png / -reverso.png   tarjeta terminada (se genera, no se edita a mano)
-abecedario/<letra>.jpg    letra en dactilología LSM (foto real), una por letra
 escenas/<palabra>.svg     dibujo del panel de arriba, 1056 × 400 (viewBox 1056 × 428 también sirve)
 senas/<palabra>-foto.jpg  seña LSM: foto real empalmada (inicio nítido y movimiento transparente)
 senas/<palabra>.svg       (respaldo) dibujo de la seña
