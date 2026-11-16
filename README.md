@@ -5,7 +5,7 @@ Tarjetas para que Valeria aprenda a reconocer letras, sílabas y palabras escrit
 
 | Palabra | Tarjeta |
 |---|---|
-| estrella | [tarjetas/estrella.png](tarjetas/estrella.png) |
+| estrella | [frente](tarjetas/estrella-frente.png) · [reverso](tarjetas/estrella-reverso.png) |
 
 ## Pedir una tarjeta nueva
 
