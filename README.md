@@ -7,8 +7,8 @@ Tarjetas para que Valeria aprenda a reconocer letras, sílabas y palabras escrit
 
 | Palabra | Tarjeta |
 |---|---|
-| estrella | [PDF A4](tarjetas/estrella.pdf) · [vista previa](tarjetas/estrella-frente.png) |
-| taco | [PDF A4](tarjetas/taco.pdf) · [vista previa](tarjetas/taco-frente.png) |
+| estrella | [PDF A4](tarjetas/estrella.pdf) |
+| taco | [PDF A4](tarjetas/taco.pdf) |
 
 ## Diseño base
 

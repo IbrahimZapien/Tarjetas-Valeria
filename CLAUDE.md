@@ -31,7 +31,7 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
 
 ## Diseño actual: una hoja A4 por palabra
 
-`node generar.js tarjetas/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (una página **A4**, lista para imprimir) y la vista previa `tarjetas/<palabra>-frente.png` (1240 × 1754 px = A4 a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
+`node generar.js datos/<palabra>.json` crea **`tarjetas/<palabra>.pdf`** (una página **A4**, lista para imprimir) y la vista previa `datos/vistas/<palabra>.png` (1240 × 1754 px = A4 a 150 ppp). Usa bien la hoja: márgenes chicos (≈7 mm) y elementos grandes.
 
 - **La hoja:** escena (squishy, en su mundo) → en cada columna, de arriba hacia abajo: **mano LSM → boca** (cómo se pone la boca para ese sonido, justo debajo de la mano para verlas al mismo tiempo) **→ letra** en su ficha de color por sílaba → arco en "U" por sílaba → abajo, la **seña de la palabra** (foto empalmada) a todo lo ancho.
 - **Sin la palabra grande en blanco:** el usuario la quitó porque la palabra ya está en las fichas y en las manos LSM. No la vuelvas a poner.
@@ -40,7 +40,6 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
 - **Manos LSM (dactilología) encima de cada letra**: un sticker en miniatura por letra, tomado de `abecedario/<letra>.png` (los stickers los manda el usuario; **no inventes configuraciones**). `generar.js` avisa qué stickers faltan.
   - Cada sticker va en un **círculo blanco** encima de su letra. **Dígrafos (ll, rr, ch)**: una sola **cápsula blanca** abarca las dos letras (son una sola letra, un solo sonido); dentro van la mano de la primera letra, copias de la mano **en escala de grises** cada vez más tenues (el movimiento) y la mano de la segunda letra.
   - Los stickers son los **originales del paquete de WhatsApp** del usuario (27 letras, a–z con ñ; transparentes, 512 px), exportados con "Exportar chat → Adjuntar archivos". La ll se forma con dos l. Si mandan otro paquete así: descomprime el .zip, ordena los .webp por nombre, recorta al contenido y guarda en `abecedario/<letra>.png`. `plantilla/recortar_abecedario.py` queda como respaldo para recortar desde una imagen con fondo liso. Revisa siempre los stickers sobre fondo de color.
-- La versión anterior está en `plantilla/generar-v1.js` y `tarjetas/anteriores/`.
 
 ## Reglas de diseño (aplícalas a TODAS las tarjetas)
 
@@ -76,7 +75,7 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
    - **Preferido: foto real empalmada** (así lo pidió el usuario). Pide un **video corto** de la seña y ejecuta `python3 plantilla/empalmar.py VIDEO senas/<palabra>-foto.jpg --cuadros 1,a,b,c,d --recorte x0,y0,x1,y1`. El primer cuadro (el inicio) queda **nítido**; los siguientes se enciman con **transparencia progresiva** (cada vez más transparentes) para mostrar el recorrido. Elige los cuadros revisando una hoja de contactos del video (ffmpeg). Recorta horizontal (más o menos 2 de ancho por 1 de alto), dejando ver todo el recorrido de las manos. Las fotos llenan el panel completo.
    - Si solo hay fotos sueltas, empálmalas igual (el inicio nítido y las demás transparentes) o pregunta.
    - **Si el empalme no se entiende** (las manos se enciman en el mismo lugar, como en "taco", o el video es vertical): usa **dos fotos lado a lado**, inicio (1) → final (2), con una flecha rosa en medio y los números abajo en las esquinas (la etiqueta "seña" tapa la esquina de arriba). Elige los cuadros más nítidos (menos movidos) y en los que **se vean las dos manos completas** (dedos incluidos, sin que una tape a la otra); deja aire arriba de los dedos y haz la imagen a la proporción del panel (~2.1 : 1) para que no se recorte. Ver `senas/taco-foto.jpg`. `empalmar.py --zona` limita las manos transparentes a una zona para que no salgan contornos en la cara.
-   - Respaldo: un dibujo SVG (`senas/<palabra>.svg`, ver `senas/estrella.svg`), con manos realistas y la persona con proporciones reales. Úsalo solo si el usuario lo pide.
+   - Respaldo: un dibujo SVG de la seña con manos realistas, solo si el usuario lo pide.
    - La dirección se describe **como se ve de frente** (la "derecha" es la derecha de la imagen). Verifica siempre con el video.
 9. **Nada de personajes con derechos de autor** (Pepa Pig, Roblox, logos de TikTok, etc.). Usa solo su *estilo*: personajes redondos y simpáticos, colores alegres, bloques o elementos de juego.
 10. Caras siempre sonrientes y amables, y ojos con brillo. Nada que asuste o sea agresivo. Tamaño: hoja A4.
@@ -84,29 +83,28 @@ La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nu
 ## Estructura
 
 ```
-tarjetas/<palabra>.json   definición: palabra, sílabas, escena, seña y colores del tema
-tarjetas/<palabra>.pdf    para imprimir: 1 página A4 (se genera, no se edita a mano)
-tarjetas/<palabra>-frente.png   vista previa
+tarjetas/                 SOLO lo aprobado: <palabra>.pdf (A4) y TODAS-LAS-TARJETAS.pdf. Nada más (pedido del usuario: sin desorden)
+datos/<palabra>.json      definición: palabra, sílabas, escena, seña y colores del tema
+datos/vistas/<palabra>.png   vista previa (para revisar)
 escenas/<palabra>-fondo.svg  ilustración de fondo de página completa (opcional, recomendada)
 escenas/<palabra>.svg     dibujo del panel de arriba (el panel mide 1160 × 340: usa un viewBox de proporción ~3.4 : 1, ver escenas/estrella.svg)
 bocas/<letra>.jpg         foto de la boca por letra (de la guía fónica del usuario)
 plantilla/bocas.js        reglas de pronunciación (qué foto va según el sonido) y dibujos de respaldo
 senas/<palabra>-foto.jpg  seña LSM: foto real empalmada (inicio nítido y movimiento transparente)
-senas/<palabra>.svg       (respaldo) dibujo de la seña
 abecedario/<letra>.png    sticker de la mano LSM de cada letra (del usuario)
 plantilla/empalmar.py     empalma cuadros de un video en una sola foto
 plantilla/fuentes/        fuente Fredoka (no requiere internet)
 generar.js                arma la hoja: node generar.js tarjetas/<palabra>.json
 ```
 
-Ejemplo de JSON: `tarjetas/estrella.json`. Los `colores` que puedes definir son `fondo`, `escena`, `texto`, `acento` y `silabas` (una lista de colores).
+Ejemplo de JSON: `datos/estrella.json`. Los `colores` que puedes definir son `fondo`, `escena`, `texto`, `acento` y `silabas` (una lista de colores).
 
 ## Cómo hacer una tarjeta nueva
 
-1. Si mandan una imagen de tarjeta completa, guárdala como `tarjetas/<palabra>-original.png`. Si mandan un video o fotos de la seña, haz el empalme según la regla 8. Se pueden guardar en el repositorio el empalme y las fotos de la persona que hace la seña (el usuario lo autorizó). No guardes videos completos.
+1. Si mandan un video o fotos de la seña, haz el empalme según la regla 8. Se pueden guardar en el repositorio el empalme y las fotos de la persona que hace la seña (el usuario lo autorizó). No guardes videos completos.
 2. Elige el gusto de Valeria que mejor encaje con la palabra y dibuja `escenas/<palabra>.svg`. Usa `escenas/estrella.svg` como ejemplo de estilo.
-3. Elige colores vivos que vayan con el tema y crea `tarjetas/<palabra>.json`.
-4. Ejecuta `node generar.js tarjetas/<palabra>.json` y **mira el PNG** antes de entregarlo.
+3. Elige colores vivos que vayan con el tema y crea `datos/<palabra>.json`.
+4. Ejecuta `node generar.js datos/<palabra>.json` y **mira el PNG** (`datos/vistas/`) antes de entregarlo. Mientras el usuario no la apruebe, puedes regenerarla; en `tarjetas/` solo debe quedar la versión final. No guardes versiones viejas, borradores ni originales en `tarjetas/`.
 5. Agrega la palabra a la tabla del `README.md` (el PDF `tarjetas/TODAS-LAS-TARJETAS.pdf` se actualiza solo). Haz commit y push a `main`, y muestra la tarjeta al usuario.
 6. Si piden un cambio de diseño **para todas** las tarjetas, actualiza estas reglas y `generar.js`, y vuelve a generar todas las tarjetas.
 

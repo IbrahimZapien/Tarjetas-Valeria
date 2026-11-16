@@ -3,8 +3,9 @@
 //   escena → palabra → por cada letra: mano LSM → boca (cómo suena) → letra → arcos por sílaba
 //   → seña de la palabra.
 //
-// Uso:  node generar.js tarjetas/estrella.json
-// Resultado: tarjetas/estrella.pdf (A4 para imprimir) y tarjetas/estrella-frente.png (vista previa)
+// Uso:  node generar.js datos/estrella.json
+// Resultado: tarjetas/estrella.pdf (A4 para imprimir), datos/vistas/estrella.png (vista previa)
+// y tarjetas/TODAS-LAS-TARJETAS.pdf actualizado. En tarjetas/ solo quedan los PDF aprobados.
 
 const fs = require('fs');
 const path = require('path');
@@ -213,7 +214,7 @@ function arcosMini(n) {
 
 (async () => {
   const entrada = process.argv[2];
-  if (!entrada) { console.error('Uso: node generar.js tarjetas/<palabra>.json'); process.exit(1); }
+  if (!entrada) { console.error('Uso: node generar.js datos/<palabra>.json'); process.exit(1); }
   const t = JSON.parse(fs.readFileSync(path.join(RAIZ, entrada), 'utf8'));
   if (t.silabas.join('') !== t.palabra) throw new Error('Las sílabas no forman la palabra: ' + t.silabas.join('-'));
   const c = { ...COLORES_BASE, ...(t.colores || {}) };
@@ -223,17 +224,18 @@ function arcosMini(n) {
   for (const [cara, fn] of [['frente', frente]]) {
     await page.setContent(fn(t, c));
     await page.evaluate(() => document.fonts.ready);
-    const salida = path.join(RAIZ, entrada.replace(/\.json$/, `-${cara}.png`));
+    const nombre = path.basename(entrada, '.json');
+    const salida = path.join(RAIZ, 'datos', 'vistas', `${nombre}.png`);
     await page.screenshot({ path: salida });
     console.log('Creada:', path.relative(RAIZ, salida));
     // página A4 (210 x 297 mm) con la imagen a escala exacta
-    const pdf = salida.replace(/\.png$/, '.pdf');
+    const pdf = path.join(RAIZ, 'datos', 'vistas', `${nombre}-tmp.pdf`);
     await page.pdf({ path: pdf, width: '210mm', height: '297mm', printBackground: true, scale: 793.7 / W,
                      margin: { top: 0, right: 0, bottom: 0, left: 0 }, pageRanges: '1' });
     pdfs.push(pdf);
   }
   await browser.close();
-  const final = path.join(RAIZ, entrada.replace(/\.json$/, '.pdf'));
+  const final = path.join(RAIZ, 'tarjetas', `${path.basename(entrada, '.json')}.pdf`);
   execFileSync('python3', ['-c', `import sys
 from pypdf import PdfWriter
 w = PdfWriter()
