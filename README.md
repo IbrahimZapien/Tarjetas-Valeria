@@ -11,7 +11,7 @@ Tarjetas para que Valeria aprenda a reconocer letras, sílabas y palabras escrit
 
 ![Diseño base](plantilla/base/diseno-base.png)
 
-La tarjeta de "estrella" es el diseño base aprobado (etiqueta `diseno-base-v1`). Todas las tarjetas nuevas siguen este formato: una hoja A4 con escena, mano LSM, boca y letra por columna, arcos por sílaba y la seña de la palabra.
+La tarjeta de "estrella" es el diseño base aprobado (commit `41fe6a8`). Todas las tarjetas nuevas siguen este formato: una hoja A4 con escena, mano LSM, boca y letra por columna, arcos por sílaba y la seña de la palabra.
 
 ## Pedir una tarjeta nueva
 

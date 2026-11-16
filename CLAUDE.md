@@ -27,7 +27,7 @@ Este repositorio guarda tarjetas para que Valeria aprenda el **código escrito**
 
 ## ⭐ DISEÑO BASE (aprobado por el usuario el 16/11/2026)
 
-La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nuevas se hacen igual. Referencia visual en `plantilla/base/diseno-base.png` (y `.pdf`), JSON de ejemplo en `plantilla/base/ejemplo.json`. En git está marcado con la etiqueta `diseno-base-v1`. **No cambies la estructura** (orden de los elementos, tamaños, estilo) a menos que el usuario lo pida; para cada palabra nueva solo cambian: la escena, el fondo ilustrado, los colores, las sílabas y la seña.
+La tarjeta de **estrella** es el **diseño base oficial**: todas las tarjetas nuevas se hacen igual. Referencia visual en `plantilla/base/diseno-base.png` (y `.pdf`), JSON de ejemplo en `plantilla/base/ejemplo.json`. En git corresponde al commit `41fe6a8`. **No cambies la estructura** (orden de los elementos, tamaños, estilo) a menos que el usuario lo pida; para cada palabra nueva solo cambian: la escena, el fondo ilustrado, los colores, las sílabas y la seña.
 
 ## Diseño actual: una hoja A4 por palabra
 
