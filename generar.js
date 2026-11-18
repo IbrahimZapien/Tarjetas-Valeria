@@ -126,13 +126,13 @@ const DIGRAFOS = ['ll', 'rr', 'ch'];
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
   // Lo escrito es lo principal: fichas grandes; mano y boca más chicas, solo de apoyo.
-  const fichaH = W < H ? Math.min(620, Math.round(ancho * 2.6)) : Math.min(400, Math.round(ancho * 2.4));
+  const fichaH = W < H ? Math.min(460, Math.round(ancho * 1.85)) : Math.min(330, Math.round(ancho * 1.8));
   const fuente = Math.min(Math.round(ancho * 1.25), Math.round(fichaH * .78));
   const mano = Math.min(W < H ? 180 : 140, Math.round(ancho * .8));
   const paso = ancho + gapL; // distancia entre centros de dos letras seguidas
   const todas = [...t.palabra];
   let g = 0; // índice de la letra en la palabra completa
-  const altoBoca = Math.min(W < H ? 135 : 105, Math.round(ancho * .6));
+  const altoBoca = Math.min(W < H ? 190 : 140, Math.round(ancho * .76));
   const columnas = t.silabas.map((s, i) => {
     const color = silFondo(c, i), fuerte = silFuerte(c, i);
     const ls = [...s];
