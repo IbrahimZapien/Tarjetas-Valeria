@@ -123,6 +123,23 @@ function letraTrazo(l, tam, color, pluma) {
 // Dígrafos que en español suenan como una sola letra: llevan "movimiento" entre sus dos stickers.
 const DIGRAFOS = ['ll', 'rr', 'ch'];
 
+// Bandera de EUA en miniatura para el panel "inglés".
+function banderaEUA(ancho) {
+  const W0 = 190, H0 = 100, fr = H0 / 13, cw = 76, ch = fr * 7;
+  let f = `<rect width="${W0}" height="${H0}" fill="#fff"/>`;
+  for (let k = 0; k < 13; k += 2) f += `<rect y="${(k * fr).toFixed(2)}" width="${W0}" height="${fr.toFixed(2)}" fill="#B22234"/>`;
+  f += `<rect width="${cw}" height="${ch.toFixed(2)}" fill="#3C3B6E"/>`;
+  const est = (x, y, r) => { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .4 : r; d += `${i ? 'L' : 'M'}${(x + rr * Math.cos(a)).toFixed(2)} ${(y + rr * Math.sin(a)).toFixed(2)}`; } return `<path d="${d}Z"/>`; };
+  let e = '';
+  for (let fila = 0; fila < 9; fila++) {
+    const n = fila % 2 ? 5 : 6;
+    for (let k = 0; k < n; k++) e += est(cw / 12 * (2 * k + 1 + (fila % 2)), ch / 10 * (fila + 1), 2.6);
+  }
+  return `<svg class="bandera" width="${ancho}" height="${Math.round(ancho * H0 / W0)}" viewBox="0 0 ${W0} ${H0}">
+    <defs><clipPath id="bclip"><rect width="${W0}" height="${H0}" rx="10"/></clipPath></defs>
+    <g clip-path="url(#bclip)">${f}<g fill="#fff">${e}</g></g>
+    <rect width="${W0}" height="${H0}" rx="10" fill="none" stroke="rgba(0,0,0,.15)" stroke-width="3"/></svg>`;
+}
 function frente(t, c) {
   const { ancho, gapL, gapS } = medidas(t.silabas);
   // Lo escrito es lo principal: fichas grandes; mano y boca más chicas, solo de apoyo.
@@ -217,7 +234,8 @@ function frente(t, c) {
   .escribe { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 24px 10px; }
   .renglon { width:100%; height:100%; }
   .ingles { width:${vertical ? 630 : 700}px; flex:none; display:flex; align-items:center; justify-content:center; }
-  .en { font-weight:700; line-height:1; letter-spacing:6px; padding-bottom:14px; }
+  .bandera { position:absolute; top:26px; right:30px; filter:drop-shadow(0 3px 0 rgba(0,0,0,.15)); }
+  .en { font-weight:700; line-height:1; letter-spacing:6px; padding-top:${vertical ? 70 : 40}px; }
   .trazo { display:block; overflow:visible; }
   .pendiente { margin:auto; color:#bbb; font-size:44px; text-align:center; font-weight:600; }
   .fila { display:flex; align-items:center; gap:18px; font-weight:700; font-size:40px; }
@@ -230,7 +248,7 @@ function frente(t, c) {
     ${patron(c.patron, t.palabra, c.patronColores)}
     <div class="arriba">
       <div class="escena"><img src="${img(t.escena)}"></div>
-      <div class="panel ingles"><span class="etiqueta">inglés</span>${ingles}</div>
+      <div class="panel ingles"><span class="etiqueta">inglés</span>${banderaEUA(vertical ? 110 : 120)}${ingles}</div>
     </div>
     <div class="medio"><div class="fichas">${columnas}</div></div>
   </body></html>`;
