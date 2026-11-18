@@ -5,7 +5,6 @@
     "co"
   ],
   "escena": "escenas/taco.svg",
-  "sena": "senas/taco-foto.jpg",
   "colores": {
     "fondoImagen": "escenas/taco-fondo.svg",
     "fondo": [
@@ -36,5 +35,6 @@
       "#C8102E",
       "#1E7B3C"
     ]
-  }
+  },
+  "ingles": "taco"
 }

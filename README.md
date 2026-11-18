@@ -22,5 +22,5 @@ Abre una sesión de Claude Code con este repositorio y escribe, por ejemplo:
 
 > Hazme la tarjeta de **ramen**. (Adjunta el dibujo o la tarjeta con la seña, si la tienes.)
 
-Claude sigue las reglas de `CLAUDE.md`. Manda de preferencia un video corto de la seña (de frente, fondo liso). Resultado: `tarjetas/<palabra>.pdf`, listo para imprimir en tamaño carta. Para generar una tarjeta a mano: `node generar.js tarjetas/<palabra>.json`
+Claude sigue las reglas de `CLAUDE.md`. Resultado: `tarjetas/<palabra>.pdf`, listo para imprimir en tamaño carta. Para generar una tarjeta a mano: `node generar.js tarjetas/<palabra>.json`
 (necesita Node y Playwright).

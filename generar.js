@@ -170,9 +170,14 @@ function frente(t, c) {
   }).join('');
 
   const vertical = W < H;
-  const sena = !t.sena ? `<div class="pendiente">seña<br>pendiente</div>`
-    : /\.jpe?g$/.test(t.sena) ? `<div class="foto"><img src="${img(t.sena)}"></div>`
-    : `<img class="dibujo" src="${img(t.sena)}">`;
+  // Palabra en INGLÉS (campo "ingles" del JSON): en lugar de la foto de la seña, para que la vaya reconociendo.
+  // Cada letra con el color de las letras de la tarjeta, en orden, repartidos a lo largo de la palabra.
+  const en = [...(t.ingles || '')];
+  const colsL = c.letras || [c.texto];
+  const tamEn = Math.min(vertical ? 190 : 230, Math.floor((vertical ? 560 : 620) / Math.max(en.length, 1) * 1.55));
+  const ingles = en.length
+    ? `<div class="en" style="font-size:${tamEn}px">${en.map((l, k) => `<span style="color:${colsL[Math.floor(k * colsL.length / en.length)]}">${esc(l)}</span>`).join('')}</div>`
+    : `<div class="pendiente">inglés<br>pendiente</div>`;
 
 
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FUENTES}
@@ -211,12 +216,9 @@ function frente(t, c) {
   .panel { position:relative; background:#fff; border-radius:50px; border:6px solid rgba(255,255,255,.9); }
   .escribe { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 24px 10px; }
   .renglon { width:100%; height:100%; }
-  .sena { width:${vertical ? 630 : 700}px; flex:none; display:flex; align-items:flex-end; justify-content:center; }
+  .ingles { width:${vertical ? 630 : 700}px; flex:none; display:flex; align-items:center; justify-content:center; }
+  .en { font-weight:700; line-height:1; letter-spacing:6px; padding-bottom:14px; }
   .trazo { display:block; overflow:visible; }
-  .foto { position:absolute; inset:0; border-radius:50px; overflow:hidden; }
-  .foto { background:#fff; }
-  .foto img { width:100%; height:100%; object-fit:contain; object-position:center center; }
-  .dibujo { max-width:94%; max-height:94%; }
   .pendiente { margin:auto; color:#bbb; font-size:44px; text-align:center; font-weight:600; }
   .fila { display:flex; align-items:center; gap:18px; font-weight:700; font-size:40px; }
   .fila b { font-size:110px; line-height:1; min-width:80px; text-align:center; }
@@ -228,7 +230,7 @@ function frente(t, c) {
     ${patron(c.patron, t.palabra, c.patronColores)}
     <div class="arriba">
       <div class="escena"><img src="${img(t.escena)}"></div>
-      <div class="panel sena"><span class="etiqueta">seña</span>${sena}</div>
+      <div class="panel ingles"><span class="etiqueta">inglés</span>${ingles}</div>
     </div>
     <div class="medio"><div class="fichas">${columnas}</div></div>
   </body></html>`;

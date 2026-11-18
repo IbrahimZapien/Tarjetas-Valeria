@@ -6,7 +6,6 @@
     "lla"
   ],
   "escena": "escenas/estrella.svg",
-  "sena": "senas/estrella-foto.jpg",
   "colores": {
     "fondo": [
       "#2A1A8C",
@@ -42,5 +41,6 @@
       "#B5127A",
       "#0B7A6A"
     ]
-  }
+  },
+  "ingles": "star"
 }
